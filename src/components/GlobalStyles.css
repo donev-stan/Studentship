@@ -1,0 +1,27 @@
+.pointer {
+  cursor: pointer;
+}
+
+.shadowItem {
+  box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%),
+    0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+}
+.transformItem {
+  transform: perspective(1000px) rotateY(var(--rotate-y, 0))
+    translateY(var(--translate-y, 0));
+  transform-style: preserve-3d;
+  transition: 150ms;
+}
+
+.transformItem:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  --translate-y: -2px;
+}
+
+.decorationNone {
+  text-decoration: none;
+}
+
+.black {
+  color: black;
+}
