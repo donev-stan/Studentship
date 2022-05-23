@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAllCompanies } from "./CompanyServices";
+import { getAllCompanies } from "./CompanyService";
 import { getAllStudents } from "./StudentService";
 
 const url = "http://localhost:3000";

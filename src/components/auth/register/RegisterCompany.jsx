@@ -10,7 +10,7 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 
 import { getLoggedUser, login } from "../../../services/AuthService";
-import { saveCompany } from "../../../services/CompanyServices";
+import { saveCompany } from "../../../services/CompanyService";
 
 const RegisterCompany = () => {
   const [companyData, setCompanyData] = useState({});
