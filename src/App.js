@@ -6,8 +6,11 @@ import Login from "./components/auth/login/Login";
 import Register from "./components/auth/register/Register";
 import RegisterCompany from "./components/auth/register/RegisterCompany";
 import RegisterStudent from "./components/auth/register/RegisterStudent";
+import Company from "./components/company/Company";
 import Home from "./components/home/Home";
 import Layout from "./components/layout/Layout";
+import Profile from "./components/profile/Profile";
+import Student from "./components/student/Student";
 
 function App() {
   return (
@@ -20,7 +23,7 @@ function App() {
         {/* <Route path="internships/:id" element={<Internship />} /> */}
 
         {/* <Route path="companies" element={<Companies />} /> */}
-        {/* <Route path="companies/:id" element={<Company />} /> */}
+        <Route path="companies/:id" element={<Company />} />
 
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
@@ -29,7 +32,7 @@ function App() {
 
         {/* Protected Routes*/}
         <Route path="*" element={<RequireAuth />}>
-          {/* <Route path="profile" element={<Profile />} /> */}
+          <Route path="profile" element={<Profile />} />
           {/* <Route path="bookmarks" element={<Bookmarks />} /> */}
 
           {/* <Route path="companies/edit/:id" element={<CompanyEdit />} /> */}
@@ -42,7 +45,7 @@ function App() {
           {/* <Route path="profile/:id" element={<Internship />} /> */}
 
           {/* <Route path="students" element={<Students />} /> */}
-          {/* <Route path="students/:id" element={<Student />} /> */}
+          <Route path="students/:id" element={<Student />} />
           {/* <Route path="students/edit/:id" element={<StudentEdit />} /> */}
         </Route>
 
