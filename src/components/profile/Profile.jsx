@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getLoggedUser } from "../../services/AuthService";
 
-import Row from "react-bootstrap/Row"
-
-import Company from "../company/Company";
 import Student from "../student/Student";
+import Company from "../company/Company";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -15,10 +13,10 @@ const Profile = () => {
   }, []);
 
   return (
-    <Row>
+    <>
       {user && user?.type === "student" && <Student student={user} />}
       {user && user?.type === "company" && <Company company={user} />}
-    </Row>
+    </>
   );
 };
 

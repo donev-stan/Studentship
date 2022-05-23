@@ -6,8 +6,11 @@ import Login from "./components/auth/login/Login";
 import Register from "./components/auth/register/Register";
 import RegisterCompany from "./components/auth/register/RegisterCompany";
 import RegisterStudent from "./components/auth/register/RegisterStudent";
+import Companies from "./components/company/Companies";
 import Company from "./components/company/Company";
 import Home from "./components/home/Home";
+import Internship from "./components/internship/Internship";
+import Internships from "./components/internship/Internships";
 import Layout from "./components/layout/Layout";
 import Profile from "./components/profile/Profile";
 import Student from "./components/student/Student";
@@ -19,10 +22,10 @@ function App() {
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
 
-        {/* <Route path="internships" element={<Internships />} /> */}
-        {/* <Route path="internships/:id" element={<Internship />} /> */}
+        <Route path="internships" element={<Internships />} />
+        <Route path="internships/:id" element={<Internship />} />
 
-        {/* <Route path="companies" element={<Companies />} /> */}
+        <Route path="companies" element={<Companies />} />
         <Route path="companies/:id" element={<Company />} />
 
         <Route path="login" element={<Login />} />
