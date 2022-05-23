@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { getLoggedUser } from "../../services/AuthService";
-import { returnStackWithIcons } from "../../services/InternshipService";
-import { bookmarkStudent } from "../../services/CompanyService";
-import { getStudentByID, yearWithWords } from "../../services/StudentService";
-
-import Header from "../header/Header";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Button from "react-bootstrap/esm/Button";
 import Alert from "react-bootstrap/esm/Alert";
 import Form from "react-bootstrap/esm/Form";
+
+import Header from "../header/Header";
+import { getLoggedUser } from "../../services/AuthService";
+import { getStudentByID, yearWithWords } from "../../services/StudentService";
 
 // import profileImg from "../../images/user.png";
 import bookmark from "../../images/Student/bookmark.png";
@@ -22,6 +20,8 @@ import { BsTelephone, BsBookmarks, BsFillBookmarksFill } from "react-icons/bs";
 import { AiOutlineMail } from "react-icons/ai";
 import { FaUniversity } from "react-icons/fa";
 import { GrMapLocation } from "react-icons/gr";
+import { returnStackWithIcons } from "../../services/InternshipService";
+import { bookmarkStudent } from "../../services/CompanyService";
 
 const Student = (props) => {
   const [student, setStudent] = useState({});
@@ -80,8 +80,11 @@ const Student = (props) => {
       .then((_) => setBookmarked(true))
       .catch((error) => setError(error.message));
       */
-     
-    setBookmarked(!bookmarked);
+    if (bookmarked) {
+      setBookmarked(false);
+    } else {
+      setBookmarked(true);
+    }
     console.log(bookmarked);
   }
 

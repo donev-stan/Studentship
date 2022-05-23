@@ -15,7 +15,7 @@ import {
   getOfferByID,
   returnReadableDate,
   returnStackWithIcons,
-} from "../../core/services/InternshipService";
+} from "../../services/InternshipService";
 
 import { MdWork } from "react-icons/md";
 import { ImHome } from "react-icons/im";
@@ -25,13 +25,13 @@ import { AiOutlineFieldTime } from "react-icons/ai";
 import { MdTimer } from "react-icons/md";
 import { BiTimeFive } from "react-icons/bi";
 import { VscRemoteExplorer } from "react-icons/vsc";
-import { getLoggedUser } from "../../core/services/AuthService";
+import { getLoggedUser } from "../../services/AuthService";
 import InternshipApplyCard from "./InternshipApplyCard";
 
 import locationImg from "../../images/Internship/location.png";
 import updateImg from "../../images/Internship/update.png";
 import salaryImg from "../../images/Internship/salary.png";
-import { getCompanyByPIC } from "../../core/services/CompanyServices";
+import { getCompanyByPIC } from "../../services/CompanyService";
 import InternshipCompanyCard from "./InternshipCompanyCard";
 
 const Internship = () => {

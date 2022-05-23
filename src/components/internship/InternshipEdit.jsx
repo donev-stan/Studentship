@@ -10,8 +10,8 @@ import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 
-import { getOfferByID, saveOffer } from "../../core/services/InternshipService";
-import { getLoggedUser } from "../../core/services/AuthService";
+import { getOfferByID, saveOffer } from "../../services/InternshipService";
+import { getLoggedUser } from "../../services/AuthService";
 
 const InternshipEdit = () => {
   const [internshipData, setInternshipData] = useState({});

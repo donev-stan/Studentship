@@ -9,8 +9,8 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
-import { saveOffer } from "../../core/services/InternshipService";
-import { getLoggedUser } from "../../core/services/AuthService";
+import { saveOffer } from "../../services/InternshipService";
+import { getLoggedUser } from "../../services/AuthService";
 
 const InternshipCreate = () => {
   const [internshipData, setInternshipData] = useState({});

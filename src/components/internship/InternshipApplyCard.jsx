@@ -8,7 +8,7 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 
 import applyImg from "../../images/Internship/apply.png";
-import { getLoggedUser } from "../../core/services/AuthService";
+import { getLoggedUser } from "../../services/AuthService";
 import { Navigate } from "react-router-dom";
 
 const InternshipApplyCard = () => {

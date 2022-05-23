@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 
 import Header from "../header/Header";
 import InternshipCard from "./InternshipCard";
-import { getAllOffers } from "../../core/services/InternshipService";
+import { getAllOffers } from "../../services/InternshipService";
 // import FilterInternships from "../filter/FilterInternships";
 
 const Internships = () => {
