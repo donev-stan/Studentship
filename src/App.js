@@ -6,6 +6,7 @@ import Login from "./components/auth/login/Login";
 import Register from "./components/auth/register/Register";
 import RegisterCompany from "./components/auth/register/RegisterCompany";
 import RegisterStudent from "./components/auth/register/RegisterStudent";
+import Home from "./components/home/Home";
 import Layout from "./components/layout/Layout";
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* Public Routes */}
-        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<Home />} />
 
         {/* <Route path="internships" element={<Internships />} /> */}
         {/* <Route path="internships/:id" element={<Internship />} /> */}
