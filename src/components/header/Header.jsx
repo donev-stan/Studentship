@@ -48,7 +48,7 @@ const Header = () => {
   };
 
   return (
-    <Row>
+    <>
       {redirect && <Navigate to="/login" />}
 
       <Modal
@@ -209,7 +209,7 @@ const Header = () => {
           </Container>
         </Navbar>
       </Container>
-    </Row>
+    </>
   );
 };
 

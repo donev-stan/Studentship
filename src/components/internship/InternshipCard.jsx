@@ -9,6 +9,8 @@ import {
   returnStackWithIcons,
 } from "../../services/InternshipService";
 
+import "../GlobalStyles.css";
+
 const InternshipCard = ({ offer }) => {
   return (
     <Col lg={6}>

@@ -9,14 +9,13 @@ import BookmarkStudentCard from "./BookmarkStudentCard";
 import BookmarkJobsCard from "./BookmarkJobsCard";
 
 const Bookmarks = () => {
-  const [bookmarks, setBookmarks] = useState([]);
+  const [bookmarks, setBookmarks] = useState([1,2]);
   const [user, setUser] = useState({});
 
   useEffect(() => {
     const user = getLoggedUser();
     setUser(user);
-    setBookmarks(user.bookmarks);
-    console.log(user.bookmarks);
+    //setBookmarks(user.bookmarks);
   }, []);
 
   return (
@@ -32,6 +31,7 @@ const Bookmarks = () => {
                 <hr />
 
                 <Row className="text-center">
+                  {console.log(bookmarks)}
                   {bookmarks.length !== 0 ? (
                     bookmarks.map((id) => (
                       <BookmarkStudentCard studentID={id} key={id} />

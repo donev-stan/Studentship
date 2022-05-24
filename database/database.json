@@ -241,7 +241,9 @@
       "password": "Accenture",
       "email": "Accenture@gmail.com",
       "image": "https://assets.jobs.bg/assets/cover_photo/2021-07-26/s_c9b78937f6e42252cccb36bb4003091d.png",
-      "bookmarks": 1
+      "bookmarks": [
+        1
+      ]
     },
     {
       "id": 131287574,
@@ -455,7 +457,9 @@
         "telephone": "0895959322",
         "websiteURL": "https://careers.dxc.com/global/en"
       },
-      "bookmarks": 1
+      "bookmarks": [
+        1
+      ]
     },
     {
       "email": "Kognayt@gmail.com",
@@ -500,7 +504,7 @@
     {
       "id": 1,
       "companyID": 175053523,
-      "title": "Remote/On-site Senior Full-stack .NET Developer with React/Angular",
+      "title": "Remote/On-site Senior Full-stack .NET with React/Angular",
       "description": "A custom development company, MentorMate is a design and software powerhouse with mature and established practices in Enterprise Web & Mobile Development, Technical Architecture, Human-Centered Design, Cloud & DevOps, Advanced Data Management & Analytics.",
       "officeLocation": "Sofia",
       "technologies": [
@@ -522,7 +526,7 @@
       "salaryMin": 6000,
       "salaryMax": "8500",
       "published": "2021-06-05T00:17:08.183Z",
-      "lastUpdate": "2022-05-16T17:40:08.926Z",
+      "lastUpdate": "2022-05-24T14:23:18.946Z",
       "temporary": "on",
       "permanent": "on",
       "freelanceProject": "on",

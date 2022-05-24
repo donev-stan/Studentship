@@ -66,9 +66,11 @@ const Student = (props) => {
       setCompany(user);
       setIsCompanyViewer(true);
 
+      /*
       if (user.bookmarks.filter((element) => element === parseInt(id))) {
         setBookmarked(true);
       }
+      */
     }
   }, []);
 
@@ -80,12 +82,7 @@ const Student = (props) => {
       .then((_) => setBookmarked(true))
       .catch((error) => setError(error.message));
       */
-    if (bookmarked) {
-      setBookmarked(false);
-    } else {
-      setBookmarked(true);
-    }
-    console.log(bookmarked);
+    setBookmarked(!bookmarked);
   }
 
   return (
@@ -130,7 +127,7 @@ const Student = (props) => {
           <Col lg={9} className="my-4 p-4 pt-0 pb-0">
             <Row className="my-4">
               <h2>
-                {name} {lastName} {console.log(bookmarked)}
+                {name} {lastName}
                 {bookmarked ? <BsFillBookmarksFill /> : <BsBookmarks />}
               </h2>
 

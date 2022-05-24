@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { yearWithWords } from "../../core/services/StudentService";
+import { yearWithWords } from "../../services/StudentService";
 
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
