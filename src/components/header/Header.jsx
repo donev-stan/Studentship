@@ -7,7 +7,6 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
 
 import { getLoggedUser, logout } from "../../services/AuthService";
 import { deleteStudent } from "../../services/StudentService";
@@ -80,7 +79,7 @@ const Header = () => {
       </Modal>
 
       <Container fluid>
-        <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
+        <Navbar collapseOnSelect expand="md" bg="dark" variant="dark" className="shadowItem">
           <Container>
             <Navbar.Brand as={Link} to="/">
               {" "}
@@ -91,7 +90,7 @@ const Header = () => {
                 height="35"
                 className="d-inline-block align-top"
               />{" "}
-              Find Internship
+              StudentShip
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">

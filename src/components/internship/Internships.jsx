@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import Header from "../header/Header";
 import InternshipCard from "./InternshipCard";
 import { getAllOffers } from "../../services/InternshipService";
+import InternshipFilter from "../filter/InternshipFilter";
 // import FilterInternships from "../filter/FilterInternships";
 
 const Internships = () => {
@@ -20,6 +21,7 @@ const Internships = () => {
   return (
     <>
       <Header />
+      <InternshipFilter />
       <Container className="my-4">
         <Row>
           {/* <FilterInternships /> */}

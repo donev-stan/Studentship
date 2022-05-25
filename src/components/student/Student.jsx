@@ -21,7 +21,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { FaUniversity } from "react-icons/fa";
 import { GrMapLocation } from "react-icons/gr";
 import { returnStackWithIcons } from "../../services/InternshipService";
-import { bookmarkStudent } from "../../services/CompanyService";
+// import { bookmarkStudent } from "../../services/CompanyService";
 
 const Student = (props) => {
   const [student, setStudent] = useState({});
@@ -126,11 +126,19 @@ const Student = (props) => {
 
           <Col lg={9} className="my-4 p-4 pt-0 pb-0">
             <Row className="my-4">
-              <h2>
-                {name} {lastName}
-                {bookmarked ? <BsFillBookmarksFill /> : <BsBookmarks />}
-              </h2>
-
+              <Col>
+                <h2>
+                  {" "}
+                  {name} {lastName}
+                  {company ? (
+                    bookmarked ? (
+                      <BsFillBookmarksFill width={"10px"} />
+                    ) : (
+                      <BsBookmarks width={"10px"} />
+                    )
+                  ) : null}
+                </h2>
+              </Col>
               <hr />
 
               <Row>
@@ -191,7 +199,7 @@ const Student = (props) => {
 
                       <Form onSubmit={onFormSubmit}>
                         <Button className="shadowItem mt-4" type="submit">
-                          Bookmark Student
+                          {bookmarked ? "Remove Bookmark" : "Bookmark Student"}
                         </Button>
                       </Form>
                     </Col>

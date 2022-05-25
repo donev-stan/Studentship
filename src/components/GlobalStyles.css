@@ -25,3 +25,12 @@
 .black {
   color: black;
 }
+
+.stackSpan {
+  margin-top: "5px";
+  margin-left: "5px";
+  border-radius: "16px";
+  border: "1px solid #e0e0e0";
+  background-color: "#fff";
+  padding: "10px";
+}
