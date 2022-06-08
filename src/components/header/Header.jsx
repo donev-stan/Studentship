@@ -12,7 +12,12 @@ import { getLoggedUser, logout } from "../../services/AuthService";
 import { deleteStudent } from "../../services/StudentService";
 import { deleteCompany } from "../../services/CompanyService";
 
-import logo from "../../images/logo.png";
+import logo_0 from "../../images/logo_0.png";
+import logo_1 from "../../images/logo_1.png";
+import logo_2 from "../../images/logo_2.png";
+import logo_3 from "../../images/logo_3.png";
+import logo_4 from "../../images/logo_4.png";
+import logo_5 from "../../images/logo_5.png";
 
 const Header = () => {
   const [user, setUser] = useState(null);
@@ -85,7 +90,7 @@ const Header = () => {
               {" "}
               <img
                 alt="Internship Logo"
-                src={logo}
+                src={logo_3}
                 width="35"
                 height="35"
                 className="d-inline-block align-top"
