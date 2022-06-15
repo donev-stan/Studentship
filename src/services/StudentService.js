@@ -1,7 +1,7 @@
 import axios from "axios";
 import { logout } from "./AuthService";
 
-const url = "http://localhost:3000/students";
+const url = "https://studentship.herokuapp.com/students";
 
 export async function getAllStudents() {
   const students = (await axios.get(url)).data;

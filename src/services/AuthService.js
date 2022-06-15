@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAllCompanies } from "./CompanyService";
 import { getAllStudents } from "./StudentService";
 
-const url = "http://localhost:3000";
+const url = "https://studentship.herokuapp.com/";
 
 export async function login(userData) {
   const companies = await getAllCompanies();

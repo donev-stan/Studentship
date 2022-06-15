@@ -30,7 +30,7 @@ import { FcLinux } from "react-icons/fc";
 import { AiOutlineConsoleSql } from "react-icons/ai";
 //---------
 
-const url = "http://localhost:3000/internships";
+const url = "https://studentship.herokuapp.com/internships";
 
 export async function getAllOffers() {
   return (await axios.get(`${url}`)).data;
