@@ -108,7 +108,7 @@ const Company = (props) => {
 						)}
 
 						{/* Subscribe */}
-						{!error && getLoggedUser().type === "student" && (
+						{!error && getLoggedUser()?.type === "student" && (
 							<CompanySubscribeCard />
 						)}
 					</Col>

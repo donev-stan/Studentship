@@ -146,7 +146,7 @@ const Internship = () => {
 					<Col lg={8}>
 						<h2>
 							{offer.title}{" "}
-							{getLoggedUser().type === "student" ? (
+							{getLoggedUser()?.type === "student" ? (
 								bookmarked ? (
 									<BsFillBookmarksFill width={"10px"} />
 								) : (
@@ -325,7 +325,7 @@ const Internship = () => {
 							)}
 						</Row>
 
-						{getLoggedUser().type === "student" && (
+						{getLoggedUser()?.type === "student" && (
 							<Row className="text-center mt-2">
 								<Col>
 									<img
