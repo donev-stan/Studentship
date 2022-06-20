@@ -9,7 +9,7 @@ import Alert from "react-bootstrap/esm/Alert";
 import Form from "react-bootstrap/esm/Form";
 
 import Header from "../header/Header";
-import { getLoggedUser } from "../../services/AuthService";
+import { getLoggedUser, login } from "../../services/AuthService";
 import {
 	getStudentByID,
 	getStudentByIDF,
@@ -25,6 +25,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { FaUniversity } from "react-icons/fa";
 import { GrMapLocation } from "react-icons/gr";
 import { returnStackWithIcons } from "../../services/InternshipService";
+import { bookmarkStudent } from "../../services/CompanyService";
 // import { bookmarkStudent } from "../../services/CompanyService";
 
 const Student = (props) => {
@@ -72,23 +73,21 @@ const Student = (props) => {
 			setCompany(user);
 			setIsCompanyViewer(true);
 
-			/*
-      if (user.bookmarks.filter((element) => element === parseInt(id))) {
-        setBookmarked(true);
-      }
-      */
+			if (user.bookmarks.find((bookmarkID) => bookmarkID === id)) {
+				setBookmarked(true);
+			}
 		}
 	}, []);
 
 	function onFormSubmit(e) {
 		e.preventDefault();
 
-		/*
-    bookmarkStudent(id, company)
-      .then((_) => setBookmarked(true))
-      .catch((error) => setError(error.message));
-      */
-		setBookmarked(!bookmarked);
+		bookmarkStudent(id, company)
+			.then((_) => {
+				setBookmarked(!bookmarked);
+				login(getLoggedUser());
+			})
+			.catch((error) => setError(error.message));
 	}
 
 	return (
@@ -104,7 +103,10 @@ const Student = (props) => {
 					<Col lg={3} className="my-4 text-center">
 						<Row>
 							{/* <img src={profileImg} /> */}
-							<img src={picture === "default" ? profileImg : ""} alt="Profile" />
+							<img
+								src={picture === "default" ? profileImg : ""}
+								alt="Profile"
+							/>
 							<hr className="mt-1"></hr>
 						</Row>
 

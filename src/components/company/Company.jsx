@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import {
+	getCompanyByIDF,
 	getCompanyByPIC,
 	getCompanyByPICF,
 } from "../../services/CompanyService";
-import { getOffersByCompanyID } from "../../services/InternshipService";
+import { getInternshipsByCompanyID, getOffersByCompanyID } from "../../services/InternshipService";
 
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
@@ -29,14 +30,14 @@ const Company = (props) => {
 	const [company, setCompany] = useState({});
 	const [companyContacts, setCompanyContacts] = useState({});
 	const [companyInfo, setCompanyInfo] = useState({});
-	const [offers, setoffers] = useState([]);
+	const [offers, setOffers] = useState([]);
 	const [error, setError] = useState(true);
 
 	const { id } = useParams();
 
 	useEffect(() => {
 		if (id) {
-			getCompanyByPICF(id).then((company) => {
+			getCompanyByIDF(id).then((company) => {
 				setCompany(company);
 
 				const companyContacts = {
@@ -58,9 +59,10 @@ const Company = (props) => {
 			});
 		}
 
-		// getOffersByCompanyID(company.id).then((offers) => {
-		//   setoffers(offers);
-		// });
+		getInternshipsByCompanyID(company.PIC).then((offers) => {
+		  setOffers(offers);
+		  console.log(offers)
+		});
 	}, [props.company, id, company.id]);
 
 	return (
@@ -93,10 +95,8 @@ const Company = (props) => {
 						)}
 
 						{/* Career */}
-						{!error & (company.career !== "") ? (
+						{!error && company.career && (
 							<CompanyCareerCard career={company.career} />
-						) : (
-							""
 						)}
 
 						{/* Contacts */}

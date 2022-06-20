@@ -20,15 +20,24 @@ export async function getAllCompaniesF() {
 
 	return companies;
 }
-
-export async function getCompanyByPICF(id) {
+export async function getCompanyByIDF(companyID) {
 	const companies = await getAllCompaniesF();
 
-	const company = companies.find((company) => company.id === id);
+	const company = companies.find((company) => company.id === companyID);
 
-	if (!company) throw new Error("Invalid company ID: " + id);
+	if (!company) throw new Error("Invalid company ID: " + companyID);
 
-	return company;
+	return await company;
+}
+
+export async function getCompanyByPICF(companyPIC) {
+	const companies = await getAllCompaniesF();
+
+	const company = companies.find((company) => company.PIC === companyPIC);
+
+	if (!company) throw new Error("Invalid company PIC: " + companyPIC);
+
+	return await company;
 }
 
 async function checkForErrorsBeforeRegistering(companyData) {
@@ -144,11 +153,9 @@ export async function saveCompanyF(companyData) {
 
 		benefits:
 			companyData.benefits !== ""
-				? companyData.benefits
-						.toString()
-						.split(",")
-						// .map((c) => c.replace(/\s/g, ""))
-				: [],
+				? companyData.benefits.toString().split(",")
+				: // .map((c) => c.replace(/\s/g, ""))
+				  [],
 
 		employees: parseInt(companyData.employees),
 
@@ -169,15 +176,25 @@ export async function deleteCompanyF(companyID) {
 }
 
 export async function bookmarkStudent(studentID, companyData) {
-	const id = parseInt(studentID);
+	// if you find such student id then remove it else add it
+	if (companyData.bookmarks.find((id) => id === studentID)) {
+		companyData = {
+			...companyData,
 
-	const updatedCompany = {
-		...companyData,
+			bookmarks: companyData.bookmarks.splice(
+				companyData.bookmarks.indexOf(studentID),
+				0
+			),
+		};
+	} else {
+		companyData = {
+			...companyData,
 
-		bookmarks: companyData.bookmarks.push(id),
-	};
+			bookmarks: [...companyData.bookmarks, studentID],
+		};
+	}
 
 	const companyDoc = doc(db, "companies", companyData.id);
 
-	return await updateDoc(companyDoc, updatedCompany);
+	return await updateDoc(companyDoc, companyData);
 }

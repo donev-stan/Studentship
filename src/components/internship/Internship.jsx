@@ -11,8 +11,8 @@ import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
 
 import {
-	deleteOffer,
-	getOfferByID,
+	deleteInternship,
+	getInternshipByID,
 	returnReadableDate,
 	returnStackWithIcons,
 } from "../../services/InternshipService";
@@ -51,11 +51,11 @@ const Internship = () => {
 	const handleShow = () => setShowModal(true);
 
 	useEffect(() => {
-		getOfferByID(id)
+		getInternshipByID(id)
 			.then((offer) => {
 				//Check if owner
 				if (getLoggedUser()) {
-					if (getLoggedUser().id === offer.companyID)
+					if (getLoggedUser()?.PIC === offer.companyID)
 						setIsOwner(true);
 				}
 
@@ -72,8 +72,8 @@ const Internship = () => {
 			.catch((error) => setError(error.message));
 	}, [id]);
 
-	const deleteInternship = () => {
-		deleteOffer(offer.id);
+	const handleDeleteInternship = () => {
+		deleteInternship(offer.id);
 		setRedirect(true);
 	};
 
@@ -109,7 +109,7 @@ const Internship = () => {
 					<Button variant="secondary" onClick={handleClose}>
 						Cancel
 					</Button>
-					<Button variant="danger" onClick={deleteInternship}>
+					<Button variant="danger" onClick={handleDeleteInternship}>
 						Delete Internship
 					</Button>
 				</Modal.Footer>
@@ -255,7 +255,8 @@ const Internship = () => {
 										height="20px"
 									/>{" "}
 									&nbsp; Last Update:{" "}
-									{returnReadableDate(offer.lastUpdate)}
+									{/* {returnReadableDate(offer.lastUpdate)} */}
+									{offer.lastUpdate}
 								</p>
 							</Col>
 						</Row>

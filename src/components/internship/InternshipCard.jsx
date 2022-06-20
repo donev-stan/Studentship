@@ -28,7 +28,8 @@ const InternshipCard = ({ offer }) => {
           </Card.Text>
         </Card.Body>
         <Card.Footer className="text-muted">
-          {returnReadableDate(offer.lastUpdate)}
+          {/* {returnReadableDate(offer.lastUpdate)} */}
+          {offer.lastUpdate}
         </Card.Footer>
       </Card>
     </Col>

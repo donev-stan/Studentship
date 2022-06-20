@@ -9,7 +9,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
-import { saveOffer } from "../../services/InternshipService";
+import { createInternship, saveOffer } from "../../services/InternshipService";
 import { getLoggedUser } from "../../services/AuthService";
 
 const InternshipCreate = () => {
@@ -35,7 +35,7 @@ const InternshipCreate = () => {
   const onFormSubmit = (event) => {
     event.preventDefault();
 
-    saveOffer(internshipData)
+    createInternship(internshipData)
       .then((_) => {
         setRedirect(true);
       })

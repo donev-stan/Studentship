@@ -9,13 +9,13 @@ import BookmarkStudentCard from "./BookmarkStudentCard";
 import BookmarkJobsCard from "./BookmarkJobsCard";
 
 const Bookmarks = () => {
-  const [bookmarks, setBookmarks] = useState([1,2]);
+  const [bookmarks, setBookmarks] = useState([]);
   const [user, setUser] = useState({});
 
   useEffect(() => {
     const user = getLoggedUser();
     setUser(user);
-    //setBookmarks(user.bookmarks);
+    setBookmarks(user.bookmarks);
   }, []);
 
   return (

@@ -10,7 +10,7 @@ import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 
-import { getOfferByID, saveOffer } from "../../services/InternshipService";
+import { getInternshipByID, getOfferByID, saveOffer, updateInternship } from "../../services/InternshipService";
 import { getLoggedUser } from "../../services/AuthService";
 
 const InternshipEdit = () => {
@@ -24,8 +24,8 @@ const InternshipEdit = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getOfferByID(id).then((offer) => {
-      if (getLoggedUser().id !== offer.companyID) setRedirect(true);
+    getInternshipByID(id).then((offer) => {
+      if (getLoggedUser()?.PIC !== offer.companyID) setRedirect(true);
 
       setInternshipData(offer);
       setOfferoptions(offer.options);
@@ -44,7 +44,7 @@ const InternshipEdit = () => {
   const onFormSubmit = (event) => {
     event.preventDefault();
 
-    saveOffer(internshipData)
+    updateInternship(internshipData)
       .then((_) => {
         setRedirect(true);
       })

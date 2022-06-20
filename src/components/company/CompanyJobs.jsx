@@ -9,7 +9,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import { getLoggedUser } from "../../services/AuthService";
-import { getOffersByCompanyID } from "../../services/InternshipService";
+import { getInternshipsByCompanyID, getOffersByCompanyID } from "../../services/InternshipService";
 
 const CompanyJobs = () => {
   const [offers, setOffers] = useState([]);
@@ -20,7 +20,7 @@ const CompanyJobs = () => {
 
     if (loggedUser.type === "student") setRedirect(true);
 
-    getOffersByCompanyID(loggedUser.id).then((offers) => {
+    getInternshipsByCompanyID(loggedUser?.PIC).then((offers) => {
       setOffers(offers);
     });
   }, []);

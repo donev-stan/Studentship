@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 
 import Header from "../header/Header";
 import InternshipCard from "./InternshipCard";
-import { getAllOffers } from "../../services/InternshipService";
+import { getAllInternships, getAllOffers } from "../../services/InternshipService";
 import InternshipFilter from "../filter/InternshipFilter";
 // import FilterInternships from "../filter/FilterInternships";
 
@@ -13,7 +13,7 @@ const Internships = () => {
   const [internships, setInternships] = useState([]);
 
   useEffect(() => {
-    getAllOffers().then((offers) => {
+    getAllInternships().then((offers) => {
       setInternships(offers);
     });
   }, []);

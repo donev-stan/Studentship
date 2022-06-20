@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
+	getCompanyByIDF,
 	getCompanyByPICF,
 	saveCompany,
 	saveCompanyF,
@@ -26,7 +27,7 @@ const CompanyEdit = () => {
 	const { id } = useParams();
 
 	useEffect(() => {
-		getCompanyByPICF(id).then((company) => {
+		getCompanyByIDF(id).then((company) => {
 			setCompanyData(company);
 		});
 	}, [id]);

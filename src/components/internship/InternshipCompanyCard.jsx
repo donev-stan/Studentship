@@ -13,13 +13,13 @@ const InternshipCompanyCard = ({ companyData }) => {
       as={Link}
       to={`/companies/${companyData.id}`}
     >
-      <img src={companyData.image} alt="Company Logo" />
+      <img src={companyData.picture} alt="Company Logo" />
       <Card.Body>
         <Card.Title>{companyData.name}</Card.Title>
         <hr />
         <Card.Text>{companyData.about.split(".")[0] + `...`}</Card.Text>
-        <Card.Text> <img src={foundedImg} alt="" width="30px" height="30px" /> &nbsp; Founded: {companyData.info.founded}</Card.Text>
-        <Card.Text> <img src={employeesImg} alt="" width="30px" height="30px" /> &nbsp; Employees: {companyData.info.employees}</Card.Text>
+        <Card.Text> <img src={foundedImg} alt="" width="30px" height="30px" /> &nbsp; Founded: {companyData.founded}</Card.Text>
+        <Card.Text> <img src={employeesImg} alt="" width="30px" height="30px" /> &nbsp; Employees: {companyData.employees}</Card.Text>
       </Card.Body>
     </Card>
   );
