@@ -3,7 +3,7 @@
     {
       "id": 1,
       "type": "student",
-      "picture": "https://scontent.fsof10-1.fna.fbcdn.net/v/t1.6435-9/107477262_3137788606257240_8881605258945473747_n.jpg?_nc_cat=100&ccb=1-6&_nc_sid=174925&_nc_ohc=SQGDDICoEXEAX9c43Zy&_nc_ht=scontent.fsof10-1.fna&oh=00_AT-5AMKiZ73OZXjuXy7IdegXoeWkLJuohxY8o-T3sfhAMQ&oe=62A0C90F",
+      "picture": "default",
       "name": "Blagovest",
       "lastName": "Blagov",
       "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -22,13 +22,12 @@
       "bookmarks": [
         1,
         3
-      ],
-      "image": "https://robohash.org/set_set5/BlagovestBlagov7?size=300x300"
+      ]
     },
     {
       "id": 2,
       "type": "student",
-      "picture": "https://scontent.fsof10-1.fna.fbcdn.net/v/t1.6435-9/155841205_3840210516040615_7783108246785610914_n.jpg?_nc_cat=106&ccb=1-6&_nc_sid=174925&_nc_ohc=f-wI322vycsAX8sRuNP&_nc_ht=scontent.fsof10-1.fna&oh=00_AT-fr7CIFvM9AOYiOrT29LmndOkBg4EAIyF06dJyi50-Pg&oe=62A16C47",
+      "picture": "default",
       "name": "Anita",
       "lastName": "Mandradzhieva",
       "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",

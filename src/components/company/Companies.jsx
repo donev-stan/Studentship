@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getAllCompanies } from "../../services/CompanyService";
+import { getAllCompanies, getAllCompaniesF } from "../../services/CompanyService";
 
 import Header from "../header/Header";
 import CompanyCard from "./CompanyCard";
@@ -11,7 +11,7 @@ const Companies = () => {
   const [companies, setCompanies] = useState([]);
 
   useEffect(() => {
-    getAllCompanies().then((companies) => {
+    getAllCompaniesF().then((companies) => {
       setCompanies(companies);
     });
   }, []);

@@ -12,7 +12,7 @@ import Header from "../header/Header";
 import { Navigate, useNavigate } from "react-router-dom";
 
 import { getLoggedUser, login } from "../../services/AuthService";
-import { saveStudent, yearWithWords } from "../../services/StudentService";
+import { saveStudentF, yearWithWords } from "../../services/StudentService";
 
 const StudentEdit = () => {
   const [studentData, setStudentData] = useState({});
@@ -37,7 +37,9 @@ const StudentEdit = () => {
   const onFormSubmit = (event) => {
     event.preventDefault();
 
-    saveStudent(studentData)
+    console.log(studentData);
+
+    saveStudentF(studentData)
       .then((_) => {
         login(studentData)
           .then((_) => {
@@ -81,7 +83,7 @@ const StudentEdit = () => {
                   name="picture"
                   autoComplete="on"
                   onChange={onInputChange}
-                  value={studentData.image}
+                  value={studentData.picture}
                 />
               </Form.Group>
 

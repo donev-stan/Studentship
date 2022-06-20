@@ -9,8 +9,8 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
 import { getLoggedUser, logout } from "../../services/AuthService";
-import { deleteStudent } from "../../services/StudentService";
-import { deleteCompany } from "../../services/CompanyService";
+import { deleteStudentF } from "../../services/StudentService";
+import { deleteCompanyF } from "../../services/CompanyService";
 
 import logo_0 from "../../images/logo_0.png";
 import logo_1 from "../../images/logo_1.png";
@@ -39,11 +39,13 @@ const Header = () => {
 
   const userDelete = () => {
     if (user.type === "student") {
-      deleteStudent(user.id).then((_) => {
+      deleteStudentF(user.id).then((_) => {
+        logout();
         setRedirect(true);
       });
     } else if (user.type === "company") {
-      deleteCompany(user.id).then((_) => {
+      deleteCompanyF(user.id).then((_) => {
+        logout();
         setRedirect(true);
       });
     }
@@ -109,7 +111,7 @@ const Header = () => {
                   Companies{" "}
                 </Nav.Link>
 
-                {user?.contacts?.PIC && (
+                {user?.type === "company" && (
                   <Nav.Link as={Link} to="/students">
                     {" "}
                     Students{" "}
@@ -121,7 +123,7 @@ const Header = () => {
                 {user?.name ? (
                   <Navbar.Text>
                     Signed in as:{" "}
-                    <Link to="/profile">
+                    <Link to={`/profile/${user.id}`}>
                       {user.name} {user?.lastName}
                     </Link>
                   </Navbar.Text>
@@ -149,7 +151,7 @@ const Header = () => {
                     <NavDropdown.Item
                       className="text-light"
                       as={Link}
-                      to="/profile"
+                      to={`/profile/${user.id}`}
                     >
                       Profile
                     </NavDropdown.Item>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../header/Header";
 import StudentCard from "./StudentCard";
-import { getAllStudents } from "../../services/StudentService";
+import { getAllStudentsF } from "../../services/StudentService";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -10,7 +10,7 @@ const Students = () => {
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    getAllStudents().then((students) => {
+    getAllStudentsF().then((students) => {
       setStudents(students);
     });
   }, []);
@@ -21,7 +21,7 @@ const Students = () => {
       <Container className="my-2">
         <Row className="text-center">
           {students.map((student) => (
-            <StudentCard student={student} key={student.id} />
+            <StudentCard key={student.id} student={student} />
           ))}
         </Row>
       </Container>

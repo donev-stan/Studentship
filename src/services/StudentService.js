@@ -1,140 +1,148 @@
-import axios from "axios";
-import { logout } from "./AuthService";
+import { db } from "../firebase-config";
+import {
+	addDoc,
+	collection,
+	getDocs,
+	updateDoc,
+	doc,
+	deleteDoc,
+} from "firebase/firestore";
 
-const url = "http://localhost:3000/students";
+const studentsCollectionRef = collection(db, "students");
 
-export async function getAllStudents() {
-  const students = (await axios.get(url)).data;
-  return students;
+export async function getAllStudentsF() {
+	const students = (await getDocs(studentsCollectionRef)).docs.map((doc) => ({
+		...doc.data(),
+		id: doc.id,
+	}));
+
+	return students;
 }
 
-export async function getStudentByID(id) {
-  const student = (await axios.get(`${url}/${id}`)).data;
-  return student;
+export async function getStudentByIDF(id) {
+	const students = await getAllStudentsF();
+
+	const student = students.find((student) => student.id === id);
+
+	if (!student) throw new Error("Invalid student ID: " + id);
+
+	return student;
 }
 
 async function checkForErrorsBeforeRegistering(studentData) {
-  const students = await getAllStudents();
+	const students = await getAllStudentsF();
 
-  if (students.find((stu) => stu.email === studentData.email)) {
-    throw new Error(
-      "This email address is already registered by another user!"
-    );
-  } else if (students.find((stu) => stu.telephone === studentData.telephone)) {
-    throw new Error("This phone number is already registered by another user!");
-  }
+	if (students.find((stu) => stu.email === studentData.email)) {
+		throw new Error(
+			"This email address is already registered by another user!"
+		);
+	} else if (
+		students.find((stu) => stu.telephone === studentData.telephone)
+	) {
+		throw new Error(
+			"This phone number is already registered by another user!"
+		);
+	}
 
-  if (studentData.password !== studentData.repeatedPassword)
-    throw new Error("Passwords does not match!");
+	if (studentData.password !== studentData.repeatedPassword)
+		throw new Error("Passwords does not match!");
 
-  if (!studentData.age) throw new Error("Please select your age!");
+	if (!studentData.age) throw new Error("Please select your age!");
 
-  if (!studentData.yearAtUni)
-    throw new Error("Please select year at university!");
+	if (!studentData.yearAtUni)
+		throw new Error("Please select year at university!");
 }
 
-export async function registerStudent(studentData) {
-  checkForErrorsBeforeRegistering(studentData);
+export async function registerStudentF(studentData) {
+	checkForErrorsBeforeRegistering(studentData);
 
-  studentData = {
-    ...studentData,
+	studentData = {
+		...studentData,
 
-    type: "student",
+		type: "student",
 
-    yearAtUni: parseInt(studentData.yearAtUni),
+		yearAtUni: parseInt(studentData.yearAtUni),
 
-    skills: studentData.skills
-      ? studentData.skills.split(",").map((t) => t.replace(/\s/g, ""))
-      : [],
+		skills: studentData.skills
+			? studentData.skills.split(",").map((t) => t.replace(/\s/g, ""))
+			: [],
 
-    picture: studentData.picture
-      ? studentData.picture
-      : `https://robohash.org/set_set5/${studentData.name}${
-          studentData.lastName
-        }${Math.round(Math.random() * 10)}?size=300x300`,
+		picture: studentData.picture ? studentData.picture : "default",
 
-    bookmarks: [],
-  };
+		bookmarks: [],
+	};
 
-  delete studentData.repeatedPassword;
+	delete studentData.repeatedPassword;
 
-  console.log(studentData);
-
-  return axios.post(`${url}/students`, studentData);
+	return await addDoc(studentsCollectionRef, studentData);
 }
 
-export async function saveStudent(student) {
-  if (student.id) {
-    const students = await getAllStudents();
+export async function saveStudentF(studentData) {
+	const students = await getAllStudentsF();
 
-    if (
-      students.find(
-        (stu) => stu.email === student.email && stu.id !== student.id
-      )
-    ) {
-      throw new Error(
-        "This email address is already registered by another user!"
-      );
-    } else if (
-      students.find(
-        (stu) => stu.telephone === student.telephone && stu.id !== student.id
-      )
-    ) {
-      throw new Error(
-        "This phone number is already registered by another user!"
-      );
-    }
-    console.log(student);
+	if (
+		students.find(
+			(stu) =>
+				stu.email === studentData.email && stu.id !== studentData.id
+		)
+	) {
+		throw new Error(
+			"This email address is already registered by another user!"
+		);
+	} else if (
+		students.find(
+			(stu) =>
+				stu.telephone === studentData.telephone &&
+				stu.id !== studentData.id
+		)
+	) {
+		throw new Error(
+			"This phone number is already registered by another user!"
+		);
+	}
 
-    student = {
-      ...student,
+	studentData = {
+		...studentData,
 
-      skills: student.skills
-        .toString()
-        .split(",")
-        .map((t) => t.replace(/\s/g, "")),
+		skills: studentData.skills
+			.toString()
+			.split(",")
+			.map((t) => t.replace(/\s/g, "")),
 
-      yearAtUni: parseInt(student.yearAtUni),
+		yearAtUni: parseInt(studentData.yearAtUni),
 
-      image: student.image
-        ? student.image
-        : `https://robohash.org/set_set5/${student.name}${
-            student.lastName
-          }${Math.round(Math.random() * 10)}?size=300x300`,
-    };
+		picture: studentData.picture ? studentData.picture : "default",
+	};
 
-    return axios.put(`${url}/${student.id}`, student);
-  }
+	const studentDoc = doc(db, "students", studentData.id);
 
-  return registerStudent(student);
+	return await updateDoc(studentDoc, studentData);
 }
 
-export async function deleteStudent(studentID) {
-  const students = await getStudentByID(studentID);
+export async function deleteStudentF(studentID) {
+	const studentDoc = doc(db, "students", studentID);
 
-  logout();
-
-  return axios.delete(`${url}/${studentID}`);
+	return await deleteDoc(studentDoc);
 }
 
 export const yearWithWords = (year) => {
-  switch (year) {
-    case 1:
-      return "First Year";
+	switch (year) {
+		case 1:
+			return "First Year";
 
-    case 2:
-      return "Second Year";
+		case 2:
+			return "Second Year";
 
-    case 3:
-      return "Third Year";
+		case 3:
+			return "Third Year";
 
-    case 4:
-      return "Fourth Year";
+		case 4:
+			return "Fourth Year";
 
-    case 5:
-      return "Fifth Year";
+		case 5:
+			return "Fifth Year";
 
-    default:
-      return "";
-  }
+		default:
+			return "";
+	}
 };

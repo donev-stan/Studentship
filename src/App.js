@@ -42,7 +42,7 @@ function App() {
 
         {/* Protected Routes*/}
         <Route path="*" element={<RequireAuth />}>
-          <Route path="profile" element={<Profile />} />
+          <Route path="profile/:id" element={<Profile />} />
           <Route path="bookmarks" element={<Bookmarks />} />
 
           <Route path="companies/edit/:id" element={<CompanyEdit />} />

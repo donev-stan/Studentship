@@ -5,7 +5,7 @@ import { yearWithWords } from "../../services/StudentService";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 
-// import profileImg from "../../images/user.png";
+import profileImg from "../../images/user.png";
 
 const StudentCard = ({ student }) => {
   const {
@@ -26,7 +26,7 @@ const StudentCard = ({ student }) => {
         as={Link}
         to={`/students/${id}`}
       >
-        <Card.Img variant="top" src={picture} />
+        <Card.Img variant="top" src={picture === "default" ? profileImg : picture} />
         <Card.Body>
           <Card.Title>
             {name} {lastName}

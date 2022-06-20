@@ -1,165 +1,183 @@
-import axios from "axios";
-import { logout } from "./AuthService";
+import { db } from "../firebase-config";
+import {
+	addDoc,
+	collection,
+	getDocs,
+	updateDoc,
+	doc,
+	deleteDoc,
+} from "firebase/firestore";
 
-const url = "http://localhost:3000/companies";
+const companiesCollectionRef = collection(db, "companies");
 
-export async function getAllCompanies() {
-  const companies = (await axios.get(url)).data;
-  return companies;
+export async function getAllCompaniesF() {
+	const companies = (await getDocs(companiesCollectionRef)).docs.map(
+		(doc) => ({
+			...doc.data(),
+			id: doc.id,
+		})
+	);
+
+	return companies;
 }
 
-export async function getCompanyByPIC(pic) {
-  const company = (await axios.get(`${url}/${pic}`)).data;
-  return company;
+export async function getCompanyByPICF(id) {
+	const companies = await getAllCompaniesF();
+
+	const company = companies.find((company) => company.id === id);
+
+	if (!company) throw new Error("Invalid company ID: " + id);
+
+	return company;
 }
 
-export async function registerCompany(companyData) {
-  const companies = await getAllCompanies();
+async function checkForErrorsBeforeRegistering(companyData) {
+	const companies = await getAllCompaniesF();
 
-  if (companies.find((company) => company.email === companyData.email)) {
-    throw new Error(
-      "This email address is already registered by another company!"
-    );
-  } else if (companies.find((company) => company.id === companyData.PIC)) {
-    throw new Error(
-      "This PIC number is already registered by another company!"
-    );
-  }
+	if (companies.find((company) => company.email === companyData.email)) {
+		throw new Error(
+			"This email address is already registered by another user!"
+		);
+	} else if (
+		companies.find((company) => company.telephone === companyData.telephone)
+	) {
+		throw new Error(
+			"This phone number is already registered by another user!"
+		);
+	} else if (companies.find((company) => company.PIC === companyData.PIC)) {
+		throw new Error(
+			"This company (PIC) is already registered by another user!"
+		);
+	}
 
-  companyData = {
-    ...companyData,
-
-    type: "company",
-
-    id: companyData.PIC,
-
-    image:
-      companyData.image !== ""
-        ? companyData.image
-        : `https://picsum.photos/200/300?random=${companyData.id}`,
-
-    info: {
-      founded: companyData.founded,
-      employees: companyData.employees,
-      locations:
-        companyData.locations !== "" ? companyData.locations.split(",") : [],
-    },
-
-    contacts: {
-      PIC: companyData.PIC,
-      address: companyData.address,
-      telephone: companyData.telephone,
-      websiteURL: companyData.websiteURL ? companyData.websiteURL : "",
-    },
-
-    technologies:
-      companyData.technologies !== ""
-        ? companyData.technologies.split(",").map((c) => c.replace(/\s/g, ""))
-        : [],
-
-    benefits:
-      companyData.benefits !== ""
-        ? companyData.benefits.split(",").map((c) => c.replace(/\s/g, ""))
-        : [],
-
-    bookmarks: [],
-  };
-
-  delete companyData.founded;
-  delete companyData.employees;
-  delete companyData.locations;
-
-  delete companyData.PIC;
-  delete companyData.address;
-  delete companyData.telephone;
-  delete companyData.websiteURL;
-
-  return axios.post(`${url}/companies`, companyData);
+	// if (companyData.password !== companyData.repeatedPassword) throw new Error("Passwords does not match!");
 }
 
-export async function saveCompany(companyData) {
-  if (companyData.id) {
-    const companies = await getAllCompanies();
+export async function registerCompanyF(companyData) {
+	checkForErrorsBeforeRegistering(companyData);
 
-    if (
-      companies.find(
-        (company) =>
-          company.email === companyData.email && company.id !== companyData.id
-      )
-    ) {
-      throw new Error(
-        "This email address is already registered by another company!"
-      );
-    } else if (
-      companies.find(
-        (company) =>
-          company.contacts.telephone === companyData.telephone &&
-          company.id !== companyData.id
-      )
-    ) {
-      throw new Error(
-        "This phone number is already registered by another company!"
-      );
-    }
+	companyData = {
+		...companyData,
 
-    companyData = {
-      ...companyData,
+		type: "company",
 
-      image:
-        companyData.image !== ""
-          ? companyData.image
-          : `https://picsum.photos/200/300?random=${companyData.id}`,
+		picture: companyData.picture ? companyData.picture : "default",
 
-      technologies:
-        companyData.technologies !== ""
-          ? companyData.technologies
-              .toString()
-              .split(",")
-              .map((c) => c.replace(/\s/g, ""))
-          : [],
+		locations:
+			companyData.locations !== ""
+				? companyData.locations.split(",")
+				: [],
 
-      benefits:
-        companyData.benefits !== ""
-          ? companyData.benefits.toString().split(",")
-          : [],
-    };
+		websiteURL: companyData.websiteURL ? companyData.websiteURL : "",
 
-    return axios.put(`${url}/${companyData.id}`, companyData);
-  }
+		technologies:
+			companyData.technologies !== ""
+				? companyData.technologies
+						.split(",")
+						.map((c) => c.replace(/\s/g, ""))
+				: [],
 
-  return registerCompany(companyData);
+		benefits:
+			companyData.benefits !== ""
+				? companyData.benefits.split(",")
+				: // .map((c) => c.replace(/\s/g, ""))
+				  [],
+
+		employees: parseInt(companyData.employees),
+
+		PIC: parseInt(companyData.PIC),
+
+		founded: parseInt(companyData.founded),
+
+		bookmarks: [],
+	};
+
+	delete companyData.repeatedPassword;
+
+	return await addDoc(companiesCollectionRef, companyData);
 }
 
-export async function deleteCompany(companyID) {
-  //const companies = await getCompanyByPIC(companyID);
+export async function saveCompanyF(companyData) {
+	const companies = await getAllCompaniesF();
 
-  /*
-  const deleteRequests = [];
-  companies.forEach(company => {
-    deleteRequests.push(deleteJobs(company.id));
-  });
+	if (
+		companies.find(
+			(company) =>
+				company.email === companyData.email &&
+				company.id !== companyData.id
+		)
+	) {
+		throw new Error(
+			"This email address is already registered by another company!"
+		);
+	} else if (
+		companies.find(
+			(company) =>
+				company.telephone === companyData.telephone &&
+				company.id !== companyData.id
+		)
+	) {
+		throw new Error(
+			"This phone number is already registered by another company!"
+		);
+	}
 
-  await Promise.all(deleteRequests);
-  */
+	companyData = {
+		...companyData,
 
-  logout();
+		picture: companyData.picture ? companyData.picture : "default",
 
-  return axios.delete(`${url}/${companyID}`);
+		locations:
+			companyData.locations !== ""
+				? companyData.locations.toString().split(",")
+				: [],
+
+		websiteURL: companyData.websiteURL ? companyData.websiteURL : "",
+
+		technologies:
+			companyData.technologies !== ""
+				? companyData.technologies
+						.toString()
+						.split(",")
+						.map((c) => c.replace(/\s/g, ""))
+				: [],
+
+		benefits:
+			companyData.benefits !== ""
+				? companyData.benefits
+						.toString()
+						.split(",")
+						// .map((c) => c.replace(/\s/g, ""))
+				: [],
+
+		employees: parseInt(companyData.employees),
+
+		PIC: parseInt(companyData.PIC),
+
+		founded: parseInt(companyData.founded),
+	};
+
+	const companyDoc = doc(db, "companies", companyData.id);
+
+	return await updateDoc(companyDoc, companyData);
 }
 
-export function bookmarkStudent(studentID, company) {
-  const id = parseInt(studentID);
+export async function deleteCompanyF(companyID) {
+	const companyDoc = doc(db, "companies", companyID);
 
-  // console.log(company);
-  // console.log(id);
+	return await deleteDoc(companyDoc);
+}
 
-  let updatedCompany = {
-    ...company,
+export async function bookmarkStudent(studentID, companyData) {
+	const id = parseInt(studentID);
 
-    bookmarks: company.bookmarks.push(id),
-  };
+	const updatedCompany = {
+		...companyData,
 
-  // console.log(updatedCompany);
+		bookmarks: companyData.bookmarks.push(id),
+	};
 
-  return axios.put(`${url}/${company.id}`, updatedCompany);
+	const companyDoc = doc(db, "companies", companyData.id);
+
+	return await updateDoc(companyDoc, updatedCompany);
 }
