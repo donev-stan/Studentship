@@ -146,3 +146,28 @@ export const yearWithWords = (year) => {
 			return "";
 	}
 };
+
+export async function bookmarkInternship(internshipID, studentData) {
+
+	// if you find such student id then remove it else add it
+	if (studentData.bookmarks.find((id) => id === internshipID)) {
+		studentData = {
+			...studentData,
+
+			bookmarks: studentData.bookmarks.splice(
+				studentData.bookmarks.indexOf(internshipID),
+				0
+			),
+		};
+	} else {
+		studentData = {
+			...studentData,
+
+			bookmarks: [...studentData.bookmarks, internshipID],
+		};
+	}
+
+	const studentDoc = doc(db, "students", studentData.id);
+
+	return await updateDoc(studentDoc, studentData);
+}

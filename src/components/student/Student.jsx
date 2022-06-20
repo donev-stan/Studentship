@@ -104,7 +104,7 @@ const Student = (props) => {
 						<Row>
 							{/* <img src={profileImg} /> */}
 							<img
-								src={picture === "default" ? profileImg : ""}
+								src={picture === "default" ? profileImg : picture}
 								alt="Profile"
 							/>
 							<hr className="mt-1"></hr>

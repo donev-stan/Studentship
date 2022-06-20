@@ -8,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/esm/Form";
 import Alert from "react-bootstrap/Alert";
 
 import {
@@ -16,9 +17,11 @@ import {
 	returnReadableDate,
 	returnStackWithIcons,
 } from "../../services/InternshipService";
-
 import { getCompanyByPICF } from "../../services/CompanyService";
+import { getLoggedUser, login } from "../../services/AuthService";
+import { bookmarkInternship } from "../../services/StudentService";
 
+import { BsBookmarks, BsFillBookmarksFill } from "react-icons/bs";
 import { MdWork } from "react-icons/md";
 import { ImHome } from "react-icons/im";
 import { GiTemporaryShield } from "react-icons/gi";
@@ -27,7 +30,6 @@ import { AiOutlineFieldTime } from "react-icons/ai";
 import { MdTimer } from "react-icons/md";
 import { BiTimeFive } from "react-icons/bi";
 import { VscRemoteExplorer } from "react-icons/vsc";
-import { getLoggedUser } from "../../services/AuthService";
 
 import InternshipApplyCard from "./InternshipApplyCard";
 import InternshipCompanyCard from "./InternshipCompanyCard";
@@ -35,6 +37,7 @@ import InternshipCompanyCard from "./InternshipCompanyCard";
 import locationImg from "../../images/Internship/location.png";
 import updateImg from "../../images/Internship/update.png";
 import salaryImg from "../../images/Internship/salary.png";
+import bookmark from "../../images/Student/bookmark.png";
 
 const Internship = () => {
 	const { id } = useParams();
@@ -46,6 +49,8 @@ const Internship = () => {
 	const [error, setError] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [showModal, setShowModal] = useState(false);
+
+	const [bookmarked, setBookmarked] = useState(false);
 
 	const handleClose = () => setShowModal(false);
 	const handleShow = () => setShowModal(true);
@@ -70,12 +75,28 @@ const Internship = () => {
 				});
 			})
 			.catch((error) => setError(error.message));
+
+		const user = getLoggedUser();
+		if (user.bookmarks.find((bookmarkID) => bookmarkID === id)) {
+			setBookmarked(true);
+		}
 	}, [id]);
 
 	const handleDeleteInternship = () => {
 		deleteInternship(offer.id);
 		setRedirect(true);
 	};
+
+	function onFormSubmit(e) {
+		e.preventDefault();
+
+		bookmarkInternship(id, getLoggedUser())
+			.then((_) => {
+				setBookmarked(!bookmarked);
+				login(getLoggedUser());
+			})
+			.catch((error) => setError(error.message));
+	}
 
 	return (
 		<>
@@ -123,7 +144,16 @@ const Internship = () => {
 				)}
 				<Row>
 					<Col lg={8}>
-						<h2>{offer.title}</h2>
+						<h2>
+							{offer.title}{" "}
+							{getLoggedUser().type === "student" ? (
+								bookmarked ? (
+									<BsFillBookmarksFill width={"10px"} />
+								) : (
+									<BsBookmarks width={"10px"} />
+								)
+							) : null}
+						</h2>
 						<hr />
 
 						<Row>
@@ -294,6 +324,30 @@ const Internship = () => {
 								</>
 							)}
 						</Row>
+
+						{getLoggedUser().type === "student" && (
+							<Row className="text-center mt-2">
+								<Col>
+									<img
+										src={bookmark}
+										alt="Bookmark Student"
+										style={imgStyles}
+									/>
+									<br />
+
+									<Form onSubmit={onFormSubmit}>
+										<Button
+											className="shadowItem mt-4"
+											type="submit"
+										>
+											{bookmarked
+												? "Remove Bookmark"
+												: "Bookmark Student"}
+										</Button>
+									</Form>
+								</Col>
+							</Row>
+						)}
 					</Col>
 				</Row>
 			</Container>
@@ -310,4 +364,9 @@ const stackspan = {
 	border: "1px solid #e0e0e0",
 	backgroundColor: "#fff",
 	padding: "9px",
+};
+
+const imgStyles = {
+	width: "60px",
+	height: "60px",
 };

@@ -176,6 +176,7 @@ export async function deleteCompanyF(companyID) {
 }
 
 export async function bookmarkStudent(studentID, companyData) {
+	
 	// if you find such student id then remove it else add it
 	if (companyData.bookmarks.find((id) => id === studentID)) {
 		companyData = {

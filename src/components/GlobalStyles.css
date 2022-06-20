@@ -34,3 +34,7 @@
   background-color: "#fff";
   padding: "10px";
 }
+
+.borderRadius {
+  border-radius: "35px";
+}
