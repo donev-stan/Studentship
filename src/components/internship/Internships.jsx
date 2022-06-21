@@ -17,16 +17,24 @@ import Loader from "../loader/Loader";
 const Internships = () => {
 	const [internships, setInternships] = useState([]);
 
+	const [cities, setCities] = useState([]);
+	const [keywords, setKeywords] = useState([]);
+	const [stack, setStack] = useState([]);
+
 	useEffect(() => {
 		getAllInternships().then((offers) => {
 			setInternships(offers);
 		});
-	}, []);
+	}, [cities, keywords, stack, internships]);
 
 	return (
 		<>
 			<Header />
-			<InternshipFilter />
+			<InternshipFilter
+				setCities={setCities}
+				setKeywords={setKeywords}
+				setStack={setStack}
+			/>
 			<Container className="my-4">
 				<Row className="text-center">
 					{internships.length !== 0 ? (
