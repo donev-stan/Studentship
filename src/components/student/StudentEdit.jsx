@@ -52,7 +52,7 @@ const StudentEdit = () => {
 
   return (
     <>
-      {redirect && <Navigate to="/profile" />}
+      {redirect && <Navigate to={`/profile/${studentData.id}`} />}
 
       <Header />
       <Container className="my-4" fluid>

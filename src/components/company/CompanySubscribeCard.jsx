@@ -42,15 +42,12 @@ const CompanySubscribeCard = () => {
 				</Modal.Body>
 			</Modal>
 
-			<Card className="shadowItem mt-3 borderRadius">
+			<Card
+				className="shadowItem mt-3 mb-4 borderRadius transformItem pointer"
+				onClick={handleShow}
+			>
 				<Card.Body>
-					<img
-						src={emailImg}
-						alt=""
-						width={"80px"}
-						className="pointer"
-						onClick={handleShow}
-					/>
+					<img src={emailImg} alt="" width={"80px"} />
 					<h5>Subscribe so you don't miss any new offers</h5>
 				</Card.Body>
 			</Card>

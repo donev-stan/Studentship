@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
-import Button from "react-bootstrap/esm/Button";
+// import Button from "react-bootstrap/esm/Button";
 import Alert from "react-bootstrap/esm/Alert";
 import Form from "react-bootstrap/esm/Form";
 
@@ -20,12 +20,22 @@ import profileImg from "../../images/user.png";
 import bookmark from "../../images/Student/bookmark.png";
 import resume from "../../images/Student/resume.png";
 
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+
 import { BsTelephone, BsBookmarks, BsFillBookmarksFill } from "react-icons/bs";
 import { AiOutlineMail } from "react-icons/ai";
 import { FaUniversity } from "react-icons/fa";
 import { GrMapLocation } from "react-icons/gr";
 import { returnStackWithIcons } from "../../services/InternshipService";
 import { bookmarkStudent } from "../../services/CompanyService";
+import Loader from "../loader/Loader";
 // import { bookmarkStudent } from "../../services/CompanyService";
 
 const Student = (props) => {
@@ -37,6 +47,35 @@ const Student = (props) => {
 	const [bookmarked, setBookmarked] = useState(false);
 
 	const { id } = useParams();
+	const [open, setOpen] = React.useState(false);
+
+	const handleClick = () => {
+		setOpen(true);
+	};
+
+	const handleClose = (event, reason) => {
+		if (reason === "clickaway") {
+			return;
+		}
+
+		setOpen(false);
+	};
+
+	const action = (
+		<React.Fragment>
+			<Button color="secondary" size="small" onClick={handleClose}>
+				UNDO
+			</Button>
+			<IconButton
+				size="small"
+				aria-label="close"
+				color="inherit"
+				onClick={handleClose}
+			>
+				<CloseIcon fontSize="small" />
+			</IconButton>
+		</React.Fragment>
+	);
 
 	const {
 		picture,
@@ -99,139 +138,190 @@ const Student = (props) => {
 						{error}
 					</Alert>
 				)}
-				<Row>
-					<Col lg={3} className="my-4 text-center">
+				{Object.entries(student).length !== 0 ? (
+					<>
+						{" "}
 						<Row>
-							{/* <img src={profileImg} /> */}
-							<img
-								src={picture === "default" ? profileImg : picture}
-								alt="Profile"
-							/>
-							<hr className="mt-1"></hr>
-						</Row>
+							<Col lg={3} className="my-4 text-center">
+								<Row>
+									{/* <img src={profileImg} /> */}
+									<img
+										src={
+											picture === "default"
+												? profileImg
+												: picture
+										}
+										alt="Profile"
+									/>
+									<hr className="mt-1"></hr>
+								</Row>
 
-						<Row>
-							<h4>
-								{" "}
-								<FaUniversity /> University:
-							</h4>
-							<p>
-								{university}, {yearWithWords(yearAtUni)}
-							</p>
+								<Row>
+									<h4>
+										{" "}
+										<FaUniversity /> University:
+									</h4>
+									<p>
+										{university}, {yearWithWords(yearAtUni)}
+									</p>
 
-							<p>{specialty}</p>
+									<p>{specialty}</p>
 
-							<h4>
-								{" "}
-								<GrMapLocation /> Town:
-							</h4>
-							<p>{town}</p>
+									<h4>
+										{" "}
+										<GrMapLocation /> Town:
+									</h4>
+									<p>{town}</p>
 
-							<h4>Age:</h4>
-							<p>{age}</p>
-						</Row>
-					</Col>
-
-					<Col lg={9} className="my-4 p-4 pt-0 pb-0">
-						<Row className="my-4">
-							<Col>
-								<h2>
-									{" "}
-									{name} {lastName}
-									{company ? (
-										bookmarked ? (
-											<BsFillBookmarksFill
-												width={"10px"}
-											/>
-										) : (
-											<BsBookmarks width={"10px"} />
-										)
-									) : null}
-								</h2>
+									<h4>Age:</h4>
+									<p>{age}</p>
+								</Row>
 							</Col>
-							<hr />
 
-							<Row>
-								<Col>
-									{bio && (
-										<>
-											<h4>Bio:</h4>
-											<p>{bio}</p>
-										</>
-									)}
-								</Col>
-							</Row>
+							<Col lg={9} className="my-4 p-4 pt-0 pb-0">
+								<Row className="my-4">
+									<Col>
+										<Stack direction="row" spacing={1}>
+											<h2>
+												{" "}
+												{name} {lastName}
+											</h2>
 
-							<Row>
-								<Col>
-									{skills && (
-										<>
-											<h4 className="mb-3"> Skills: </h4>
-											{skills.map((skill) =>
-												returnStackWithIcons(skill)
+											<h4 className="mt-1">
+												{company ? (
+													bookmarked ? (
+														<BsFillBookmarksFill
+															width={"10px"}
+														/>
+													) : (
+														<BsBookmarks
+															width={"10px"}
+														/>
+													)
+												) : null}
+											</h4>
+										</Stack>
+									</Col>
+									<hr />
+
+									<Row>
+										<Col>
+											{bio && (
+												<>
+													<h4>Bio:</h4>
+													<p>{bio}</p>
+												</>
 											)}
-										</>
-									)}
-								</Col>
-							</Row>
-
-							<Row className="my-4">
-								<h4>Contacts</h4>
-								<Col className="text-center">
-									<h5>
-										{" "}
-										<BsTelephone /> Telephone :
-									</h5>
-									<p>{telephone}</p>
-								</Col>
-
-								<Col className="text-center">
-									<h5>
-										{" "}
-										<AiOutlineMail /> E-mail:
-									</h5>
-									<p>{email}</p>
-								</Col>
-							</Row>
-							{isCompanyViewer && (
-								<>
-									<Row className="text-center mt-4">
-										<Col>
-											<img
-												src={resume}
-												alt="Download CV"
-												style={imgStyles}
-											/>
-											<br />
-											<Button className="shadowItem mt-4">
-												Download CV
-											</Button>
-										</Col>
-										<Col>
-											<img
-												src={bookmark}
-												alt="Bookmark Student"
-												style={imgStyles}
-											/>
-											<br />
-
-											<Form onSubmit={onFormSubmit}>
-												<Button
-													className="shadowItem mt-4"
-													type="submit"
-												>
-													{bookmarked
-														? "Remove Bookmark"
-														: "Bookmark Student"}
-												</Button>
-											</Form>
 										</Col>
 									</Row>
-								</>
-							)}
+
+									<Row>
+										<Col>
+											{skills && (
+												<>
+													<h4 className="mb-3">
+														{" "}
+														Skills:{" "}
+													</h4>
+													{skills.map((skill) =>
+														returnStackWithIcons(
+															skill
+														)
+													)}
+												</>
+											)}
+										</Col>
+									</Row>
+
+									<Row className="my-4">
+										<h4>Contacts</h4>
+										<Col className="text-center">
+											<h5>
+												{" "}
+												<BsTelephone /> Telephone :
+											</h5>
+											<p>{telephone}</p>
+										</Col>
+
+										<Col className="text-center">
+											<h5>
+												{" "}
+												<AiOutlineMail /> E-mail:
+											</h5>
+											<p>{email}</p>
+										</Col>
+									</Row>
+									{isCompanyViewer && (
+										<>
+											<Row className="text-center mt-4">
+												<Col>
+													<img
+														src={resume}
+														alt="Download CV"
+														style={imgStyles}
+													/>
+													<br />
+													<Button
+														className="shadowItem mt-4"
+														variant="contained"
+														size="large"
+														startIcon={
+															<CloudDownloadIcon />
+														}
+														onClick={handleClick}
+													>
+														Download CV
+													</Button>
+
+													<Snackbar
+														open={open}
+														autoHideDuration={6000}
+														onClose={handleClose}
+														message="Downloading CV..."
+														action={action}
+													/>
+												</Col>
+												<Col>
+													<img
+														src={bookmark}
+														alt="Bookmark Student"
+														style={imgStyles}
+													/>
+													<br />
+
+													<Form
+														onSubmit={onFormSubmit}
+													>
+														<Button
+															className="shadowItem mt-4"
+															type="submit"
+															variant="contained"
+															startIcon={
+																bookmarked ? (
+																	<BookmarkRemoveIcon />
+																) : (
+																	<BookmarkAddIcon />
+																)
+															}
+															size="large"
+															color="success"
+														>
+															{bookmarked
+																? "Remove Bookmark"
+																: "Bookmark Student"}
+														</Button>
+													</Form>
+												</Col>
+											</Row>
+										</>
+									)}
+								</Row>
+							</Col>
 						</Row>
-					</Col>
-				</Row>
+					</>
+				) : (
+					<Loader />
+				)}
 			</Container>
 		</>
 	);

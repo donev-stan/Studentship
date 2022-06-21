@@ -9,41 +9,51 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import { getLoggedUser } from "../../services/AuthService";
-import { getInternshipsByCompanyID, getOffersByCompanyID } from "../../services/InternshipService";
+import {
+	getInternshipsByCompanyID,
+	getOffersByCompanyID,
+} from "../../services/InternshipService";
+import Loader from "../loader/Loader";
 
 const CompanyJobs = () => {
-  const [offers, setOffers] = useState([]);
-  const [redirect, setRedirect] = useState(false);
+	const [offers, setOffers] = useState(["load"]);
+	const [redirect, setRedirect] = useState(false);
 
-  useEffect(() => {
-    const loggedUser = getLoggedUser();
+	useEffect(() => {
+		const loggedUser = getLoggedUser();
 
-    if (loggedUser.type === "student") setRedirect(true);
+		if (loggedUser.type === "student") setRedirect(true);
 
-    getInternshipsByCompanyID(loggedUser?.PIC).then((offers) => {
-      setOffers(offers);
-    });
-  }, []);
+		getInternshipsByCompanyID(loggedUser?.PIC).then((offers) => {
+			setOffers(offers);
+		});
+	}, []);
 
-  return (
-    <>
-      {redirect && <Navigate to="/" />}
-      <Header />
-      <Container className="my-4">
-        <Row className="text-center">
-          <Col>
-            <h2>My Internship Offers</h2>
-            <hr />
-          </Col>
-        </Row>
-        <Row>
-          {offers.map((offer) => (
-            <InternshipCard offer={offer} key={offer.id} />
-          ))}
-        </Row>
-      </Container>
-    </>
-  );
+	return (
+		<>
+			{redirect && <Navigate to="/" />}
+			<Header />
+			<Container className="my-4">
+				<Row className="text-center">
+					<Col>
+						<h2>My Internship Offers</h2>
+						<hr />
+					</Col>
+				</Row>
+				<Row>
+					{offers[0] !== "load" ? (
+						offers.map((offer) => (
+							<Col lg={6}>
+								<InternshipCard offer={offer} key={offer.id} />
+							</Col>
+						))
+					) : (
+						<Loader />
+					)}
+				</Row>
+			</Container>
+		</>
+	);
 };
 
 export default CompanyJobs;

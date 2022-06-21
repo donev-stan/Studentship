@@ -13,7 +13,6 @@ import "../GlobalStyles.css";
 
 const InternshipCard = ({ offer }) => {
   return (
-    <Col lg={6}>
       <Card
         className="text-center my-3 shadowItem pointer transformItem decorationNone black"
         as={Link}
@@ -32,7 +31,6 @@ const InternshipCard = ({ offer }) => {
           {offer.lastUpdate}
         </Card.Footer>
       </Card>
-    </Col>
   );
 };
 

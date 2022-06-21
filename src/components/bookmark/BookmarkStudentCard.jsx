@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getStudentByIDF } from "../../services/StudentService";
+import Loader from "../loader/Loader";
 import StudentCard from "../student/StudentCard";
 
 const BookmarkStudentCard = ({ studentID }) => {
@@ -11,7 +12,15 @@ const BookmarkStudentCard = ({ studentID }) => {
 		});
 	}, [studentID]);
 
-	return <StudentCard student={student} key={studentID} />;
+	return (
+		<>
+			{Object.entries(student).length !== 0 ? (
+				<StudentCard student={student} key={studentID} />
+			) : (
+				<Loader />
+			)}
+		</>
+	);
 };
 
 export default BookmarkStudentCard;
