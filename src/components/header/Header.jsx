@@ -40,6 +40,10 @@ import logo_2 from "../../images/logo_2.png";
 import logo_3 from "../../images/logo_3.png";
 import logo_4 from "../../images/logo_4.png";
 import logo_5 from "../../images/logo_5.png";
+import logo_6 from "../../images/logo_6.png";
+import logo_7 from "../../images/logo_7.png";
+import logo_8 from "../../images/logo_8.png";
+
 import companyProfileImg from "../../images/companyProfileImg.png";
 
 const StyledMenu = styled((props) => (
@@ -179,7 +183,7 @@ const Header = () => {
 							{" "}
 							<img
 								alt="Internship Logo"
-								src={logo_3}
+								src={logo_7}
 								width="35"
 								height="35"
 								className="d-inline-block align-top"

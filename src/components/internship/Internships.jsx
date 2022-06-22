@@ -6,13 +6,9 @@ import Col from "react-bootstrap/Col";
 
 import Header from "../header/Header";
 import InternshipCard from "./InternshipCard";
-import {
-	getAllInternships,
-	getAllOffers,
-} from "../../services/InternshipService";
+import { getAllInternships } from "../../services/InternshipService";
 import InternshipFilter from "../filter/InternshipFilter";
 import Loader from "../loader/Loader";
-// import FilterInternships from "../filter/FilterInternships";
 
 const Internships = () => {
 	const [internships, setInternships] = useState([]);
@@ -22,9 +18,9 @@ const Internships = () => {
 	const [stack, setStack] = useState([]);
 
 	useEffect(() => {
-		// getAllInternships().then((offers) => {
-		// 	setInternships(offers);
-		// });
+		getAllInternships().then((offers) => {
+			setInternships(offers);
+		});
 	}, [cities, keywords, stack, internships]);
 
 	return (

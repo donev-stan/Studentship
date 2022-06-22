@@ -7,6 +7,7 @@ import Chip from "@mui/material/Chip";
 const TownSearch = () => {
 	return (
 		<Autocomplete
+			style={{ backgroundColor: "white" }}
 			multiple
 			id="tags-outlined"
 			freeSolo
@@ -14,6 +15,7 @@ const TownSearch = () => {
 			renderTags={(value, getTagProps) =>
 				value.map((option, index) => (
 					<Chip
+						style={{ backgroundColor: "#00000008" }}
 						variant="outlined"
 						label={option}
 						{...getTagProps({ index })}

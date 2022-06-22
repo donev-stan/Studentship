@@ -11,6 +11,7 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 export default function CheckboxesTags() {
 	return (
 		<Autocomplete
+			style={{ backgroundColor: "white" }}
 			multiple
 			id="checkboxes-tags-demo"
 			options={jobOptions}
@@ -27,7 +28,6 @@ export default function CheckboxesTags() {
 					{option.title}
 				</li>
 			)}
-			// style={{ width: 500 }}
 			renderInput={(params) => (
 				<TextField {...params} label="Internship Options" />
 			)}
