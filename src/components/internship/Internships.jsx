@@ -22,9 +22,9 @@ const Internships = () => {
 	const [stack, setStack] = useState([]);
 
 	useEffect(() => {
-		getAllInternships().then((offers) => {
-			setInternships(offers);
-		});
+		// getAllInternships().then((offers) => {
+		// 	setInternships(offers);
+		// });
 	}, [cities, keywords, stack, internships]);
 
 	return (
