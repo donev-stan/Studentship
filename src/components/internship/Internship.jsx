@@ -107,6 +107,7 @@ const Internship = () => {
 	}
 
 	return (
+
 		<>
 			{redirect && <Navigate to={"/company/jobs"} />}
 

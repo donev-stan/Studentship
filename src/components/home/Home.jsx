@@ -8,7 +8,6 @@ import Col from "react-bootstrap/esm/Col";
 import Card from "react-bootstrap/esm/Card";
 
 import homeImg from "../../images/Home/homeImg.jpg";
-import { getAllStudentsF } from "../../services/StudentService";
 
 const Home = () => {
 	return (

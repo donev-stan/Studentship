@@ -34,7 +34,7 @@ import Loader from "../loader/Loader";
 import InternshipCard from "../internship/InternshipCard";
 import CompanySubscribeCard from "./CompanySubscribeCard";
 
-import companyImg from "../../images/Home/companies.jpg";
+import companyImg from "../../images/Company/company.png";
 import { getLoggedUser } from "../../services/AuthService";
 
 function a11yProps(index) {
@@ -195,17 +195,26 @@ const Company = (props) => {
 													<CompanySubscribeCard />
 												)}
 
-											{!error && offers && (
-												<h4>Internships Offered:</h4>
-											)}
-											{!error &&
-												offers &&
+											{offers.length !== 0 ? (
 												offers.map((offer) => (
-													<InternshipCard
-														offer={offer}
-														key={offer.id}
-													/>
-												))}
+													<>
+														<h4>
+															Internships Offered:
+														</h4>
+														<InternshipCard
+															key={offer.id}
+															offer={offer}
+														/>
+													</>
+												))
+											) : (
+												<>
+													<h4>
+														Internships Offered:
+													</h4>
+													<h6>No Internships</h6>
+												</>
+											)}
 										</Col>
 									</Row>
 								</TabPanel>
@@ -236,17 +245,26 @@ const Company = (props) => {
 													<CompanySubscribeCard />
 												)}
 
-											{!error && offers && (
-												<h4>Internships Offered:</h4>
-											)}
-											{!error &&
-												offers &&
+											{offers.length !== 0 ? (
 												offers.map((offer) => (
-													<InternshipCard
-														offer={offer}
-														key={offer.id}
-													/>
-												))}
+													<>
+														<h4>
+															Internships Offered:
+														</h4>
+														<InternshipCard
+															key={offer.id}
+															offer={offer}
+														/>
+													</>
+												))
+											) : (
+												<>
+													<h4>
+														Internships Offered:
+													</h4>
+													<h6>No Internships</h6>
+												</>
+											)}
 										</Col>
 									</Row>
 								</TabPanel>
@@ -274,15 +292,12 @@ const Company = (props) => {
 										</Col>
 										<Col lg={6}>
 											{/* Subscribe */}
-											{!getLoggedUser()?.type !=
-											"undefined" ? (
+											{!getLoggedUser()?.type !==
+												"undefined" &&
 												getLoggedUser()?.type !==
 													"company" && (
 													<CompanySubscribeCard />
-												)
-											) : (
-												<Loader />
-											)}
+												)}
 
 											{offers.length !== 0 ? (
 												offers.map((offer) => (
@@ -297,7 +312,12 @@ const Company = (props) => {
 													</>
 												))
 											) : (
-												<Loader />
+												<>
+													<h4>
+														Internships Offered:
+													</h4>
+													<h6>No Internships</h6>
+												</>
 											)}
 										</Col>
 									</Row>
