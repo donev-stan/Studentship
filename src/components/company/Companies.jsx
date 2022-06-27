@@ -3,17 +3,17 @@ import { getAllCompanies } from "../../services/CompanyService";
 
 import Header from "../header/Header";
 import CompanyCard from "./CompanyCard";
+import Loader from "../loader/Loader";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Loader from "../loader/Loader";
+
 import { getLocalStorageData } from "../../services/AuthService";
 
 const Companies = () => {
 	const [companies, setCompanies] = useState([]);
 
 	useEffect(() => {
-		// Testing trying not to get from Database as often:
 		const companies = getLocalStorageData("companies");
 
 		if (!companies) {

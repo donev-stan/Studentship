@@ -20,6 +20,7 @@ const CompanyCard = ({ company }) => {
 				<Card.Img
 					variant="top"
 					src={picture === "default" ? companyImg : picture}
+					loading="lazy"
 				/>{" "}
 				<Card.Body className="d-flex align-items-center justify-content-center">
 					<Card.Title> {name} </Card.Title>
