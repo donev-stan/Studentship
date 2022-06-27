@@ -62,7 +62,7 @@ const InternshipApplyCard = () => {
 								variant="contained"
 								endIcon={<SendIcon />}
 								onClick={handleClose}
-                size="large"
+								size="large"
 							>
 								Apply
 							</Button>

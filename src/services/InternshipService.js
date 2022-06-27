@@ -1,4 +1,4 @@
-import { getLoggedUser } from "./AuthService";
+import { getLoggedUser, setLocalStorageData } from "./AuthService";
 
 // Import Icons
 import { SiCsharp } from "react-icons/si";
@@ -48,11 +48,17 @@ export async function getAllInternships() {
 		})
 	);
 
+	console.log("GET All Internships - getAllInternships() function");
+
+	setLocalStorageData("internships", internships);
+
 	return internships;
 }
 
 export async function getInternshipByID(internshipID) {
 	const all_internships = await getAllInternships();
+
+	console.log("GET All Internships - getInternshipByID() function");
 
 	const internship = all_internships.find(
 		(offer) => offer.id === internshipID
@@ -65,6 +71,8 @@ export async function getInternshipByID(internshipID) {
 
 export async function getInternshipsByCompanyID(companyPIC) {
 	const all_internships = await getAllInternships();
+
+	console.log("GET All Internships - getInternshipsByCompanyID() function");
 
 	const company_internships = all_internships.filter(
 		(offer) => offer.companyID === companyPIC
@@ -86,12 +94,14 @@ export async function updateInternship(internshipData) {
 					.map((c) => c.replace(/\s/g, ""))
 			: [],
 
-		lastUpdate: new Date(),
+		lastUpdate: new Date().toDateString(),
 	};
 
 	const internshipDoc = doc(db, "internships", internshipData.id);
 
-	return await updateDoc(internshipDoc, internshipData);
+	console.log("UPDATE Internship - updateInternship() function");
+
+	return await updateDoc(internshipDoc, updatedOffer);
 }
 
 export async function createInternship(internshipData) {
@@ -133,6 +143,9 @@ export async function createInternship(internshipData) {
 	delete newOffer.partTime;
 	delete newOffer.flexibleTime;
 	delete newOffer.homeOffice;
+
+
+	console.log("ADD Internship - createInternship() function");
 
 	return await addDoc(internshipsCollectionRef, newOffer);
 }

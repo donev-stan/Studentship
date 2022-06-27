@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getStudentByIDF } from "../../services/StudentService";
+import { getLocalStorageData } from "../../services/AuthService";
+import { getStudentByID } from "../../services/StudentService";
 import Loader from "../loader/Loader";
 import StudentCard from "../student/StudentCard";
 
@@ -7,9 +8,20 @@ const BookmarkStudentCard = ({ studentID }) => {
 	const [student, setStudent] = useState({});
 
 	useEffect(() => {
-		getStudentByIDF(studentID).then((student) => {
-			setStudent(student);
-		});
+		const students = getLocalStorageData("students");
+
+		if (!students) {
+			console.log("Got student data from Firebase");
+			getStudentByID(studentID).then((student) => {
+				setStudent(student);
+			});
+		} else {
+			console.log("Got student data from Local Storage");
+			const student = students.find(
+				(student) => student.id === studentID
+			);
+			if (student) setStudent(student);
+		}
 	}, [studentID]);
 
 	return (

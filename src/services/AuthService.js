@@ -1,13 +1,20 @@
-import { getAllCompaniesF } from "./CompanyService";
-import { getAllStudentsF } from "./StudentService";
+import { getAllCompanies } from "./CompanyService";
+import { getAllStudents } from "./StudentService";
 
 export async function login(userData) {
-	const companies = await getAllCompaniesF();
-	const students = await getAllStudentsF();
+	const companies = await getAllCompanies();
+	const students = await getAllStudents();
+
+	console.log("GET All Companies - login function");
+	console.log("GET All Students - login function");
+
+	setLocalStorageData("companies", companies);
+	setLocalStorageData("students", students);
 
 	const loggedUserAsCompany = companies.find(
-	  (c) =>
-	    c.email === userData.email && c.password === userData.password.toString()
+		(c) =>
+			c.email === userData.email &&
+			c.password === userData.password.toString()
 	);
 
 	const loggetUserAsStudent = students.find(
@@ -16,13 +23,10 @@ export async function login(userData) {
 			s.password === userData.password.toString()
 	);
 
-	if (loggedUserAsCompany) {
-	  localStorage.setItem("loggedUser", JSON.stringify(loggedUserAsCompany));
-	  return;
-	} else if (loggetUserAsStudent) {
-	  localStorage.setItem("loggedUser", JSON.stringify(loggetUserAsStudent));
-	  return;
-	}
+	if (loggedUserAsCompany)
+		return setLocalStorageData("loggedUser", loggedUserAsCompany);
+	else if (loggetUserAsStudent)
+		return setLocalStorageData("loggedUser", loggetUserAsStudent);
 
 	throw new Error("Invalid email or password");
 }
@@ -39,4 +43,18 @@ export function getLoggedUser() {
 	}
 
 	return loggedUser;
+}
+
+export function getLocalStorageData(nameData) {
+	const data = JSON.parse(localStorage.getItem(nameData));
+
+	if (!data) {
+		return undefined;
+	}
+
+	return data;
+}
+
+export function setLocalStorageData(nameData, data) {
+	return localStorage.setItem(nameData, JSON.stringify(data));
 }

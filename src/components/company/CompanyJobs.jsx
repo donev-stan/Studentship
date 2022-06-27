@@ -8,10 +8,9 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { getLoggedUser } from "../../services/AuthService";
+import { getLocalStorageData, getLoggedUser } from "../../services/AuthService";
 import {
-	getInternshipsByCompanyID,
-	getOffersByCompanyID,
+	getInternshipsByCompanyID
 } from "../../services/InternshipService";
 import Loader from "../loader/Loader";
 
@@ -21,12 +20,20 @@ const CompanyJobs = () => {
 
 	useEffect(() => {
 		const loggedUser = getLoggedUser();
+		if (loggedUser.type !== "company") setRedirect(true);
 
-		if (loggedUser.type === "student") setRedirect(true);
+		const internships = getLocalStorageData("internships");
+		const companyInternships = internships?.find(
+			(offer) => offer.companyId === loggedUser.PIC
+		);
 
-		getInternshipsByCompanyID(loggedUser?.PIC).then((offers) => {
-			setOffers(offers);
-		});
+		if (!companyInternships) {
+			getInternshipsByCompanyID(loggedUser?.PIC).then((offers) => {
+				setOffers(offers);
+			});
+		} else {
+			setOffers(companyInternships);
+		}
 	}, []);
 
 	return (

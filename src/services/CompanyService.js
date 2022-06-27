@@ -10,7 +10,7 @@ import {
 
 const companiesCollectionRef = collection(db, "companies");
 
-export async function getAllCompaniesF() {
+export async function getAllCompanies() {
 	const companies = (await getDocs(companiesCollectionRef)).docs.map(
 		(doc) => ({
 			...doc.data(),
@@ -18,10 +18,17 @@ export async function getAllCompaniesF() {
 		})
 	);
 
+	console.log("GET All Companies - getAllCompanies() function");
+
+	localStorage.setItem("companies", JSON.stringify(companies));
+
 	return companies;
 }
-export async function getCompanyByIDF(companyID) {
-	const companies = await getAllCompaniesF();
+
+export async function getCompanyByID(companyID) {
+	const companies = await getAllCompanies();
+
+	console.log("GET All Companies - getCompanyByID() function");
 
 	const company = companies.find((company) => company.id === companyID);
 
@@ -30,8 +37,10 @@ export async function getCompanyByIDF(companyID) {
 	return await company;
 }
 
-export async function getCompanyByPICF(companyPIC) {
-	const companies = await getAllCompaniesF();
+export async function getCompanyByPIC(companyPIC) {
+	const companies = await getAllCompanies();
+
+	console.log("GET All Companies - getCompanyByPIC() function");
 
 	const company = companies.find((company) => company.PIC === companyPIC);
 
@@ -41,7 +50,7 @@ export async function getCompanyByPICF(companyPIC) {
 }
 
 async function checkForErrorsBeforeRegistering(companyData) {
-	const companies = await getAllCompaniesF();
+	const companies = await getAllCompanies();
 
 	if (companies.find((company) => company.email === companyData.email)) {
 		throw new Error(
@@ -62,7 +71,7 @@ async function checkForErrorsBeforeRegistering(companyData) {
 	// if (companyData.password !== companyData.repeatedPassword) throw new Error("Passwords does not match!");
 }
 
-export async function registerCompanyF(companyData) {
+export async function registerCompany(companyData) {
 	checkForErrorsBeforeRegistering(companyData);
 
 	companyData = {
@@ -103,11 +112,16 @@ export async function registerCompanyF(companyData) {
 
 	delete companyData.repeatedPassword;
 
+	
+	console.log("ADD All Company - registerCompany() function");
+
 	return await addDoc(companiesCollectionRef, companyData);
 }
 
-export async function saveCompanyF(companyData) {
-	const companies = await getAllCompaniesF();
+export async function saveCompany(companyData) {
+	const companies = await getAllCompanies();
+
+	console.log("GET All Companies - saveCompany() function");
 
 	if (
 		companies.find(
@@ -166,17 +180,18 @@ export async function saveCompanyF(companyData) {
 
 	const companyDoc = doc(db, "companies", companyData.id);
 
+	console.log("UPDATE Company - saveCompany() function");
+
 	return await updateDoc(companyDoc, companyData);
 }
 
-export async function deleteCompanyF(companyID) {
+export async function deleteCompany(companyID) {
 	const companyDoc = doc(db, "companies", companyID);
 
 	return await deleteDoc(companyDoc);
 }
 
 export async function bookmarkStudent(studentID, companyData) {
-	
 	// if you find such student id then remove it else add it
 	if (companyData.bookmarks.find((id) => id === studentID)) {
 		companyData = {
@@ -196,6 +211,8 @@ export async function bookmarkStudent(studentID, companyData) {
 	}
 
 	const companyDoc = doc(db, "companies", companyData.id);
+
+	console.log("UPDATE Company - bookmarkStudent() function");
 
 	return await updateDoc(companyDoc, companyData);
 }

@@ -12,7 +12,7 @@ import Header from "../header/Header";
 import { Navigate, useNavigate } from "react-router-dom";
 
 import { getLoggedUser, login } from "../../services/AuthService";
-import { saveStudentF, yearWithWords } from "../../services/StudentService";
+import { saveStudent, yearWithWords } from "../../services/StudentService";
 
 const StudentEdit = () => {
   const [studentData, setStudentData] = useState({});
@@ -22,6 +22,7 @@ const StudentEdit = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("USE EFFECT RAN IN STUDENT EDIT")
     setStudentData(getLoggedUser());
   }, []);
 
@@ -39,7 +40,7 @@ const StudentEdit = () => {
 
     console.log(studentData);
 
-    saveStudentF(studentData)
+    saveStudent(studentData)
       .then((_) => {
         login(studentData)
           .then((_) => {

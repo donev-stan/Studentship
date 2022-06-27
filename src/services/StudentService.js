@@ -7,20 +7,27 @@ import {
 	doc,
 	deleteDoc,
 } from "firebase/firestore";
+import { setLocalStorageData } from "./AuthService";
 
 const studentsCollectionRef = collection(db, "students");
 
-export async function getAllStudentsF() {
+export async function getAllStudents() {
 	const students = (await getDocs(studentsCollectionRef)).docs.map((doc) => ({
 		...doc.data(),
 		id: doc.id,
 	}));
 
+	setLocalStorageData("students", students);
+
+	console.log("GET All Students - getAllStudents() function");
+	
 	return students;
 }
 
-export async function getStudentByIDF(id) {
-	const students = await getAllStudentsF();
+export async function getStudentByID(id) {
+	const students = await getAllStudents();
+
+	console.log("GET All Students - getStudentByID() function");
 
 	const student = students.find((student) => student.id === id);
 
@@ -30,7 +37,9 @@ export async function getStudentByIDF(id) {
 }
 
 async function checkForErrorsBeforeRegistering(studentData) {
-	const students = await getAllStudentsF();
+	const students = await getAllStudents();
+
+	console.log("GET All Students - checkForErrorsBeforeRegistering() function");
 
 	if (students.find((stu) => stu.email === studentData.email)) {
 		throw new Error(
@@ -53,7 +62,7 @@ async function checkForErrorsBeforeRegistering(studentData) {
 		throw new Error("Please select year at university!");
 }
 
-export async function registerStudentF(studentData) {
+export async function registerStudent(studentData) {
 	checkForErrorsBeforeRegistering(studentData);
 
 	studentData = {
@@ -74,11 +83,16 @@ export async function registerStudentF(studentData) {
 
 	delete studentData.repeatedPassword;
 
+
+	console.log("ADD Student - registerStudent() function");
+
 	return await addDoc(studentsCollectionRef, studentData);
 }
 
-export async function saveStudentF(studentData) {
-	const students = await getAllStudentsF();
+export async function saveStudent(studentData) {
+	const students = await getAllStudents();
+
+	console.log("GET All Students - saveStudent() function");
 
 	if (
 		students.find(
@@ -116,10 +130,12 @@ export async function saveStudentF(studentData) {
 
 	const studentDoc = doc(db, "students", studentData.id);
 
+	console.log("UPDATE Student - saveStudent() function");
+
 	return await updateDoc(studentDoc, studentData);
 }
 
-export async function deleteStudentF(studentID) {
+export async function deleteStudent(studentID) {
 	const studentDoc = doc(db, "students", studentID);
 
 	return await deleteDoc(studentDoc);
@@ -155,7 +171,7 @@ export async function bookmarkInternship(internshipID, studentData) {
 			...studentData,
 
 			bookmarks: studentData.bookmarks.splice(
-				studentData.bookmarks.indexOf(internshipID),
+				studentData.bookmarks.indexO(internshipID),
 				0
 			),
 		};
@@ -168,6 +184,8 @@ export async function bookmarkInternship(internshipID, studentData) {
 	}
 
 	const studentDoc = doc(db, "students", studentData.id);
+
+	console.log("UPDATE Student - bookmarkInternship() function");
 
 	return await updateDoc(studentDoc, studentData);
 }

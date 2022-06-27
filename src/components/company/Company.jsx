@@ -7,11 +7,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-import {
-	getCompanyByIDF,
-	getCompanyByPIC,
-	getCompanyByPICF,
-} from "../../services/CompanyService";
+import { getCompanyByID, getCompanyByPIC } from "../../services/CompanyService";
 import {
 	getInternshipsByCompanyID,
 	getOffersByCompanyID,
@@ -35,7 +31,7 @@ import InternshipCard from "../internship/InternshipCard";
 import CompanySubscribeCard from "./CompanySubscribeCard";
 
 import companyImg from "../../images/Company/company.png";
-import { getLoggedUser } from "../../services/AuthService";
+import { getLocalStorageData, getLoggedUser } from "../../services/AuthService";
 
 function a11yProps(index) {
 	return {
@@ -80,32 +76,64 @@ const Company = (props) => {
 	const { id } = useParams();
 
 	useEffect(() => {
-		if (id) {
-			getCompanyByIDF(id).then((company) => {
+		const companies = getLocalStorageData("companies");
+
+		if (!companies) {
+			console.log("Got company data from Firebase");
+			getCompanyByID(id).then((company) => {
 				setCompany(company);
 
-				const companyContacts = {
+				setCompanyContacts({
 					PIC: company.PIC,
 					address: company.address,
 					telephone: company.telephone,
 					websiteURL: company.websiteURL,
-				};
-				setCompanyContacts(companyContacts);
+				});
 
-				const companyInfo = {
+				setCompanyInfo({
 					founded: company.founded,
 					employees: company.employees,
 					locations: company.locations,
-				};
-				setCompanyInfo(companyInfo);
+				});
 
 				setError(false);
 			});
+		} else {
+			console.log("Got company data from Local Storage");
+			const company = companies.find((company) => company.id === id);
+
+			setCompany(company);
+
+			setCompanyContacts({
+				PIC: company.PIC,
+				address: company.address,
+				telephone: company.telephone,
+				websiteURL: company.websiteURL,
+			});
+
+			setCompanyInfo({
+				founded: company.founded,
+				employees: company.employees,
+				locations: company.locations,
+			});
+
+			setError(false);
 		}
 
-		getInternshipsByCompanyID(company.PIC).then((offers) => {
-			setOffers(offers);
-		});
+		const internships = getLocalStorageData("internships");
+		const companyInternships = internships?.filter(
+			(offer) => offer.companyID === company.PIC
+		);
+
+		if (!companyInternships) {
+			console.log("Got Internships from Firebase")
+			getInternshipsByCompanyID(company.PIC).then((offers) => {
+				setOffers(offers);
+			});
+		} else {
+			console.log("Got Internships from Local Storage")
+			setOffers(companyInternships);
+		}
 	}, [props.company, id, company.id]);
 
 	const [value, setValue] = useState(0);
@@ -165,10 +193,10 @@ const Company = (props) => {
 								<TabPanel
 									value={value}
 									index={0}
-									// onClick={window.scrollTo({
-									// 	top: document.body.scrollHeight,
-									// 	behavior: "smooth",
-									// })}
+									onClick={window.scrollTo({
+										// top: document.body.scrollHeight,
+										behavior: "smooth",
+									})}
 								>
 									<Row>
 										<Col lg={6}>

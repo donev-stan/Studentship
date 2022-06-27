@@ -4,6 +4,7 @@ import Card from "react-bootstrap/Card";
 
 import foundedImg from "../../images/Company/founded.png";
 import employeesImg from "../../images/Company/employees.png";
+import companyImg from "../../images/Company/company.png";
 
 
 const InternshipCompanyCard = ({ companyData }) => {
@@ -13,7 +14,7 @@ const InternshipCompanyCard = ({ companyData }) => {
       as={Link}
       to={`/companies/${companyData.id}`}
     >
-      <img src={companyData.picture} alt="Company Logo" />
+      <img src={companyData.picture === "default" ? companyImg : companyData.picture} alt="Company Logo" />
       <Card.Body>
         <Card.Title>{companyData.name}</Card.Title>
         <hr />

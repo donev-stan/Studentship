@@ -9,12 +9,12 @@ import Alert from "react-bootstrap/esm/Alert";
 import Form from "react-bootstrap/esm/Form";
 
 import Header from "../header/Header";
-import { getLoggedUser, login } from "../../services/AuthService";
 import {
-	getStudentByID,
-	getStudentByIDF,
-	yearWithWords,
-} from "../../services/StudentService";
+	getLocalStorageData,
+	getLoggedUser,
+	login,
+} from "../../services/AuthService";
+import { getStudentByID, yearWithWords } from "../../services/StudentService";
 
 import profileImg from "../../images/user.png";
 import bookmark from "../../images/Student/bookmark.png";
@@ -36,6 +36,7 @@ import { GrMapLocation } from "react-icons/gr";
 import { returnStackWithIcons } from "../../services/InternshipService";
 import { bookmarkStudent } from "../../services/CompanyService";
 import Loader from "../loader/Loader";
+
 // import { bookmarkStudent } from "../../services/CompanyService";
 
 const Student = (props) => {
@@ -93,30 +94,33 @@ const Student = (props) => {
 	} = student;
 
 	useEffect(() => {
-		if (id) {
-			getStudentByIDF(id)
+		const students = getLocalStorageData("students");
+		const studentStorage = students.find((stu) => stu.id === id);
+
+		if (!studentStorage) {
+			console.log("Got Student from Firebase");
+			getStudentByID(id)
 				.then((student) => {
 					setStudent(student);
 					setError(false);
 				})
 				.catch((error) => setError(error.message));
 		} else {
-			setStudent(props?.student);
+			console.log("Got Student from Local Storage");
+			setStudent(studentStorage);
 			setError(false);
 		}
-	}, [props.student, id]);
 
-	useEffect(() => {
-		const user = getLoggedUser();
-		if (user.type === "company") {
-			setCompany(user);
+		const loggedUser = getLoggedUser();
+		if (loggedUser.type === "company") {
+			setCompany(loggedUser);
 			setIsCompanyViewer(true);
 
-			if (user.bookmarks.find((bookmarkID) => bookmarkID === id)) {
+			if (loggedUser.bookmarks.find((bookmarkID) => bookmarkID === id)) {
 				setBookmarked(true);
 			}
 		}
-	}, []);
+	}, [props.student, id]);
 
 	function onFormSubmit(e) {
 		e.preventDefault();

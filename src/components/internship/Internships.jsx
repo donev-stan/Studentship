@@ -9,6 +9,7 @@ import InternshipCard from "./InternshipCard";
 import { getAllInternships } from "../../services/InternshipService";
 import InternshipFilter from "../filter/InternshipFilter";
 import Loader from "../loader/Loader";
+import { getLocalStorageData } from "../../services/AuthService";
 
 const Internships = () => {
 	const [internships, setInternships] = useState([]);
@@ -18,10 +19,18 @@ const Internships = () => {
 	const [stack, setStack] = useState([]);
 
 	useEffect(() => {
-		getAllInternships().then((offers) => {
+		const offers = getLocalStorageData("internships");
+
+		if (!offers) {
+			console.log("Got Internships from Firebase");
+			getAllInternships().then((offers) => {
+				setInternships(offers);
+			});
+		} else {
+			console.log("Got Internships from Local Storage");
 			setInternships(offers);
-		});
-	}, [cities, keywords, stack, internships]);
+		}
+	}, []);
 
 	return (
 		<>
@@ -34,9 +43,9 @@ const Internships = () => {
 			<Container className="my-4">
 				<Row className="text-center">
 					{internships.length !== 0 ? (
-						internships.map((offer) => (
+						internships.map((offer, index) => (
 							<Col lg={6}>
-								<InternshipCard offer={offer} key={offer.id} />
+								<InternshipCard key={index} offer={offer} />
 							</Col>
 						))
 					) : (

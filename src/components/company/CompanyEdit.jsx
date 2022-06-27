@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { getCompanyByID, saveCompany } from "../../services/CompanyService";
 import {
-	getCompanyByIDF,
-	getCompanyByPICF,
-	saveCompany,
-	saveCompanyF,
-} from "../../services/CompanyService";
-import { login } from "../../services/AuthService";
+	getLocalStorageData,
+	getLoggedUser,
+	login,
+} from "../../services/AuthService";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -27,9 +26,25 @@ const CompanyEdit = () => {
 	const { id } = useParams();
 
 	useEffect(() => {
-		getCompanyByIDF(id).then((company) => {
-			setCompanyData(company);
-		});
+		
+		const user = getLoggedUser();
+		if (user?.type !== "company") setRedirect(true);
+		setCompanyData(user);
+
+		/*		
+		const companies = getLocalStorageData("companies");
+
+		if (!companies) {
+			console.log("Got company data from Firebase");
+			getCompanyByID(id).then((company) => {
+				setCompanyData(company);
+			});
+		} else {
+			console.log("Got company data from Local Storage");
+			const company = companies.find((company) => company.id === id);
+			if (company) setCompanyData(company);
+		}
+		*/
 	}, [id]);
 
 	const onInputChange = (event) => {
@@ -44,9 +59,12 @@ const CompanyEdit = () => {
 	const onFormSubmit = (event) => {
 		event.preventDefault();
 
-		saveCompanyF(companyData)
+		saveCompany(companyData)
 			.then((_) => {
 				login(companyData).then((_) => {
+					console.log(
+						"Login ran from Company Edit to UPDATE Local Storage"
+					);
 					setRedirect(true);
 				});
 			})

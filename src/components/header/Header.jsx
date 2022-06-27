@@ -8,9 +8,9 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-import { getLoggedUser, logout } from "../../services/AuthService";
-import { deleteStudentF } from "../../services/StudentService";
-import { deleteCompanyF } from "../../services/CompanyService";
+import { getLocalStorageData, logout } from "../../services/AuthService";
+import { deleteStudent } from "../../services/StudentService";
+import { deleteCompany } from "../../services/CompanyService";
 
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
@@ -112,7 +112,8 @@ const Header = () => {
 	};
 
 	useEffect(() => {
-		setUser(getLoggedUser());
+		const user = getLocalStorageData("loggedUser");
+		setUser(user);
 	}, []);
 
 	const userLogout = (e) => {
@@ -124,12 +125,12 @@ const Header = () => {
 	const userDelete = () => {
 		handleCloseUserMenu();
 		if (user.type === "student") {
-			deleteStudentF(user.id).then((_) => {
+			deleteStudent(user.id).then((_) => {
 				logout();
 				setRedirect(true);
 			});
 		} else if (user.type === "company") {
-			deleteCompanyF(user.id).then((_) => {
+			deleteCompany(user.id).then((_) => {
 				logout();
 				setRedirect(true);
 			});
@@ -237,7 +238,7 @@ const Header = () => {
 								)}
 							</Nav>
 							{user && (
-								<>
+								<div>
 									{/*                 
 									<Nav>
 										<NavDropdown
@@ -375,7 +376,7 @@ const Header = () => {
 											</Link>
 
 											{user.type === "company" && (
-												<>
+												<div>
 													<Link
 														to="/internships/create"
 														className="decorationNone black"
@@ -405,7 +406,7 @@ const Header = () => {
 															My Internships
 														</MenuItem>
 													</Link>
-												</>
+												</div>
 											)}
 
 											<Link
@@ -481,7 +482,7 @@ const Header = () => {
 											</MenuItem>
 										</StyledMenu>
 									</Box>
-								</>
+								</div>
 							)}
 						</Navbar.Collapse>
 					</Container>

@@ -14,8 +14,8 @@ const Profile = () => {
 
   return (
     <>
-      {user && user?.type === "student" && <Student student={user} />}
-      {user && user?.type === "company" && <Company company={user} />}
+      {user && user?.type === "student" && <Student student={user} key={user.id} />}
+      {user && user?.type === "company" && <Company company={user} key={user.id} />}
     </>
   );
 };

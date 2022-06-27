@@ -12,7 +12,7 @@ import Button from "react-bootstrap/Button";
 import { getLoggedUser, login } from "../../../services/AuthService";
 import { saveStudent } from "../../../services/StudentService";
 
-import { registerStudentF } from "../../../services/StudentService";
+import { registerStudent } from "../../../services/StudentService";
 
 const RegisterStudent = () => {
 	const [studentData, setStudentData] = useState({});
@@ -39,7 +39,7 @@ const RegisterStudent = () => {
 	const onFormSubmit = (event) => {
 		event.preventDefault();
 
-		registerStudentF(studentData)
+		registerStudent(studentData)
 			.then((_) => {
 				login(studentData)
 					.then((_) => {

@@ -6,7 +6,6 @@ import Header from "../header/Header";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-// import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/esm/Form";
 import Alert from "react-bootstrap/Alert";
@@ -25,8 +24,12 @@ import {
 	returnReadableDate,
 	returnStackWithIcons,
 } from "../../services/InternshipService";
-import { getCompanyByPICF } from "../../services/CompanyService";
-import { getLoggedUser, login } from "../../services/AuthService";
+import { getCompanyByPIC } from "../../services/CompanyService";
+import {
+	getLocalStorageData,
+	getLoggedUser,
+	login,
+} from "../../services/AuthService";
 import { bookmarkInternship } from "../../services/StudentService";
 
 import { BsBookmarks, BsFillBookmarksFill } from "react-icons/bs";
@@ -64,28 +67,60 @@ const Internship = () => {
 	const handleShow = () => setShowModal(true);
 
 	useEffect(() => {
-		getInternshipByID(id)
-			.then((offer) => {
-				//Check if owner
-				if (getLoggedUser()) {
-					if (getLoggedUser()?.PIC === offer.companyID)
-						setIsOwner(true);
-				}
+		const internships = getLocalStorageData("internships");
+		const loggedUser = getLocalStorageData("loggedUser");
 
-				// Set Offer Data
-				setOffer(offer);
-				// Set Offer Options Data
-				setOfferOptions(offer.options);
+		if (!internships) {
+			console.log("Got Internship from Firebase");
+			getInternshipByID(id)
+				.then((offer) => {
+					//Check if owner
+					if (loggedUser) {
+						if (loggedUser?.PIC === offer?.companyID)
+							setIsOwner(true);
+					}
 
-				//Set Company Data
-				getCompanyByPICF(offer.companyID).then((companyData) => {
-					setCompany(companyData);
-				});
-			})
-			.catch((error) => setError(error.message));
+					// Set Offer Data
+					setOffer(offer);
 
-		const user = getLoggedUser();
-		if (user && user.bookmarks.find((bookmarkID) => bookmarkID === id)) {
+					// Set Offer Options Data
+					setOfferOptions(offer.options);
+
+					//Set Company Data
+					const companies = getLocalStorageData("companies");
+					const company = companies.find(
+						(company) => company.PIC === offer.companyID
+					);
+					setCompany(company);
+				})
+				.catch((error) => setError(error.message));
+		} else {
+			console.log("Got Internship from Local Storage");
+			const internship = internships.find((offer) => offer.id === id);
+
+			//Check if owner
+			if (loggedUser) {
+				if (loggedUser?.PIC === internship?.companyID) setIsOwner(true);
+			}
+
+			// Set Offer Data
+			setOffer(internship);
+
+			// Set Offer Options Data
+			setOfferOptions(internship.options);
+
+			//Set Company Data
+			const companies = getLocalStorageData("companies");
+			const company = companies.find(
+				(company) => company.PIC === internship.companyID
+			);
+			setCompany(company);
+		}
+
+		if (
+			loggedUser &&
+			loggedUser.bookmarks.find((bookmarkID) => bookmarkID === id)
+		) {
 			setBookmarked(true);
 		}
 	}, [id]);
@@ -107,7 +142,6 @@ const Internship = () => {
 	}
 
 	return (
-
 		<>
 			{redirect && <Navigate to={"/company/jobs"} />}
 

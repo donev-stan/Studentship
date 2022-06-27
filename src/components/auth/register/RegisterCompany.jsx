@@ -10,7 +10,7 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 
 import { getLoggedUser, login } from "../../../services/AuthService";
-import { registerCompanyF } from "../../../services/CompanyService";
+import { registerCompany } from "../../../services/CompanyService";
 
 const RegisterCompany = () => {
 	const [companyData, setCompanyData] = useState({});
@@ -35,7 +35,7 @@ const RegisterCompany = () => {
 	const onFormSubmit = (event) => {
 		event.preventDefault();
 
-		registerCompanyF(companyData)
+		registerCompany(companyData)
 			.then((_) => {
 				login(companyData).then((_) => {
 					setRedirect(true);

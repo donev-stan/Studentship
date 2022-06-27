@@ -9,7 +9,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
-import { createInternship, saveOffer } from "../../services/InternshipService";
+import { createInternship, getAllInternships, saveOffer } from "../../services/InternshipService";
 import { getLoggedUser } from "../../services/AuthService";
 
 const InternshipCreate = () => {
@@ -37,6 +37,7 @@ const InternshipCreate = () => {
 
     createInternship(internshipData)
       .then((_) => {
+        localStorage.removeItem("internships"); // In order to get latest internship data from the firebase
         setRedirect(true);
       })
       .catch((error) => {
