@@ -17,10 +17,10 @@ export async function getAllStudents() {
 		id: doc.id,
 	}));
 
-	setLocalStorageData("students", students);
+	// setLocalStorageData("students", students);
 
 	console.log("GET All Students - getAllStudents() function");
-	
+
 	return students;
 }
 
@@ -39,7 +39,9 @@ export async function getStudentByID(id) {
 async function checkForErrorsBeforeRegistering(studentData) {
 	const students = await getAllStudents();
 
-	console.log("GET All Students - checkForErrorsBeforeRegistering() function");
+	console.log(
+		"GET All Students - checkForErrorsBeforeRegistering() function"
+	);
 
 	if (students.find((stu) => stu.email === studentData.email)) {
 		throw new Error(
@@ -82,7 +84,6 @@ export async function registerStudent(studentData) {
 	};
 
 	delete studentData.repeatedPassword;
-
 
 	console.log("ADD Student - registerStudent() function");
 
@@ -164,14 +165,13 @@ export const yearWithWords = (year) => {
 };
 
 export async function bookmarkInternship(internshipID, studentData) {
-
 	// if you find such student id then remove it else add it
 	if (studentData.bookmarks.find((id) => id === internshipID)) {
 		studentData = {
 			...studentData,
 
 			bookmarks: studentData.bookmarks.splice(
-				studentData.bookmarks.indexO(internshipID),
+				studentData.bookmarks.indexOf(internshipID),
 				0
 			),
 		};

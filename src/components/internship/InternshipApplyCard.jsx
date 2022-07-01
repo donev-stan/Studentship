@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -8,6 +8,9 @@ import Form from "react-bootstrap/Form";
 
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 import applyImg from "../../images/Internship/apply.png";
 import { getLoggedUser } from "../../services/AuthService";
@@ -16,13 +19,50 @@ import { Navigate } from "react-router-dom";
 const InternshipApplyCard = () => {
 	const [showModal, setShowModal] = useState(false);
 	const [redirect, setRedirect] = useState(false);
+	const [uploadedCV, setUploadedCV] = useState(false);
 
-	const handleClose = () => setShowModal(false);
+	const handleClose = () => {
+		setShowModal(false);
+		if (uploadedCV) {
+			handleClick();
+		}
+	};
+
 	const handleShow = () => {
 		if (getLoggedUser()) {
 			if (getLoggedUser().type === "student") setShowModal(true);
 		} else setRedirect(true);
 	};
+
+	const [open, setOpen] = React.useState(false);
+
+	const handleClick = () => {
+		setOpen(true);
+	};
+
+	const handleSnackClose = (event, reason) => {
+		if (reason === "clickaway") {
+			return;
+		}
+
+		setOpen(false);
+	};
+
+	const action = (
+		<React.Fragment>
+			<Button color="secondary" size="small" onClick={handleClose}>
+				UNDO
+			</Button>
+			<IconButton
+				size="small"
+				aria-label="close"
+				color="inherit"
+				onClick={handleClose}
+			>
+				<CloseIcon fontSize="small" />
+			</IconButton>
+		</React.Fragment>
+	);
 
 	return (
 		<>
@@ -43,7 +83,10 @@ const InternshipApplyCard = () => {
 						{/* Upload CV */}
 						<Form.Group controlId="formFile" className="mb-4">
 							<Form.Label>Upload CV</Form.Label>
-							<Form.Control type="file" />
+							<Form.Control
+								type="file"
+								onChange={() => setUploadedCV(true)}
+							/>
 						</Form.Group>
 
 						{/* Message */}
@@ -58,14 +101,26 @@ const InternshipApplyCard = () => {
 
 						{/* Apply Btn */}
 						<Col className="text-center">
-							<Button
-								variant="contained"
-								endIcon={<SendIcon />}
-								onClick={handleClose}
-								size="large"
-							>
-								Apply
-							</Button>
+							{uploadedCV ? (
+								<Button
+									variant="contained"
+									endIcon={<SendIcon />}
+									onClick={handleClose}
+									size="large"
+								>
+									Apply
+								</Button>
+							) : (
+								<Button
+									variant="contained"
+									endIcon={<SendIcon />}
+									onClick={handleClose}
+									size="large"
+									disabled
+								>
+									Apply
+								</Button>
+							)}
 						</Col>
 					</Form>
 				</Modal.Body>
@@ -86,6 +141,14 @@ const InternshipApplyCard = () => {
 					</Row>
 				</Card.Body>
 			</Card>
+
+			<Snackbar
+				open={open}
+				autoHideDuration={2500}
+				onClose={handleSnackClose}
+				message="Sending..."
+				action={action}
+			/>
 		</>
 	);
 };

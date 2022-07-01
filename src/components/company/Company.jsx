@@ -7,15 +7,15 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-import { getCompanyByID, getCompanyByPIC } from "../../services/CompanyService";
+import { getCompanyByID } from "../../services/CompanyService";
 import {
-	getInternshipsByCompanyID,
-	getOffersByCompanyID,
+	getInternshipsByCompanyID
 } from "../../services/InternshipService";
 
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
+import Zoom from "@mui/material/Zoom";
 
 import Header from "../header/Header";
 import CompanyInfoCard from "./CompanyInfoCard";
@@ -126,12 +126,12 @@ const Company = (props) => {
 		);
 
 		if (!companyInternships) {
-			console.log("Got Internships from Firebase")
+			console.log("Got Internships from Firebase");
 			getInternshipsByCompanyID(company.PIC).then((offers) => {
 				setOffers(offers);
 			});
 		} else {
-			console.log("Got Internships from Local Storage")
+			console.log("Got Internships from Local Storage");
 			setOffers(companyInternships);
 		}
 	}, [props.company, id, company.id]);
@@ -226,9 +226,18 @@ const Company = (props) => {
 											{offers.length !== 0 ? (
 												offers.map((offer) => (
 													<>
-														<h4>
-															Internships Offered:
-														</h4>
+														<Zoom
+															in={true}
+															style={{
+																transitionDelay:
+																	"10ms",
+															}}
+														>
+															<h4>
+																Internships
+																Offered:
+															</h4>
+														</Zoom>
 														<InternshipCard
 															key={offer.id}
 															offer={offer}
@@ -270,7 +279,9 @@ const Company = (props) => {
 											{!error &&
 												getLoggedUser()?.type !==
 													"company" && (
-													<CompanySubscribeCard />
+													<CompanySubscribeCard
+														noZoom={true}
+													/>
 												)}
 
 											{offers.length !== 0 ? (
@@ -282,6 +293,7 @@ const Company = (props) => {
 														<InternshipCard
 															key={offer.id}
 															offer={offer}
+															noZoom={true}
 														/>
 													</>
 												))
@@ -324,7 +336,9 @@ const Company = (props) => {
 												"undefined" &&
 												getLoggedUser()?.type !==
 													"company" && (
-													<CompanySubscribeCard />
+													<CompanySubscribeCard
+														noZoom={true}
+													/>
 												)}
 
 											{offers.length !== 0 ? (
@@ -336,6 +350,7 @@ const Company = (props) => {
 														<InternshipCard
 															key={offer.id}
 															offer={offer}
+															noZoom={true}
 														/>
 													</>
 												))

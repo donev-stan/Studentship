@@ -29,8 +29,8 @@ const Students = () => {
 			<Header />
 			<Container className="my-2">
 				<Row className="text-center">
-					{students.map((student) => (
-						<StudentCard key={student.id} student={student} />
+					{students.map((student, index) => (
+						<StudentCard key={student.id} student={student} delay={index * 100} />
 					))}
 				</Row>
 			</Container>

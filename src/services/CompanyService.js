@@ -20,7 +20,7 @@ export async function getAllCompanies() {
 
 	console.log("GET All Companies - getAllCompanies() function");
 
-	localStorage.setItem("companies", JSON.stringify(companies));
+	// localStorage.setItem("companies", JSON.stringify(companies));
 
 	return companies;
 }

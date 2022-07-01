@@ -1,4 +1,5 @@
 import Card from "react-bootstrap/Card";
+import Zoom from "@mui/material/Zoom";
 
 import foundedImg from "../../images/Company/founded.png";
 import employeesImg from "../../images/Company/employees.png";
@@ -6,6 +7,7 @@ import locationImg from "../../images/Company/location.png";
 
 const CompanyInfoCard = ({ info }) => {
   return (
+		<Zoom in={true} style={{ transitionDelay: "0ms" }}>
     <Card className="pt-4 mt-3 shadowItem borderRadius">
       <Card.Title>Company Info</Card.Title>
       <hr className="m-3" />
@@ -27,6 +29,7 @@ const CompanyInfoCard = ({ info }) => {
         </Card.Text>
       </Card.Body>
     </Card>
+    </Zoom>
   );
 };
 

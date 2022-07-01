@@ -30,11 +30,12 @@ const Companies = () => {
 	return (
 		<>
 			<Header />
+
 			<Container className="my-4">
 				<Row className="">
 					{companies.length !== 0 ? (
-						companies.map((company) => (
-							<CompanyCard company={company} key={company.id} />
+						companies.map((company, index) => (
+							<CompanyCard company={company} key={company.id} delay={index * 100} />
 						))
 					) : (
 						<Loader />

@@ -8,9 +8,6 @@ export async function login(userData) {
 	console.log("GET All Companies - login function");
 	console.log("GET All Students - login function");
 
-	setLocalStorageData("companies", companies);
-	setLocalStorageData("students", students);
-
 	const loggedUserAsCompany = companies.find(
 		(c) =>
 			c.email === userData.email &&
@@ -23,12 +20,17 @@ export async function login(userData) {
 			s.password === userData.password.toString()
 	);
 
-	if (loggedUserAsCompany)
-		return setLocalStorageData("loggedUser", loggedUserAsCompany);
-	else if (loggetUserAsStudent)
-		return setLocalStorageData("loggedUser", loggetUserAsStudent);
+	if (loggedUserAsCompany) setLocalStorageData("loggedUser", loggedUserAsCompany);
+	else if (loggetUserAsStudent) setLocalStorageData("loggedUser", loggetUserAsStudent);
+	else throw new Error("Invalid email or password");
 
-	throw new Error("Invalid email or password");
+	companies.map((company) => delete company.password);
+	students.map((student) => delete student.password);
+
+	setLocalStorageData("companies", companies);
+	setLocalStorageData("students", students);
+
+	return;
 }
 
 export function logout() {

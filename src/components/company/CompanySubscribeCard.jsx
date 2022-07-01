@@ -5,9 +5,11 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 
+import Zoom from "@mui/material/Zoom";
+
 import emailImg from "../../images/Company/email.png";
 
-const CompanySubscribeCard = () => {
+const CompanySubscribeCard = ({ noZoom }) => {
 	const [showModal, setShowModal] = useState(false);
 
 	const handleClose = () => setShowModal(false);
@@ -42,15 +44,29 @@ const CompanySubscribeCard = () => {
 				</Modal.Body>
 			</Modal>
 
-			<Card
-				className="shadowItem mt-3 mb-4 borderRadius transformItem pointer"
-				onClick={handleShow}
-			>
-				<Card.Body>
-					<img src={emailImg} alt="" width={"80px"} />
-					<h5>Subscribe so you don't miss any new offers</h5>
-				</Card.Body>
-			</Card>
+			{noZoom ? (
+				<Card
+					className="shadowItem mt-3 mb-4 borderRadius transformItem pointer"
+					onClick={handleShow}
+				>
+					<Card.Body>
+						<img src={emailImg} alt="" width={"80px"} />
+						<h5>Subscribe so you don't miss any new offers</h5>
+					</Card.Body>
+				</Card>
+			) : (
+				<Zoom in={true} style={{ transitionDelay: "10ms" }}>
+					<Card
+						className="shadowItem mt-3 mb-4 borderRadius transformItem pointer"
+						onClick={handleShow}
+					>
+						<Card.Body>
+							<img src={emailImg} alt="" width={"80px"} />
+							<h5>Subscribe so you don't miss any new offers</h5>
+						</Card.Body>
+					</Card>
+				</Zoom>
+			)}
 		</>
 	);
 };

@@ -7,30 +7,69 @@ import { returnStackWithIcons } from "../../services/InternshipService";
 
 import "../GlobalStyles.css";
 
-const InternshipCard = ({ offer }) => {
-	return (
-		<Card
-			className="text-center my-3 shadowItem pointer transformItem decorationNone black"
-			as={Link}
-			to={`/internships/${offer.id}`}
-		>
-			<Card.Header className="black">{offer.officeLocation}</Card.Header>
-			<Card.Body>
-				<Card.Title>{offer.title}</Card.Title>
-				<Card.Text className="mt-3 black">
-					{offer?.technologies?.map((tech) =>
-						returnStackWithIcons(tech)
-					)}
-				</Card.Text>
-			</Card.Body>
-			<Card.Footer className="text-muted">
-				{/* {returnReadableDate(offer.lastUpdate)} */}
-				{offer.lastUpdate.toString()}
-	
-				{console.log(offer.lastUpdate)}
+import Zoom from "@mui/material/Zoom";
 
-			</Card.Footer>
-		</Card>
+const InternshipCard = ({ offer, noZoom }) => {
+	return (
+		<>
+			{noZoom ? (
+				<>
+					{" "}
+					<Card
+						className="text-center my-3 shadowItem pointer transformItem decorationNone black"
+						as={Link}
+						to={`/internships/${offer.id}`}
+					>
+						<Card.Header className="black">
+							{offer.officeLocation}
+						</Card.Header>
+						<Card.Body>
+							<Card.Title>{offer.title}</Card.Title>
+							<Card.Text className="mt-3 black">
+								{offer?.technologies?.map((tech) =>
+									returnStackWithIcons(tech)
+								)}
+							</Card.Text>
+						</Card.Body>
+						<Card.Footer className="text-muted">
+							{/* {returnReadableDate(offer.lastUpdate)} */}
+							{offer.lastUpdate.toString()}
+
+							{console.log(offer.lastUpdate)}
+						</Card.Footer>
+					</Card>
+				</>
+			) : (
+				<>
+					{" "}
+					<Zoom in={true} style={{ transitionDelay: "0ms" }}>
+						<Card
+							className="text-center my-3 shadowItem pointer transformItem decorationNone black"
+							as={Link}
+							to={`/internships/${offer.id}`}
+						>
+							<Card.Header className="black">
+								{offer.officeLocation}
+							</Card.Header>
+							<Card.Body>
+								<Card.Title>{offer.title}</Card.Title>
+								<Card.Text className="mt-3 black">
+									{offer?.technologies?.map((tech) =>
+										returnStackWithIcons(tech)
+									)}
+								</Card.Text>
+							</Card.Body>
+							<Card.Footer className="text-muted">
+								{/* {returnReadableDate(offer.lastUpdate)} */}
+								{offer.lastUpdate.toString()}
+
+								{console.log(offer.lastUpdate)}
+							</Card.Footer>
+						</Card>
+					</Zoom>
+				</>
+			)}
+		</>
 	);
 };
 

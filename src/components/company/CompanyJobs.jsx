@@ -9,9 +9,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import { getLocalStorageData, getLoggedUser } from "../../services/AuthService";
-import {
-	getInternshipsByCompanyID
-} from "../../services/InternshipService";
+import { getInternshipsByCompanyID } from "../../services/InternshipService";
 import Loader from "../loader/Loader";
 
 const CompanyJobs = () => {
@@ -51,7 +49,11 @@ const CompanyJobs = () => {
 					{offers[0] !== "load" ? (
 						offers.map((offer) => (
 							<Col lg={6}>
-								<InternshipCard offer={offer} key={offer.id} />
+								<InternshipCard
+									offer={offer}
+									key={offer.id}
+									zoom={false}
+								/>
 							</Col>
 						))
 					) : (
