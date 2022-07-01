@@ -4,6 +4,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+import Typography from "@mui/material/Typography";
+
 import Header from "../header/Header";
 import InternshipCard from "./InternshipCard";
 import { getAllInternships } from "../../services/InternshipService";
@@ -13,27 +15,32 @@ import { getLocalStorageData } from "../../services/AuthService";
 
 const Internships = () => {
 	const [internships, setInternships] = useState([]);
+	const [noFound, setNoFound] = useState(false);
 
-	const [cities, setCities] = useState([]);
 	const [options, setOptions] = useState([]);
-
-	// const [keywords, setKeywords] = useState([]);
-	// const [stack, setStack] = useState([]);
-
+	const [stack, setStack] = useState([]);
+	const [cities, setCities] = useState([]);
 
 	useEffect(() => {
-		const offers = getLocalStorageData("internships");
-
+		let offers = getLocalStorageData("internships");
 
 		if (options.length !== 0) {
-			const offersAsArray = Object.entries(offers);
-
-			const filtered = offersAsArray.filter(([key, value]) => value === true)
-
-			console.log(filtered)
+			// Filter offers
 		}
 
-		console.log(offers);
+		if (cities.length !== 0) {
+			offers = offers.filter((offer) =>
+				cities.includes(offer.officeLocation)
+			);
+		}
+
+		if (stack.length !== 0) {
+			offers = offers.filter((offer) => {
+				return offer.technologies.some((loc) => stack.includes(loc));
+			});
+		}
+
+		offers.length === 0 ? setNoFound(true) : setNoFound(false);
 
 		if (!offers) {
 			console.log("Got Internships from Firebase");
@@ -44,27 +51,33 @@ const Internships = () => {
 			console.log("Got Internships from Local Storage");
 			setInternships(offers);
 		}
-	}, [cities, options]);
+	}, [options, stack, cities]);
 
 	return (
 		<>
 			<Header />
 			<InternshipFilter
-				setCities={setCities}
 				setOptions={setOptions}
-				// setKeywords={setKeywords}
-				// setStack={setStack}
+				setStack={setStack}
+				setCities={setCities}
 			/>
 			<Container className="my-4">
 				<Row className="text-center">
-					{internships.length !== 0 ? (
-						internships.map((offer, index) => (
-							<Col lg={6}>
-								<InternshipCard key={index} offer={offer} />
-							</Col>
-						))
+					{!noFound ? (
+						internships.length !== 0 ? (
+							internships.map((offer, index) => (
+								<Col lg={6}>
+									<InternshipCard key={index} offer={offer} />
+								</Col>
+							))
+						) : (
+							<Loader />
+						)
 					) : (
-						<Loader />
+						<Typography variant="h5">
+							{" "}
+							No Internships Matched Your Search Criteria!{" "}
+						</Typography>
 					)}
 				</Row>
 			</Container>

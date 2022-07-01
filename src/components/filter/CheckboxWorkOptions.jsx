@@ -16,7 +16,7 @@ export default function CheckboxesTags({ setOptions }) {
 			style={{ backgroundColor: "white" }}
 			multiple
 			id="checkboxes-tags-demo"
-			options={jobOptios}
+			options={jobOptions}
 			disableCloseOnSelect
 			renderOption={(props, option, { selected }) => (
 				<li {...props}>
@@ -36,9 +36,13 @@ export default function CheckboxesTags({ setOptions }) {
 	);
 }
 
-const jobOptios = [
+const jobOptions = [
 	"Flexible Time",
 	"Freelance Project",
 	"Full Time",
 	"Part Time",
+	"Home Office",
+	"Permanent",
+	"Temporary",
+	"Remote Interview",
 ];

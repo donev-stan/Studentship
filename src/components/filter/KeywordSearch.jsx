@@ -4,17 +4,15 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
 
-import Grow from "@mui/material/Grow";
-
-const KeywordSearch = () => {
+const KeywordSearch = ({ setStack }) => {
 	return (
 		<Autocomplete
+			onChange={(event, value) => setStack(value)}
 			style={{ backgroundColor: "white" }}
 			multiple
 			id="tags-outlined"
 			freeSolo
-			options={[]}
-			getOptionLabel={(option) => option.title}
+			options={stack}
 			renderTags={(value, getTagProps) =>
 				value.map((option, index) => (
 					<Chip
@@ -25,9 +23,37 @@ const KeywordSearch = () => {
 					/>
 				))
 			}
-			renderInput={(params) => <TextField {...params} label="Keywords" />}
+			renderInput={(params) => (
+				<TextField {...params} label="Technologies" />
+			)}
 		/>
 	);
 };
 
 export default KeywordSearch;
+
+const stack = [
+	"JavaScript",
+	"Node.js",
+	"React",
+	"React Native",
+	"Angular",
+	"Vue.js",
+	"Azure",
+	"Java",
+	"PostgreSQL",
+	"Python",
+	"Linux",
+	"C",
+	"C++",
+	"SQL",
+	"Excel",
+	".NET",
+	"AWS",
+	"HTML/CSS",
+	"jQuery",
+	"TypeScript",
+	"RabbitMQ",
+	"C#",
+	"Windows",
+];

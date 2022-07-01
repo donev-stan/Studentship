@@ -7,7 +7,7 @@ import CheckboxesTags from "./CheckboxWorkOptions";
 import KeywordSearch from "./KeywordSearch";
 import TownSearch from "./TownSearch";
 
-const InternshipFilter = ({ setCities, setOptions }) => {
+const InternshipFilter = ({ setOptions, setStack, setCities }) => {
 	return (
 		<Container style={containerStyles} className="mt-3 p-4 text-center">
 			<Row>
@@ -15,7 +15,7 @@ const InternshipFilter = ({ setCities, setOptions }) => {
 					<CheckboxesTags setOptions={setOptions} />
 				</Col>
 				<Col lg={4}>
-					<KeywordSearch />
+					<KeywordSearch  setStack={setStack}/>
 				</Col>
 				<Col lg={4}>
 					<TownSearch setCities={setCities} />
