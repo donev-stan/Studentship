@@ -7,21 +7,20 @@ import CheckboxesTags from "./CheckboxWorkOptions";
 import KeywordSearch from "./KeywordSearch";
 import TownSearch from "./TownSearch";
 
-
-const InternshipFilter = ({ setCities, setKeywords, setStack }) => {
+const InternshipFilter = ({ setCities, setOptions }) => {
 	return (
 		<Container style={containerStyles} className="mt-3 p-4 text-center">
-				<Row>
-					<Col lg={4}>
-						<CheckboxesTags />
-					</Col>
-					<Col lg={4}>
-						<KeywordSearch />
-					</Col>
-					<Col lg={4}>
-						<TownSearch />
-					</Col>
-				</Row>
+			<Row>
+				<Col lg={4}>
+					<CheckboxesTags setOptions={setOptions} />
+				</Col>
+				<Col lg={4}>
+					<KeywordSearch />
+				</Col>
+				<Col lg={4}>
+					<TownSearch setCities={setCities} />
+				</Col>
+			</Row>
 		</Container>
 	);
 };

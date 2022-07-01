@@ -34,8 +34,6 @@ const InternshipCard = ({ offer, noZoom }) => {
 						<Card.Footer className="text-muted">
 							{/* {returnReadableDate(offer.lastUpdate)} */}
 							{offer.lastUpdate.toString()}
-
-							{console.log(offer.lastUpdate)}
 						</Card.Footer>
 					</Card>
 				</>
@@ -62,8 +60,6 @@ const InternshipCard = ({ offer, noZoom }) => {
 							<Card.Footer className="text-muted">
 								{/* {returnReadableDate(offer.lastUpdate)} */}
 								{offer.lastUpdate.toString()}
-
-								{console.log(offer.lastUpdate)}
 							</Card.Footer>
 						</Card>
 					</Zoom>

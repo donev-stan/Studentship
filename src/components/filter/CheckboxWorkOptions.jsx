@@ -8,15 +8,16 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-export default function CheckboxesTags() {
+export default function CheckboxesTags({ setOptions }) {
+
 	return (
 		<Autocomplete
+			onChange={(event, value) => setOptions(value)}
 			style={{ backgroundColor: "white" }}
 			multiple
 			id="checkboxes-tags-demo"
-			options={jobOptions}
+			options={jobOptios}
 			disableCloseOnSelect
-			getOptionLabel={(option) => option.title}
 			renderOption={(props, option, { selected }) => (
 				<li {...props}>
 					<Checkbox
@@ -25,7 +26,7 @@ export default function CheckboxesTags() {
 						style={{ marginRight: 8 }}
 						checked={selected}
 					/>
-					{option.title}
+					{option}
 				</li>
 			)}
 			renderInput={(params) => (
@@ -35,13 +36,9 @@ export default function CheckboxesTags() {
 	);
 }
 
-const jobOptions = [
-	{ title: "Flexible Time" },
-	{ title: "Freelance Project" },
-	{ title: "Full Time" },
-	{ title: "Part Time" },
-	{ title: "Home Office" },
-	{ title: "Permanent" },
-	{ title: "Temporary" },
-	{ title: "Remote Interview" },
+const jobOptios = [
+	"Flexible Time",
+	"Freelance Project",
+	"Full Time",
+	"Part Time",
 ];

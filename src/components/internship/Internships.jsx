@@ -15,11 +15,25 @@ const Internships = () => {
 	const [internships, setInternships] = useState([]);
 
 	const [cities, setCities] = useState([]);
-	const [keywords, setKeywords] = useState([]);
-	const [stack, setStack] = useState([]);
+	const [options, setOptions] = useState([]);
+
+	// const [keywords, setKeywords] = useState([]);
+	// const [stack, setStack] = useState([]);
+
 
 	useEffect(() => {
 		const offers = getLocalStorageData("internships");
+
+
+		if (options.length !== 0) {
+			const offersAsArray = Object.entries(offers);
+
+			const filtered = offersAsArray.filter(([key, value]) => value === true)
+
+			console.log(filtered)
+		}
+
+		console.log(offers);
 
 		if (!offers) {
 			console.log("Got Internships from Firebase");
@@ -30,15 +44,16 @@ const Internships = () => {
 			console.log("Got Internships from Local Storage");
 			setInternships(offers);
 		}
-	}, []);
+	}, [cities, options]);
 
 	return (
 		<>
 			<Header />
 			<InternshipFilter
 				setCities={setCities}
-				setKeywords={setKeywords}
-				setStack={setStack}
+				setOptions={setOptions}
+				// setKeywords={setKeywords}
+				// setStack={setStack}
 			/>
 			<Container className="my-4">
 				<Row className="text-center">
