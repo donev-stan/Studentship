@@ -19,6 +19,7 @@ const Home = () => {
 						className="d-block w-100"
 						src={homeImg}
 						alt="Welcome"
+						loading="lazy"
 					/>
 					<h3
 						style={{

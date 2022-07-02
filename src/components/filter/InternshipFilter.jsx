@@ -15,7 +15,7 @@ const InternshipFilter = ({ setOptions, setStack, setCities }) => {
 					<CheckboxesTags setOptions={setOptions} />
 				</Col>
 				<Col lg={4}>
-					<KeywordSearch  setStack={setStack}/>
+					<KeywordSearch setStack={setStack} />
 				</Col>
 				<Col lg={4}>
 					<TownSearch setCities={setCities} />

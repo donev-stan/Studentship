@@ -7,7 +7,7 @@ import {
 	doc,
 	deleteDoc,
 } from "firebase/firestore";
-import { setLocalStorageData } from "./AuthService";
+import { getLocalStorageData, setLocalStorageData } from "./AuthService";
 
 const studentsCollectionRef = collection(db, "students");
 
@@ -36,49 +36,57 @@ export async function getStudentByID(id) {
 	return student;
 }
 
-async function checkForErrorsBeforeRegistering(studentData) {
-	const students = await getAllStudents();
+export async function registerStudent(studentData) {
+	const students = getLocalStorageData("students");
 
-	console.log(
-		"GET All Students - checkForErrorsBeforeRegistering() function"
-	);
+	const {
+		name,
+		lastName,
+		telephone,
+		age,
+		town,
+		bio,
+		university,
+		specialty,
+		yearAtUni,
+		skills,
+		email,
+		password,
+		repeatedPassword,
+	} = studentData;
 
-	if (students.find((stu) => stu.email === studentData.email)) {
+	// Check for errors
+	if (name === "") throw new Error("Please enter a name!");
+	if (lastName === "") throw new Error("Please enter a last name!");
+	if (telephone === "") throw new Error("Please enter a telephone!");
+	if (age === "") throw new Error("Please enter an age!");
+	if (town === "") throw new Error("Please enter a town!");
+	if (bio === "") throw new Error("Please enter a bio!");
+	if (university === "") throw new Error("Please enter a university!");
+	if (specialty === "") throw new Error("Please enter a specialty!");
+	if (yearAtUni === "") throw new Error("Please enter a year at university!");
+	if (email === "") throw new Error("Please enter a email!");
+	if (password === "") throw new Error("Please enter a password!");
+	if (password !== repeatedPassword)
+		throw new Error("Passwords does not match!");
+
+	if (students.find((stu) => stu.email === email)) {
 		throw new Error(
 			"This email address is already registered by another user!"
 		);
-	} else if (
-		students.find((stu) => stu.telephone === studentData.telephone)
-	) {
+	} else if (students.find((stu) => stu.telephone === telephone)) {
 		throw new Error(
 			"This phone number is already registered by another user!"
 		);
 	}
 
-	if (studentData.password !== studentData.repeatedPassword)
-		throw new Error("Passwords does not match!");
+	console.log(studentData);
 
-	if (!studentData.age) throw new Error("Please select your age!");
-
-	if (!studentData.yearAtUni)
-		throw new Error("Please select year at university!");
-}
-
-export async function registerStudent(studentData) {
-	checkForErrorsBeforeRegistering(studentData);
-
+	// Register Student
 	studentData = {
 		...studentData,
 
 		type: "student",
-
-		yearAtUni: parseInt(studentData.yearAtUni),
-
-		skills: studentData.skills
-			? studentData.skills.split(",").map((t) => t.replace(/\s/g, ""))
-			: [],
-
-		picture: studentData.picture ? studentData.picture : "default",
 
 		bookmarks: [],
 	};

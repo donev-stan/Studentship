@@ -7,28 +7,87 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
+
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Autocomplete from "@mui/material/Autocomplete";
+import Chip from "@mui/material/Chip";
 
 import { getLoggedUser, login } from "../../../services/AuthService";
-import { saveStudent } from "../../../services/StudentService";
-
 import { registerStudent } from "../../../services/StudentService";
 
+const steps = [
+	"Personal Information",
+	"Academic Information",
+	"Login Credentials",
+];
+
+const defaultStudentData = {
+	picture: "default",
+	name: "",
+	lastName: "",
+	telephone: "",
+	age: "",
+	town: "",
+	bio: "",
+	university: "",
+	specialty: "",
+	yearAtUni: "",
+	skills: [],
+	email: "",
+	password: "",
+	repeatedPassword: "",
+};
+
 const RegisterStudent = () => {
-	const [studentData, setStudentData] = useState({});
+	const [studentData, setStudentData] = useState(defaultStudentData);
+
+	const [university, setUniversity] = useState("");
+	const [stack, setStack] = useState([]);
+
 	const [redirect, setRedirect] = useState(false);
 	const [error, setError] = useState(false);
 
-	//const [towns, setTowns] = useState(null);
+	const [activeStep, setActiveStep] = useState(0);
 
 	const navigate = useNavigate();
+
+	const handleNext = () => {
+		activeStep === 2
+			? onFormSubmit()
+			: setActiveStep((prevActiveStep) => prevActiveStep + 1);
+	};
+
+	const handleBack = () => {
+		activeStep === 0
+			? navigate(-1)
+			: setActiveStep((prevActiveStep) => prevActiveStep - 1);
+	};
 
 	useEffect(() => {
 		if (getLoggedUser()) setRedirect(true);
 	}, []);
 
+	useEffect(() => {
+		setStudentData((prevState) => ({
+			...prevState,
+			university: university,
+			skills: stack,
+		}));
+	}, [university, stack]);
+
 	const onInputChange = (event) => {
-		event.persist();
+		// event.persist();
+
+		setError(false);
 
 		setStudentData((prevState) => ({
 			...prevState,
@@ -37,7 +96,15 @@ const RegisterStudent = () => {
 	};
 
 	const onFormSubmit = (event) => {
-		event.preventDefault();
+		// event.preventDefault();
+
+		setError(false);
+
+		setStudentData((prevState) => ({
+			...prevState,
+			university: university,
+			skills: stack,
+		}));
 
 		registerStudent(studentData)
 			.then((_) => {
@@ -52,283 +119,321 @@ const RegisterStudent = () => {
 
 	return (
 		<>
-			{redirect && <Navigate to="/profile" />}
+			{redirect && <Navigate to="/" />}
 
 			<Header />
-			<Container className="my-4" fluid>
-				<Row className="text-center">
-					<Col>
-						<h2>Register Student</h2>
-						<hr />
-					</Col>
-				</Row>
+
+			<Container className="mt-3">
+				{error && (
+					<Alert key={3} variant={"danger"} className="text-center">
+						{error}
+					</Alert>
+				)}
+			</Container>
+
+			<Container className="my-4 pt-4">
+				<Stepper
+					activeStep={activeStep}
+					sx={{ orientation: { xs: "vertical", xl: "horizontal" } }}
+				>
+					{steps.map((label, index) => {
+						const stepProps = {};
+						const labelProps = {};
+
+						return (
+							<Step key={label} {...stepProps}>
+								<StepLabel {...labelProps}>{label}</StepLabel>
+							</Step>
+						);
+					})}
+				</Stepper>
+
 				<Form
 					onSubmit={onFormSubmit}
-					style={{ width: "60rem" }}
-					className="m-auto mt-2"
+					style={{ width: "80%" }}
+					className="m-auto mt-4"
 				>
-					{error && (
-						<Alert
-							key={3}
-							variant={"danger"}
-							className="text-center"
-						>
-							{error}
-						</Alert>
-					)}
-					<Row>
-						<Col lg={6}>
-							{/* Image */}
-							<Form.Group className="mb-2">
-								<Form.Label>Image</Form.Label>
-								<Form.Control
-									placeholder="Place image link or leave blank for randomly generated avatar (takes while to load at first)"
-									className="mb-1"
+					<Container className="pt-3">
+						{activeStep === 0 && (
+							<>
+								<TextField
+									label="Image"
 									name="picture"
-									autoComplete="on"
+									value={studentData.picture}
 									onChange={onInputChange}
+									variant="outlined"
+									className="mt-2 mb-4"
+									fullWidth
 								/>
-							</Form.Group>
 
-							{/* Name*/}
-							<Row className="mb-3">
-								{/* <Form.Label>Names</Form.Label> */}
-								<Col>
-									<Form.Control
-										placeholder="First name*"
-										name="name"
-										autoComplete="on"
-										onChange={onInputChange}
-										required
-									/>
-								</Col>
-								<Col>
-									<Form.Control
-										placeholder="Last name*"
-										name="lastName"
-										autoComplete="on"
-										onChange={onInputChange}
-										required
-									/>
-								</Col>
-							</Row>
+								<Row>
+									<Col lg={6}>
+										<TextField
+											label="First Name"
+											name="name"
+											value={studentData.name}
+											onChange={onInputChange}
+											variant="outlined"
+											className="mt-2 mb-4"
+											required
+											fullWidth
+										/>
+									</Col>
+									<Col lg={6}>
+										<TextField
+											label="Last Name"
+											name="lastName"
+											value={studentData.lastName}
+											onChange={onInputChange}
+											variant="outlined"
+											className="mt-2 mb-4"
+											required
+											fullWidth
+										/>
+									</Col>
+								</Row>
 
-							{/* Telephone */}
-							<Form.Group className="mb-3">
-								<Form.Label>Phone*</Form.Label>
-								<Form.Control
+								<TextField
+									type="number"
+									label="Telephone Number"
 									name="telephone"
-									autoComplete="on"
+									value={studentData.telephone}
 									onChange={onInputChange}
+									variant="outlined"
+									className="mt-2 mb-4"
 									required
+									fullWidth
 								/>
-							</Form.Group>
 
-							{/* Age */}
-							<Form.Group className="mb-3">
-								<Form.Label>Age*</Form.Label>
-								<Form.Select
-									onChange={onInputChange}
-									name="age"
-									required
-								>
-									<option>Select Age</option>
-									<option value="18">18</option>
-									<option value="19">19</option>
-									<option value="20">20</option>
-									<option value="21">21</option>
-									<option value="22">22</option>
-									<option value="23">23</option>
-									<option value="24">24</option>
-									<option value="25">25</option>
-									<option value="26">26</option>
-									<option value="27">27</option>
-									<option value="28">28</option>
-									<option value="29">29</option>
-									<option value="30">30</option>
-									<option value="31">31</option>
-									<option value="32">32</option>
-									<option value="33">33</option>
-									<option value="34">34</option>
-									<option value="35">35</option>
-									<option value="36">36</option>
-									<option value="37">37</option>
-									<option value="38">38</option>
-									<option value="39">39</option>
-									<option value="40">40</option>
-									<option value="41">41</option>
-									<option value="42">42</option>
-									<option value="44">43</option>
-									<option value="44">44</option>
-									<option value="45">45</option>
-									<option value="46">46</option>
-									<option value="47">47</option>
-									<option value="48">48</option>
-									<option value="49">49</option>
-									<option value="50">50</option>
-									<option value="51">51</option>
-									<option value="52">52</option>
-									<option value="53">53</option>
-									<option value="54">54</option>
-									<option value="55">55</option>
-									<option value="56">56</option>
-									<option value="57">57</option>
-									<option value="58">58</option>
-									<option value="59">59</option>
-									<option value="60">60</option>
-								</Form.Select>
-							</Form.Group>
+								<Row>
+									<Col lg={6}>
+										<TextField
+											type="number"
+											label="Age"
+											name="age"
+											value={studentData.age}
+											onChange={onInputChange}
+											variant="outlined"
+											className="mt-2 mb-4"
+											required
+											fullWidth
+										/>
+									</Col>
+									<Col lg={6}>
+										<FormControl fullWidth>
+											<InputLabel
+												id="town-select-label"
+												className="mt-2 mb-4"
+											>
+												Town *
+											</InputLabel>
+											<Select
+												labelId="town-select-label"
+												label="Town"
+												name="town"
+												onChange={onInputChange}
+												value={studentData.town}
+												className="mt-2 mb-4"
+												required
+											>
+												<MenuItem value={"Sofia"}>
+													Sofia
+												</MenuItem>
+												<MenuItem value={"Plovdiv"}>
+													Plovdiv
+												</MenuItem>
+												<MenuItem value={"Varna"}>
+													Varna
+												</MenuItem>
+												<MenuItem value={"Burgas"}>
+													Burgas
+												</MenuItem>
+												<MenuItem
+													value={"Stara Zagora"}
+												>
+													Stara Zagora
+												</MenuItem>
+											</Select>
+										</FormControl>
+									</Col>
+								</Row>
 
-							{/* Town */}
-							<Form.Group className="mb-3">
-								<Form.Label>Town*</Form.Label>
-								<Form.Control
-									name="town"
-									autoComplete="on"
-									onChange={onInputChange}
-									required
-								/>
-							</Form.Group>
-
-							{/* University */}
-							<Form.Group className="mb-3">
-								<Form.Label>University</Form.Label>
-								<Form.Control
-									placeholder="Name of University"
-									name="university"
-									autoComplete="on"
-									onChange={onInputChange}
-									required
-								/>
-							</Form.Group>
-
-							{/* Year at University */}
-							<Form.Group className="mb-3">
-								<Form.Label>Year at University</Form.Label>
-								<Form.Select
-									onChange={onInputChange}
-									name="yearAtUni"
-									required
-								>
-									<option>Select Year</option>
-									<option value="1">First Year</option>
-									<option value="2">Second Year</option>
-									<option value="3">Third Year</option>
-									<option value="4">Fourth Year</option>
-									<option value="5">Fifth Year</option>
-								</Form.Select>
-							</Form.Group>
-
-							{/* Specialty */}
-							<Form.Group>
-								<Form.Label>Specialty*</Form.Label>
-								<Form.Control
-									name="specialty"
-									autoComplete="on"
-									onChange={onInputChange}
-									required
-								/>
-							</Form.Group>
-						</Col>
-
-						<Col lg={6}>
-							{/* CV */}
-							<Form.Group controlId="formFile" className="mb-3">
-								<Form.Label>Upload CV</Form.Label>
-								<Form.Control type="file" />
-							</Form.Group>
-
-							{/* Bio */}
-							<Form.Group className="mb-3">
-								<Form.Label>Bio</Form.Label>
-								<Form.Control
-									placeholder="Tell us about yourself ..."
-									as="textarea"
-									rows={3}
+								<TextField
+									label="Bio"
 									name="bio"
-									autoComplete="on"
+									value={studentData.bio}
 									onChange={onInputChange}
+									className="mt-2 mb-4"
+									fullWidth
+									required
+									multiline
+									minRows={4}
+									maxRows={12}
 								/>
-							</Form.Group>
+							</>
+						)}
 
-							{/* Skills */}
-							<Form.Group className="mb-4">
-								<Form.Label>Skills</Form.Label>
-								<Form.Control
-									placeholder="e.g. Node.js, JavaScript, React"
-									as="textarea"
-									rows={3}
-									name="skills"
-									autoComplete="on"
+						{activeStep === 1 && (
+							<>
+								<Autocomplete
+									className="mt-2 mb-4"
+									value={university}
+									onChange={(event, value) =>
+										setUniversity(value)
+									}
+									options={unis}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											label="University"
+											required
+										/>
+									)}
+								/>
+
+								<TextField
+									label="Specialty"
+									name="specialty"
+									value={studentData.specialty}
 									onChange={onInputChange}
+									variant="outlined"
+									className="mt-2 mb-4"
+									fullWidth
+									required
 								/>
-							</Form.Group>
 
-							{/* Email */}
-							<Form.Group className="mb-3">
-								<Form.Label>Email address*</Form.Label>
-								<Form.Control
-									type="email"
-									placeholder="Enter email"
+								<Row>
+									<Col lg={6}>
+										<FormControl fullWidth>
+											<InputLabel className="mt-2 mb-4">
+												Year *
+											</InputLabel>
+											<Select
+												label="Year"
+												name="yearAtUni"
+												onChange={onInputChange}
+												value={studentData.yearAtUni}
+												className="mt-2 mb-4"
+												required
+											>
+												<MenuItem value={1}>
+													First Year
+												</MenuItem>
+												<MenuItem value={2}>
+													Second Year
+												</MenuItem>
+												<MenuItem value={3}>
+													Third Year
+												</MenuItem>
+												<MenuItem value={4}>
+													Fourth Year
+												</MenuItem>
+												<MenuItem value={5}>
+													Fifth Year
+												</MenuItem>
+											</Select>
+										</FormControl>
+									</Col>
+									<Col lg={6}>
+										<Autocomplete
+											className="mt-2 mb-4"
+											value={stack}
+											onChange={(event, value) =>
+												setStack(value)
+											}
+											style={{ backgroundColor: "white" }}
+											multiple
+											freeSolo
+											options={stackOptions}
+											renderTags={(value, getTagProps) =>
+												value.map((option, index) => (
+													<Chip
+														style={{
+															backgroundColor:
+																"#00000008",
+														}}
+														variant="outlined"
+														label={option}
+														{...getTagProps({
+															index,
+														})}
+													/>
+												))
+											}
+											renderInput={(params) => (
+												<TextField
+													{...params}
+													label="Skills"
+												/>
+											)}
+										/>
+									</Col>
+								</Row>
+							</>
+						)}
+
+						{activeStep === 2 && (
+							<>
+								<TextField
 									name="email"
-									autoComplete="off"
+									type="email"
+									label="Email"
+									className="mt-2 mb-4"
+									value={studentData.email}
 									onChange={onInputChange}
-									required
+									fullWidth
 								/>
-								<Form.Text className="text-muted">
-									Choose more representative email!
-								</Form.Text>
-							</Form.Group>
 
-							{/* Password */}
-							<Form.Group className="mb-3">
-								<Form.Label>Password*</Form.Label>
-								<Form.Control
-									type="password"
-									placeholder="Enter password"
+								<TextField
 									name="password"
-									onChange={onInputChange}
-									required
-								/>
-							</Form.Group>
-
-							{/* Repeat Password */}
-							<Form.Group>
-								<Form.Label>Repeat password*</Form.Label>
-								<Form.Control
 									type="password"
-									name="repeatedPassword"
-									placeholder="Enter password again"
+									label="Password"
+									className="mt-2 mb-4"
+									value={studentData.password}
 									onChange={onInputChange}
-									required
+									fullWidth
 								/>
-							</Form.Group>
-						</Col>
-					</Row>
 
-					{/* Submit */}
-					<Row className="text-center">
-						<Col>
-							<Button
-								variant="danger"
-								className="my-4"
-								onClick={() => navigate(-1)}
-								style={shadow}
-							>
-								Cancel Registration
-							</Button>
-						</Col>
-						<Col>
-							<Button
-								type="submit"
-								className="my-4"
-								style={shadow}
-							>
-								Register Student
-							</Button>
-						</Col>
-					</Row>
+								<TextField
+									name="repeatedPassword"
+									type="password"
+									label="Repeat Password"
+									className="mt-2 mb-4"
+									value={studentData.repeatedPassword}
+									onChange={onInputChange}
+									fullWidth
+								/>
+							</>
+						)}
+					</Container>
 				</Form>
+
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "row",
+						pt: 2,
+					}}
+				>
+					<Button
+						variant="outlined"
+						color="error"
+						className="shadowItem"
+						onClick={handleBack}
+						sx={{ mr: 1 }}
+					>
+						{activeStep === 0 ? "Cancel" : "Back"}
+					</Button>
+					<Box sx={{ flex: "1 1 auto" }} />
+
+					<Button
+						onClick={handleNext}
+						variant="outlined"
+						className="shadowItem"
+					>
+						{activeStep === steps.length - 1 ? "Register" : "Next"}
+					</Button>
+				</Box>
 			</Container>
 		</>
 	);
@@ -336,8 +441,30 @@ const RegisterStudent = () => {
 
 export default RegisterStudent;
 
-const shadow = {
-	WebkitBoxShadow: "2px 2px 3px 2px #ccc",
-	MozBoxShadow: "2px 2px 3px 2px #ccc",
-	boxShadow: "2px 2px 3px 2px #ccc",
-};
+const unis = ["Paisii Hilendarski", "Technical University"];
+
+const stackOptions = [
+	"JavaScript",
+	"Node.js",
+	"React",
+	"React Native",
+	"Angular",
+	"Vue.js",
+	"Azure",
+	"Java",
+	"PostgreSQL",
+	"Python",
+	"Linux",
+	"C",
+	"C++",
+	"SQL",
+	"Excel",
+	".NET",
+	"AWS",
+	"HTML/CSS",
+	"jQuery",
+	"TypeScript",
+	"RabbitMQ",
+	"C#",
+	"Windows",
+];
