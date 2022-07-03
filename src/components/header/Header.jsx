@@ -113,8 +113,8 @@ const Header = () => {
 		handleCloseUserMenu();
 		if (user.type === "student") {
 			deleteStudent(user.id).then((_) => {
-				logout();
-				setRedirect(true);
+				// logout();
+				// setRedirect(true);
 			});
 		} else if (user.type === "company") {
 			deleteCompany(user).then((_) => {

@@ -135,8 +135,6 @@ export async function saveCompany(companyData) {
 	// const companies = await getAllCompanies();
 	const companies = getLocalStorageData("companies");
 
-	console.log(companyData)
-
 	const {
 		id,
 		PIC,

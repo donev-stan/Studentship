@@ -8,6 +8,7 @@ import {
 	deleteDoc,
 } from "firebase/firestore";
 import { getLocalStorageData } from "./AuthService";
+import { getAllCompanies, saveCompany } from "./CompanyService";
 
 const studentsCollectionRef = collection(db, "students");
 
@@ -166,6 +167,25 @@ export async function saveStudent(studentData) {
 
 export async function deleteStudent(studentID) {
 	const studentDoc = doc(db, "students", studentID);
+
+	let companies = getLocalStorageData("companies");
+	if (!companies) companies = await getAllCompanies();
+
+	const updateCompaniesRequests = [];
+	const changedCompanies = [];
+
+	companies.map((company, index) => {
+		if (company.bookmarks.find((id) => id === studentID)) {
+			company.bookmarks.splice(index, 1);
+			changedCompanies.push(company);
+		}
+	});
+
+	changedCompanies.forEach((company) =>
+		updateCompaniesRequests.push(saveCompany(company))
+	);
+
+	await Promise.all(updateCompaniesRequests);
 
 	return await deleteDoc(studentDoc);
 }
