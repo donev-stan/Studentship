@@ -417,7 +417,7 @@ const RegisterStudent = () => {
 				>
 					<Button
 						variant="outlined"
-						color="error"
+						color={activeStep === 0 ? "error" : "inherit"}
 						className="shadowItem"
 						onClick={handleBack}
 						sx={{ mr: 1 }}
@@ -430,6 +430,7 @@ const RegisterStudent = () => {
 						onClick={handleNext}
 						variant="outlined"
 						className="shadowItem"
+						color={activeStep === steps.length - 1 ? "success" : "primary"}
 					>
 						{activeStep === steps.length - 1 ? "Register" : "Next"}
 					</Button>
@@ -441,7 +442,60 @@ const RegisterStudent = () => {
 
 export default RegisterStudent;
 
-const unis = ["Paisii Hilendarski", "Technical University"];
+const unis = [
+	"Agrarian University",
+	"Academy of Music, Dance and Visual Arts",
+	"Academy of MIA",
+	"American University in Bulgaria",
+	"Burgas Free University",
+	"Chernorizets Hrabar Free University of Varna",
+	"Saint Cyril and Methodius University of Veliko Tarnovo",
+	"Nikola Vaptsarov Higher Naval School",
+	"Lyuben Karavelov Higher School of Construction",
+	"Todor Kableshkov Higher Transport School",
+	"Higher School of Agribusiness and Regional Development",
+	"Graduate School of Insurance and Finance",
+	"High School of Management",
+	"Higher School of Security and Economics",
+	"High School of Telecommunications and Posts",
+	"Georgi Rakovski Military Academy",
+	"European Polytechnic University",
+	"European Graduate School of Economics and Management",
+	"University of Economics",
+	"College of Management, Commerce and Marketing",
+	"Forestry University",
+	"Medical University, Pleven",
+	"Medical University - Plovdiv",
+	"Medical University of Sofia",
+	"Professor Doctor Paraskev Stoyanov Medical University - Varna",
+	"International Graduate School of Business",
+	"St. Ivan Rilski University of Mining and Geology",
+	"Vasil Levski National Military University",
+	"Krastyo Sarafov National Academy of Theater and Film Art",
+	"Professor Pancho Vladigerov National Music Academy",
+	"Vasil Levski National Sports Academy",
+	"Bishop Konstantin Preslavski University of Shumen",
+	"National Academy of Arts",
+	"New Bulgarian University",
+	"Paisii Hilendarski University of Plovdiv",
+	"Angel Kanchev University of Rousse",
+	"Sofia University 'St. Kliment Ohridski'",
+	"Dimitar Tsenov Business Academy",
+	"Lyuben Groys Theater College",
+	"Technical University - Varna",
+	"Technical University - Gabrovo",
+	"Technical University - Plovdiv",
+	"Technical University of Sofia",
+	"Thracian University",
+	"University 'Prof. Dr. Asen Zlatarov'",
+	"University of National and World Economy",
+	"University of Architecture, Construction and Geodesy",
+	"Library Studies and Information Technologies university",
+	"University of Food Technology",
+	"University of Chemical Technology and Metallurgy",
+	"Bishop Konstantin Preslavski University of Shumen",
+	"Southwestern University 'Neofit Rilski'",
+];
 
 const stackOptions = [
 	"JavaScript",

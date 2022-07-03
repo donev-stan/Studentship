@@ -167,8 +167,7 @@ const Internship = () => {
 		bookmarkInternship(id, getLoggedUser())
 			.then((_) => {
 				setBookmarked(!bookmarked);
-				if (bookmarked)
-					setSnackMessage("Bookmark Removed!");
+				if (bookmarked) setSnackMessage("Bookmark Removed!");
 				else setSnackMessage("Bookmark Set!");
 
 				handleClick();

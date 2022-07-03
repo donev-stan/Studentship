@@ -40,7 +40,6 @@ import Loader from "../loader/Loader";
 
 import Zoom from "@mui/material/Zoom";
 
-
 const Student = (props) => {
 	const [student, setStudent] = useState({});
 	const [error, setError] = useState(false);
@@ -48,6 +47,8 @@ const Student = (props) => {
 	const [isCompanyViewer, setIsCompanyViewer] = useState(false);
 	const [company, setCompany] = useState(null);
 	const [bookmarked, setBookmarked] = useState(false);
+
+	const [snackMessage, setSnackMessage] = useState("");
 
 	const { id } = useParams();
 	const [open, setOpen] = React.useState(false);
@@ -130,6 +131,10 @@ const Student = (props) => {
 		bookmarkStudent(id, company)
 			.then((_) => {
 				setBookmarked(!bookmarked);
+				if (bookmarked) setSnackMessage("Bookmark Removed!");
+				else setSnackMessage("Bookmark Set!");
+
+				handleClick();
 				login(getLoggedUser());
 			})
 			.catch((error) => setError(error.message));
@@ -247,7 +252,7 @@ const Student = (props) => {
 
 										<Row className="my-4">
 											<h4>Contacts</h4>
-											<Col className="text-center">
+											<Col className="text-center mt-2">
 												<h5>
 													{" "}
 													<BsTelephone /> Telephone :
@@ -255,7 +260,7 @@ const Student = (props) => {
 												<p>{telephone}</p>
 											</Col>
 
-											<Col className="text-center">
+											<Col className="text-center mt-2">
 												<h5>
 													{" "}
 													<AiOutlineMail /> E-mail:
@@ -280,9 +285,10 @@ const Student = (props) => {
 															startIcon={
 																<CloudDownloadIcon />
 															}
-															onClick={
-																handleClick
-															}
+															onClick={() => {
+																handleClick();
+																setSnackMessage("Downloading...")
+															}}
 														>
 															Download CV
 														</Button>
@@ -290,12 +296,14 @@ const Student = (props) => {
 														<Snackbar
 															open={open}
 															autoHideDuration={
-																6000
+																3000
 															}
 															onClose={
 																handleClose
 															}
-															message="Downloading CV..."
+															message={
+																snackMessage
+															}
 															action={action}
 														/>
 													</Col>

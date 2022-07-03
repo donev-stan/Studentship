@@ -88,6 +88,8 @@ export async function registerStudent(studentData) {
 
 		type: "student",
 
+		age: parseInt(age),
+
 		bookmarks: [],
 	};
 
@@ -99,42 +101,58 @@ export async function registerStudent(studentData) {
 }
 
 export async function saveStudent(studentData) {
-	const students = await getAllStudents();
 
-	console.log("GET All Students - saveStudent() function");
+	const students = getLocalStorageData("students");
 
-	if (
-		students.find(
-			(stu) =>
-				stu.email === studentData.email && stu.id !== studentData.id
-		)
-	) {
+	const {
+		id,
+		name,
+		lastName,
+		telephone,
+		age,
+		town,
+		bio,
+		university,
+		specialty,
+		yearAtUni,
+		skills,
+		email,
+		password,
+		repeatedPassword,
+	} = studentData;
+
+	// Check for errors
+	if (name === "") throw new Error("Please enter a name!");
+	if (lastName === "") throw new Error("Please enter a last name!");
+	if (telephone === "") throw new Error("Please enter a telephone!");
+	if (age === "") throw new Error("Please enter an age!");
+	if (town === "") throw new Error("Please enter a town!");
+	if (bio === "") throw new Error("Please enter a bio!");
+	if (university === "") throw new Error("Please enter a university!");
+	if (specialty === "") throw new Error("Please enter a specialty!");
+	if (yearAtUni === "") throw new Error("Please enter a year at university!");
+	if (email === "") throw new Error("Please enter a email!");
+	if (password === "") throw new Error("Please enter a password!");
+	if (password !== repeatedPassword)
+		throw new Error("Passwords does not match!");
+
+	if (students.find((stu) => stu.email === email && stu.id !== id)) {
 		throw new Error(
 			"This email address is already registered by another user!"
 		);
 	} else if (
-		students.find(
-			(stu) =>
-				stu.telephone === studentData.telephone &&
-				stu.id !== studentData.id
-		)
+		students.find((stu) => stu.telephone === telephone && stu.id !== id)
 	) {
 		throw new Error(
 			"This phone number is already registered by another user!"
 		);
 	}
 
+
 	studentData = {
 		...studentData,
 
-		skills: studentData.skills
-			.toString()
-			.split(",")
-			.map((t) => t.replace(/\s/g, "")),
-
-		yearAtUni: parseInt(studentData.yearAtUni),
-
-		picture: studentData.picture ? studentData.picture : "default",
+		age: parseInt(age),
 	};
 
 	const studentDoc = doc(db, "students", studentData.id);

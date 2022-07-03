@@ -7,6 +7,7 @@ import Header from "../header/Header";
 import { getLoggedUser } from "../../services/AuthService";
 import BookmarkStudentCard from "./BookmarkStudentCard";
 import BookmarkJobsCard from "./BookmarkJobsCard";
+import { Typography } from "@mui/material";
 
 const Bookmarks = () => {
 	const [bookmarks, setBookmarks] = useState([]);
@@ -39,7 +40,10 @@ const Bookmarks = () => {
 											/>
 										))
 									) : (
-										<p> No saved students. </p>
+										<Typography variant="h5">
+											{" "}
+											No saved students{" "}
+										</Typography>
 									)}
 								</Row>
 							</>
@@ -50,7 +54,6 @@ const Bookmarks = () => {
 								<h2>Saved Internships</h2>
 								<hr />
 								<Row className="text-center">
-									{/* {console.log(bookmarks)} */}
 									{bookmarks.length !== 0 ? (
 										bookmarks.map((id) => (
 											<Col lg={6}>
@@ -61,7 +64,10 @@ const Bookmarks = () => {
 											</Col>
 										))
 									) : (
-										<p> No saved job offers. </p>
+										<Typography variant="h5">
+											{" "}
+											No saved job offers{" "}
+										</Typography>
 									)}
 								</Row>
 							</>

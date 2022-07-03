@@ -11,6 +11,7 @@ import Col from "react-bootstrap/Col";
 import { getLocalStorageData, getLoggedUser } from "../../services/AuthService";
 import { getInternshipsByCompanyID } from "../../services/InternshipService";
 import Loader from "../loader/Loader";
+import { Typography } from "@mui/material";
 
 const CompanyJobs = () => {
 	const [offers, setOffers] = useState(["load"]);
@@ -46,18 +47,23 @@ const CompanyJobs = () => {
 					</Col>
 				</Row>
 				<Row>
-					{offers[0] !== "load" ? (
-						offers.map((offer) => (
-							<Col lg={6}>
-								<InternshipCard
-									offer={offer}
-									key={offer.id}
-									zoom={false}
-								/>
-							</Col>
-						))
+					{console.log(offers)}
+					{offers.length !== 0 ? (
+						offers[0] !== "load" ? (
+							offers.map((offer) => (
+								<Col lg={6}>
+									<InternshipCard
+										offer={offer}
+										key={offer.id}
+										zoom={false}
+									/>
+								</Col>
+							))
+						) : (
+							<Loader />
+						)
 					) : (
-						<Loader />
+						<Typography variant="h5" className="text-center"> No Internships offered </Typography>
 					)}
 				</Row>
 			</Container>

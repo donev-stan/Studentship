@@ -21,16 +21,19 @@ const BookmarkStudentCard = ({ studentID }) => {
 				(student) => student.id === studentID
 			);
 			if (student) setStudent(student);
+			else setStudent(null);
 		}
 	}, [studentID]);
 
 	return (
 		<>
-			{Object.entries(student).length !== 0 ? (
-				<StudentCard student={student} key={studentID} />
-			) : (
-				<Loader />
-			)}
+			{student ? (
+				Object.entries(student).length !== 0 ? (
+					<StudentCard student={student} key={studentID} />
+				) : (
+					<Loader />
+				)
+			) : null}
 		</>
 	);
 };

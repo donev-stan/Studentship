@@ -40,7 +40,8 @@ const Internships = () => {
 			});
 		}
 
-		offers.length === 0 ? setNoFound(true) : setNoFound(false);
+		console.log(offers)
+		offers?.length === 0 ? setNoFound(true) : setNoFound(false);
 
 		if (!offers) {
 			console.log("Got Internships from Firebase");

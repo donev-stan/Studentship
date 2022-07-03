@@ -7,6 +7,7 @@ import {
 	doc,
 	deleteDoc,
 } from "firebase/firestore";
+import { getLocalStorageData } from "./AuthService";
 
 const companiesCollectionRef = collection(db, "companies");
 
@@ -49,57 +50,68 @@ export async function getCompanyByPIC(companyPIC) {
 	return await company;
 }
 
-async function checkForErrorsBeforeRegistering(companyData) {
-	const companies = await getAllCompanies();
+export async function registerCompany(companyData) {
+	// const companies = await getAllCompanies();
+	const companies = getLocalStorageData("companies");
 
-	if (companies.find((company) => company.email === companyData.email)) {
+	const {
+		picture,
+		PIC,
+		name,
+		address,
+		telephone,
+		employees,
+		locations,
+		founded,
+		about,
+		career,
+		benefits,
+		technologies,
+		email,
+		password,
+		repeatedPassword,
+	} = companyData;
+
+	// Check for errors
+	if (PIC === "") throw new Error("Please enter a PIC!");
+	if (name === "") throw new Error("Please enter a name!");
+	if (address === "") throw new Error("Please enter an address!");
+	if (telephone === "") throw new Error("Please enter a telephone number!");
+	if (employees === "") throw new Error("Please enter employees count!");
+	if (locations.length === 0)
+		throw new Error("Please enter office locations!");
+	if (founded === "") throw new Error("Please enter year of foundation!");
+	if (about === "")
+		throw new Error("Please enter company about information!");
+	if (career === "")
+		throw new Error("Please enter compant career information!");
+	if (benefits.length === 0)
+		throw new Error("Please enter company benefits!");
+	if (technologies.length === 0)
+		throw new Error("Please enter company technologies!");
+	if (email === "") throw new Error("Please enter email!");
+	if (password === "") throw new Error("Please enter password!");
+	if (password !== repeatedPassword)
+		throw new Error("Passwords does not match!");
+
+	if (companies.find((company) => company.email === email)) {
 		throw new Error(
 			"This email address is already registered by another user!"
 		);
-	} else if (
-		companies.find((company) => company.telephone === companyData.telephone)
-	) {
+	} else if (companies.find((company) => company.telephone === telephone)) {
 		throw new Error(
 			"This phone number is already registered by another user!"
 		);
-	} else if (companies.find((company) => company.PIC === companyData.PIC)) {
+	} else if (companies.find((company) => company.PIC === PIC)) {
 		throw new Error(
 			"This company (PIC) is already registered by another user!"
 		);
 	}
 
-	// if (companyData.password !== companyData.repeatedPassword) throw new Error("Passwords does not match!");
-}
-
-export async function registerCompany(companyData) {
-	checkForErrorsBeforeRegistering(companyData);
-
 	companyData = {
 		...companyData,
 
 		type: "company",
-
-		picture: companyData.picture ? companyData.picture : "default",
-
-		locations:
-			companyData.locations !== ""
-				? companyData.locations.split(",")
-				: [],
-
-		websiteURL: companyData.websiteURL ? companyData.websiteURL : "",
-
-		technologies:
-			companyData.technologies !== ""
-				? companyData.technologies
-						.split(",")
-						.map((c) => c.replace(/\s/g, ""))
-				: [],
-
-		benefits:
-			companyData.benefits !== ""
-				? companyData.benefits.split(",")
-				: // .map((c) => c.replace(/\s/g, ""))
-				  [],
 
 		employees: parseInt(companyData.employees),
 
@@ -112,22 +124,60 @@ export async function registerCompany(companyData) {
 
 	delete companyData.repeatedPassword;
 
-	
 	console.log("ADD All Company - registerCompany() function");
 
 	return await addDoc(companiesCollectionRef, companyData);
 }
 
 export async function saveCompany(companyData) {
-	const companies = await getAllCompanies();
+	// const companies = await getAllCompanies();
+	const companies = getLocalStorageData("companies");
 
-	console.log("GET All Companies - saveCompany() function");
+	console.log(companyData)
+
+	const {
+		id,
+		PIC,
+		name,
+		address,
+		telephone,
+		employees,
+		locations,
+		founded,
+		about,
+		career,
+		benefits,
+		technologies,
+		email,
+		password,
+		repeatedPassword,
+	} = companyData;
+
+	// Check for errors
+	if (PIC === "") throw new Error("Please enter a PIC!");
+	if (name === "") throw new Error("Please enter a name!");
+	if (address === "") throw new Error("Please enter an address!");
+	if (telephone === "") throw new Error("Please enter a telephone number!");
+	if (employees === "") throw new Error("Please enter employees count!");
+	if (locations.length === 0)
+		throw new Error("Please enter office locations!");
+	if (founded === "") throw new Error("Please enter year of foundation!");
+	if (about === "")
+		throw new Error("Please enter company about information!");
+	if (career === "")
+		throw new Error("Please enter company career information!");
+	if (benefits.length === 0)
+		throw new Error("Please enter company benefits!");
+	if (technologies.length === 0)
+		throw new Error("Please enter company technologies!");
+	if (email === "") throw new Error("Please enter email!");
+	if (password === "") throw new Error("Please enter password!");
+	if (password !== repeatedPassword)
+		throw new Error("Passwords does not match!");
 
 	if (
 		companies.find(
-			(company) =>
-				company.email === companyData.email &&
-				company.id !== companyData.id
+			(company) => company.email === email && company.id !== id
 		)
 	) {
 		throw new Error(
@@ -135,9 +185,7 @@ export async function saveCompany(companyData) {
 		);
 	} else if (
 		companies.find(
-			(company) =>
-				company.telephone === companyData.telephone &&
-				company.id !== companyData.id
+			(company) => company.telephone === telephone && company.id !== id
 		)
 	) {
 		throw new Error(
@@ -145,31 +193,9 @@ export async function saveCompany(companyData) {
 		);
 	}
 
+	// Save Company
 	companyData = {
 		...companyData,
-
-		picture: companyData.picture ? companyData.picture : "default",
-
-		locations:
-			companyData.locations !== ""
-				? companyData.locations.toString().split(",")
-				: [],
-
-		websiteURL: companyData.websiteURL ? companyData.websiteURL : "",
-
-		technologies:
-			companyData.technologies !== ""
-				? companyData.technologies
-						.toString()
-						.split(",")
-						.map((c) => c.replace(/\s/g, ""))
-				: [],
-
-		benefits:
-			companyData.benefits !== ""
-				? companyData.benefits.toString().split(",")
-				: // .map((c) => c.replace(/\s/g, ""))
-				  [],
 
 		employees: parseInt(companyData.employees),
 
@@ -177,6 +203,8 @@ export async function saveCompany(companyData) {
 
 		founded: parseInt(companyData.founded),
 	};
+
+	delete companyData.repeatedPassword;
 
 	const companyDoc = doc(db, "companies", companyData.id);
 
