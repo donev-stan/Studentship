@@ -7,7 +7,7 @@ import {
 	doc,
 	deleteDoc,
 } from "firebase/firestore";
-import { getLocalStorageData, setLocalStorageData } from "./AuthService";
+import { getLocalStorageData } from "./AuthService";
 
 const studentsCollectionRef = collection(db, "students");
 
@@ -49,7 +49,6 @@ export async function registerStudent(studentData) {
 		university,
 		specialty,
 		yearAtUni,
-		skills,
 		email,
 		password,
 		repeatedPassword,
@@ -88,6 +87,8 @@ export async function registerStudent(studentData) {
 
 		type: "student",
 
+		picture: studentData.picture === "" ? "default" : studentData.picture,
+
 		age: parseInt(age),
 
 		bookmarks: [],
@@ -101,7 +102,6 @@ export async function registerStudent(studentData) {
 }
 
 export async function saveStudent(studentData) {
-
 	const students = getLocalStorageData("students");
 
 	const {
@@ -115,7 +115,6 @@ export async function saveStudent(studentData) {
 		university,
 		specialty,
 		yearAtUni,
-		skills,
 		email,
 		password,
 		repeatedPassword,
@@ -148,9 +147,10 @@ export async function saveStudent(studentData) {
 		);
 	}
 
-
 	studentData = {
 		...studentData,
+
+		picture: studentData.picture === "" ? "default" : studentData.picture,
 
 		age: parseInt(age),
 	};

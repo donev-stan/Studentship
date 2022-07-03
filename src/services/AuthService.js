@@ -20,8 +20,10 @@ export async function login(userData) {
 			s.password === userData.password.toString()
 	);
 
-	if (loggedUserAsCompany) setLocalStorageData("loggedUser", loggedUserAsCompany);
-	else if (loggetUserAsStudent) setLocalStorageData("loggedUser", loggetUserAsStudent);
+	if (loggedUserAsCompany)
+		setLocalStorageData("loggedUser", loggedUserAsCompany);
+	else if (loggetUserAsStudent)
+		setLocalStorageData("loggedUser", loggetUserAsStudent);
 	else throw new Error("Invalid email or password");
 
 	companies.map((company) => delete company.password);
@@ -34,6 +36,9 @@ export async function login(userData) {
 }
 
 export function logout() {
+	localStorage.removeItem("companies");
+	localStorage.removeItem("students");
+	localStorage.removeItem("internships");
 	return localStorage.removeItem("loggedUser");
 }
 

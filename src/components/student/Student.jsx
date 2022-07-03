@@ -13,7 +13,11 @@ import {
 	getLoggedUser,
 	login,
 } from "../../services/AuthService";
-import { getStudentByID, yearWithWords } from "../../services/StudentService";
+import {
+	getAllStudents,
+	getStudentByID,
+	yearWithWords,
+} from "../../services/StudentService";
 
 import profileImg from "../../images/user.png";
 import bookmark from "../../images/Student/bookmark.png";
@@ -97,7 +101,8 @@ const Student = (props) => {
 	} = student;
 
 	useEffect(() => {
-		const students = getLocalStorageData("students");
+		let students = getLocalStorageData("students");
+
 		const studentStorage = students.find((stu) => stu.id === id);
 
 		if (!studentStorage) {
@@ -115,7 +120,7 @@ const Student = (props) => {
 		}
 
 		const loggedUser = getLoggedUser();
-		if (loggedUser.type === "company") {
+		if (loggedUser?.type === "company") {
 			setCompany(loggedUser);
 			setIsCompanyViewer(true);
 
@@ -287,7 +292,9 @@ const Student = (props) => {
 															}
 															onClick={() => {
 																handleClick();
-																setSnackMessage("Downloading...")
+																setSnackMessage(
+																	"Downloading..."
+																);
 															}}
 														>
 															Download CV

@@ -23,47 +23,59 @@ import StudentEdit from "./components/student/StudentEdit";
 import Students from "./components/student/Students";
 
 function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        {/* Public Routes */}
-        <Route path="/" element={<Home />} />
+	return (
+		<Routes>
+			<Route path="/" element={<Layout />}>
+				{/* Public Routes */}
+				<Route path="/" element={<Home />} />
 
-        <Route path="internships" element={<Internships />} />
-        <Route path="internships/:id" element={<Internship />} />
+				<Route path="internships" element={<Internships />} />
+				<Route path="internships/:id" element={<Internship />} />
 
-        <Route path="companies" element={<Companies />} />
-        <Route path="companies/:id" element={<Company />} />
+				<Route path="companies" element={<Companies />} />
+				<Route path="companies/:id" element={<Company />} />
 
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="registerStudent" element={<RegisterStudent />} />
-        <Route path="registerCompany" element={<RegisterCompany />} />
+				<Route path="students" element={<Students />} />
+				<Route path="students/:id" element={<Student />} />
 
-        {/* Protected Routes*/}
-        <Route path="*" element={<RequireAuth />}>
-          <Route path="profile/:id" element={<Profile />} />
-          <Route path="bookmarks" element={<Bookmarks />} />
+				<Route path="login" element={<Login />} />
+				<Route path="register" element={<Register />} />
+				<Route path="registerStudent" element={<RegisterStudent />} />
+				<Route path="registerCompany" element={<RegisterCompany />} />
 
-          <Route path="companies/edit/:id" element={<CompanyEdit />} />
-          <Route path="company/jobs" element={<CompanyJobs />} />
+				{/* Protected Routes*/}
+				<Route path="*" element={<RequireAuth />}>
+					<Route path="profile/:id" element={<Profile />} />
+					<Route path="bookmarks" element={<Bookmarks />} />
 
-          <Route path="internships/create" element={<InternshipCreate />} />
-          <Route path="internships/edit/:id" element={<InternshipEdit />} />
-          <Route path="internships/:id/edit" element={<InternshipEdit />} />
-          <Route path="company/jobs/:id" element={<Internship />} />
-          {/* <Route path="profile/:id" element={<Internship />} /> */}
+					<Route
+						path="companies/edit/:id"
+						element={<CompanyEdit />}
+					/>
+					<Route path="company/jobs" element={<CompanyJobs />} />
 
-          <Route path="students" element={<Students />} />
-          <Route path="students/:id" element={<Student />} />
-          <Route path="students/edit/:id" element={<StudentEdit />} />
-        </Route>
+					<Route
+						path="internships/create"
+						element={<InternshipCreate />}
+					/>
+					<Route
+						path="internships/edit/:id"
+						element={<InternshipEdit />}
+					/>
+					<Route
+						path="internships/:id/edit"
+						element={<InternshipEdit />}
+					/>
+					<Route path="company/jobs/:id" element={<Internship />} />
 
-        {/* Catch All */}
-        {/* <Route path="*" element={<Missing />} /> */}
-      </Route>
-    </Routes>
-  );
+					<Route path="students/edit/:id" element={<StudentEdit />} />
+				</Route>
+
+				{/* Catch All */}
+				{/* <Route path="*" element={<Missing />} /> */}
+			</Route>
+		</Routes>
+	);
 }
 
 export default App;

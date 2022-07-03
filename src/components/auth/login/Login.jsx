@@ -5,10 +5,18 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-// import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Image from "react-bootstrap/Image";
 
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 import { Link, Navigate } from "react-router-dom";
@@ -18,7 +26,7 @@ import imgLeftRegister from "../../../images/login/register_0.png";
 import imgRightRegister from "../../../images/login/register_1.png";
 
 const Login = () => {
-	const [userData, setUserData] = useState(null);
+	const [userData, setUserData] = useState({});
 	const [redirect, setRedirect] = useState(false);
 	const [error, setError] = useState(false);
 
@@ -28,6 +36,8 @@ const Login = () => {
 
 	const onInputChange = (event) => {
 		event.persist();
+
+		setError(false);
 
 		setUserData((prevState) => ({
 			...prevState,
@@ -50,41 +60,40 @@ const Login = () => {
 			{redirect && <Navigate to={`/`} />}
 
 			<Header />
-			<Container className="my-4">
+
+			<Container className="my-3">
 				{error && (
 					<Alert key={3} variant={"danger"} className="text-center">
 						{error}
 					</Alert>
 				)}
+			</Container>
 
+			<Container className="my-4">
 				<Form
 					onSubmit={onFormSubmit}
-					style={{ width: "50rem" }}
+					style={{ width: "60%" }}
 					className="my-4 m-auto align-self-center"
 				>
-					{/* Email */}
-					<Form.Group className="mb-3">
-						<Form.Label>Email address</Form.Label>
-						<Form.Control
-							type="email"
-							placeholder="Enter email"
-							name="email"
-							autoComplete="on"
-							onChange={onInputChange}
-						/>
-					</Form.Group>
+					<TextField
+						name="email"
+						type="email"
+						label="Email"
+						className="mt-4 mb-4"
+						value={userData.email}
+						onChange={onInputChange}
+						fullWidth
+					/>
 
-					{/* Password */}
-					<Form.Group className="mb-3">
-						<Form.Label>Password</Form.Label>
-						<Form.Control
-							type="password"
-							placeholder="Password"
-							name="password"
-							autoComplete="on"
-							onChange={onInputChange}
-						/>
-					</Form.Group>
+					<TextField
+						name="password"
+						type="password"
+						label="Password"
+						className="mt-2 mb-4"
+						value={userData.password}
+						onChange={onInputChange}
+						fullWidth
+					/>
 
 					{/* Submit */}
 					<Row className="text-center">
@@ -104,15 +113,13 @@ const Login = () => {
 					<Form.Group className="my-4 text-center">
 						<Form.Label>Don't have an account yet?</Form.Label>{" "}
 						<br />
-						<Container
-							className="justify-content-center my-2"
-							style={{ width: "80%" }}
-						>
+						<Container className="justify-content-center my-2">
 							<Row>
 								<Col>
 									<Image
 										src={imgLeftRegister}
 										style={imgStyles}
+										loading="lazy"
 									/>
 								</Col>
 
@@ -137,12 +144,109 @@ const Login = () => {
 										src={imgRightRegister}
 										rounded
 										style={imgStyles}
+										loading="lazy"
+
 									/>
 								</Col>
 							</Row>
 						</Container>
 					</Form.Group>
 				</Form>
+			</Container>
+
+			<Container style={{ marginTop: "50px" }}>
+				<Row>
+					<Col lg={6}>
+						<TableContainer component={Paper} elevation={20}>
+							<Table>
+								<TableHead>
+									<TableRow>
+										<TableCell align="center">
+											Student Email
+										</TableCell>
+										<TableCell align="center">
+											Password
+										</TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									<TableRow>
+										<TableCell align="center">
+											anita@gmail.com
+										</TableCell>
+										<TableCell align="center">
+											{" "}
+											anita
+										</TableCell>
+									</TableRow>
+									<TableRow>
+										<TableCell align="center">
+											kuitov@gmail.com
+										</TableCell>
+										<TableCell align="center">
+											{" "}
+											kuitov
+										</TableCell>
+									</TableRow>
+									<TableRow>
+										<TableCell align="center">
+											dimitar@gmail.com
+										</TableCell>
+										<TableCell align="center">
+											{" "}
+											dimitar
+										</TableCell>
+									</TableRow>
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</Col>
+					<Col lg={6}>
+						<TableContainer component={Paper} elevation={20}>
+							<Table>
+								<TableHead>
+									<TableRow>
+										<TableCell align="center">
+											Company Email
+										</TableCell>
+										<TableCell align="center">
+											Password
+										</TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									<TableRow>
+										<TableCell align="center">
+											SENSATA@gmail.com
+										</TableCell>
+										<TableCell align="center">
+											{" "}
+											SENSATA
+										</TableCell>
+									</TableRow>
+									<TableRow>
+										<TableCell align="center">
+											Kognayt@gmail.com
+										</TableCell>
+										<TableCell align="center">
+											{" "}
+											Kognayt
+										</TableCell>
+									</TableRow>
+									<TableRow>
+										<TableCell align="center">
+											TTEC@gmail.com
+										</TableCell>
+										<TableCell align="center">
+											{" "}
+											TTEC
+										</TableCell>
+									</TableRow>
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</Col>
+				</Row>
 			</Container>
 		</>
 	);

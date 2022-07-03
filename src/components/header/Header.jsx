@@ -4,7 +4,6 @@ import { Link, Navigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
@@ -13,13 +12,10 @@ import { deleteStudent } from "../../services/StudentService";
 import { deleteCompany } from "../../services/CompanyService";
 
 import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { styled, alpha } from "@mui/material/styles";
@@ -30,19 +26,10 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import WorkIcon from "@mui/icons-material/Work";
-import ApartmentIcon from "@mui/icons-material/Apartment";
 
-import { deepOrange, deepPurple } from "@mui/material/colors";
+import { deepPurple } from "@mui/material/colors";
 
-import logo_0 from "../../images/logo_0.png";
-import logo_1 from "../../images/logo_1.png";
-import logo_2 from "../../images/logo_2.png";
-import logo_3 from "../../images/logo_3.png";
-import logo_4 from "../../images/logo_4.png";
-import logo_5 from "../../images/logo_5.png";
-import logo_6 from "../../images/logo_6.png";
-import logo_7 from "../../images/logo_7.png";
-import logo_8 from "../../images/logo_8.png";
+import logo from "../../images/logo.png";
 
 import companyProfileImg from "../../images/companyProfileImg.png";
 
@@ -171,7 +158,7 @@ const Header = () => {
 				</Modal.Footer>
 			</Modal>
 
-			<Container fluid>
+			<Container fluid style={{ padding: 0 }}>
 				<Navbar
 					collapseOnSelect
 					expand="md"
@@ -184,7 +171,7 @@ const Header = () => {
 							{" "}
 							<img
 								alt="Internship Logo"
-								src={logo_7}
+								src={logo}
 								width="35"
 								height="35"
 								className="d-inline-block align-top"
@@ -203,12 +190,10 @@ const Header = () => {
 									Companies{" "}
 								</Nav.Link>
 
-								{user?.type === "company" && (
-									<Nav.Link as={Link} to="/students">
-										{" "}
-										Students{" "}
-									</Nav.Link>
-								)}
+								<Nav.Link as={Link} to="/students">
+									{" "}
+									Students{" "}
+								</Nav.Link>
 							</Nav>
 
 							<Nav>
@@ -239,79 +224,6 @@ const Header = () => {
 							</Nav>
 							{user && (
 								<div>
-									{/*                 
-									<Nav>
-										<NavDropdown
-											id="nav-dropdown-dark-example"
-											title=""
-											menuVariant="dark"
-											align={{ lg: "end" }}
-										>
-											<NavDropdown.Item
-												className="text-light"
-												as={Link}
-												to={`/profile/${user.id}`}
-											>
-												Profile
-											</NavDropdown.Item>
-
-											{user.type === "company" && (
-												<>
-													<NavDropdown.Item
-														className="text-light"
-														as={Link}
-														to="/internships/create"
-													>
-														Create Job
-													</NavDropdown.Item>
-
-													<NavDropdown.Item
-														className="text-light"
-														as={Link}
-														to="/company/jobs"
-													>
-														My Jobs
-													</NavDropdown.Item>
-												</>
-											)}
-
-											<NavDropdown.Item
-												className="text-success"
-												as={Link}
-												to="/bookmarks"
-											>
-												Bookmarks
-											</NavDropdown.Item>
-
-											<NavDropdown.Divider />
-
-											<NavDropdown.Item
-												className="text-info"
-												onClick={userLogout}
-											>
-												Logout
-											</NavDropdown.Item>
-											<NavDropdown.Item
-												className="text-warning"
-												as={Link}
-												to={`/${
-													user?.lastName
-														? "students"
-														: "companies"
-												}/edit/${user?.id}`}
-											>
-												Edit profile
-											</NavDropdown.Item>
-
-											<NavDropdown.Item
-												className="text-danger"
-												onClick={handleShow}
-											>
-												Delete Profile
-											</NavDropdown.Item>
-										</NavDropdown>
-									</Nav> */}
-
 									<Box sx={{ flexGrow: 0 }}>
 										<Tooltip title="Open settings">
 											<IconButton

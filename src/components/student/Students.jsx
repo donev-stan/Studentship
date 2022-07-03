@@ -5,7 +5,7 @@ import { getAllStudents } from "../../services/StudentService";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import { getLocalStorageData } from "../../services/AuthService";
+import { getLocalStorageData, setLocalStorageData } from "../../services/AuthService";
 
 const Students = () => {
 	const [students, setStudents] = useState([]);
@@ -14,14 +14,15 @@ const Students = () => {
 		const studentsStorage = getLocalStorageData("students");
 
 		if (!studentsStorage) {
-      console.log("Got Students from Firebase");
+			console.log("Got Students from Firebase");
 			getAllStudents().then((students) => {
 				setStudents(students);
+				setLocalStorageData("students", students);
 			});
 		} else {
-      console.log("Got Students from Local Storage");
-      setStudents(studentsStorage);
-    }
+			console.log("Got Students from Local Storage");
+			setStudents(studentsStorage);
+		}
 	}, []);
 
 	return (
@@ -30,7 +31,11 @@ const Students = () => {
 			<Container className="my-2">
 				<Row className="text-center">
 					{students.map((student, index) => (
-						<StudentCard key={student.id} student={student} delay={index * 100} />
+						<StudentCard
+							key={student.id}
+							student={student}
+							delay={index * 100}
+						/>
 					))}
 				</Row>
 			</Container>

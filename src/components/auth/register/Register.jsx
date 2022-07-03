@@ -6,7 +6,6 @@ import Header from "../../header/Header";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-// import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
 import Button from "@mui/material/Button";
@@ -51,6 +50,7 @@ const Register = () => {
 										src={imgRegisterCompany}
 										style={imgStyles}
 										alt="Register Company"
+										loading="lazy"
 									/>
 								</Card.Body>
 							</Link>
@@ -80,6 +80,7 @@ const Register = () => {
 										src={imgRegisterStudent}
 										style={imgStyles}
 										alt="Register Student"
+										loading="lazy"
 									/>
 								</Card.Body>
 							</Link>
