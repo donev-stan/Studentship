@@ -37,7 +37,9 @@ export async function getStudentByID(id) {
 }
 
 export async function registerStudent(studentData) {
-	const students = getLocalStorageData("students");
+	let students = getLocalStorageData("students");
+
+	if (!students) students = await getAllStudents();
 
 	const {
 		name,

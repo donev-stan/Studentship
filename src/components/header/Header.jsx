@@ -117,7 +117,7 @@ const Header = () => {
 				setRedirect(true);
 			});
 		} else if (user.type === "company") {
-			deleteCompany(user.id).then((_) => {
+			deleteCompany(user).then((_) => {
 				logout();
 				setRedirect(true);
 			});

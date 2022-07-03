@@ -8,6 +8,7 @@ import {
 	deleteDoc,
 } from "firebase/firestore";
 import { getLocalStorageData } from "./AuthService";
+import { deleteInternship, getInternshipsByCompanyID } from "./InternshipService";
 
 const companiesCollectionRef = collection(db, "companies");
 
@@ -52,10 +53,11 @@ export async function getCompanyByPIC(companyPIC) {
 
 export async function registerCompany(companyData) {
 	// const companies = await getAllCompanies();
-	const companies = getLocalStorageData("companies");
+	let companies = getLocalStorageData("companies");
+
+	if (!companies) companies = await getAllCompanies();
 
 	const {
-		picture,
 		PIC,
 		name,
 		address,
@@ -213,8 +215,15 @@ export async function saveCompany(companyData) {
 	return await updateDoc(companyDoc, companyData);
 }
 
-export async function deleteCompany(companyID) {
-	const companyDoc = doc(db, "companies", companyID);
+export async function deleteCompany(company) {
+	const companyDoc = doc(db, "companies", company.id);
+
+	const deleteRequests = [];
+	const internships = await getInternshipsByCompanyID(company.PIC);
+
+	internships.forEach(offer => deleteRequests.push(deleteInternship(offer.id)));
+
+	await Promise.all(deleteRequests);
 
 	return await deleteDoc(companyDoc);
 }
