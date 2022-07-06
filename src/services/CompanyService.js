@@ -8,7 +8,10 @@ import {
 	deleteDoc,
 } from "firebase/firestore";
 import { getLocalStorageData } from "./AuthService";
-import { deleteInternship, getInternshipsByCompanyID } from "./InternshipService";
+import {
+	deleteInternship,
+	getInternshipsByCompanyID,
+} from "./InternshipService";
 
 const companiesCollectionRef = collection(db, "companies");
 
@@ -219,7 +222,9 @@ export async function deleteCompany(company) {
 	const deleteRequests = [];
 	const internships = await getInternshipsByCompanyID(company.PIC);
 
-	internships.forEach(offer => deleteRequests.push(deleteInternship(offer.id)));
+	internships.forEach((offer) =>
+		deleteRequests.push(deleteInternship(offer.id))
+	);
 
 	await Promise.all(deleteRequests);
 
@@ -232,9 +237,8 @@ export async function bookmarkStudent(studentID, companyData) {
 		companyData = {
 			...companyData,
 
-			bookmarks: companyData.bookmarks.splice(
-				companyData.bookmarks.indexOf(studentID),
-				0
+			bookmarks: companyData.bookmarks.filter(
+				(bookmark) => bookmark !== studentID
 			),
 		};
 	} else {
