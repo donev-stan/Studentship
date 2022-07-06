@@ -74,6 +74,9 @@ const StudentEdit = () => {
 	useEffect(() => {
 		const student = getLoggedUser();
 		setStudentData(student);
+
+		console.log(studentData)
+
 	}, []);
 
 	const onInputChange = (event) => {

@@ -32,6 +32,7 @@ import {
 	getLocalStorageData,
 	getLoggedUser,
 	login,
+	setLocalStorageData,
 } from "../../services/AuthService";
 import { bookmarkInternship } from "../../services/StudentService";
 
@@ -52,6 +53,7 @@ import locationImg from "../../images/Internship/location.png";
 import updateImg from "../../images/Internship/update.png";
 import salaryImg from "../../images/Internship/salary.png";
 import Loader from "../loader/Loader";
+import { getAllCompanies } from "../../services/CompanyService";
 
 const Internship = () => {
 	const { id } = useParams();
@@ -141,7 +143,8 @@ const Internship = () => {
 			setOfferOptions(internship.options);
 
 			//Set Company Data
-			const companies = getLocalStorageData("companies");
+			let companies = getLocalStorageData("companies");
+
 			const company = companies.find(
 				(company) => company.PIC === internship.companyID
 			);

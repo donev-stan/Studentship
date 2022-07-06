@@ -83,6 +83,7 @@ const Login = () => {
 						value={userData.email}
 						onChange={onInputChange}
 						fullWidth
+						component={Paper}
 					/>
 
 					<TextField
@@ -93,6 +94,7 @@ const Login = () => {
 						value={userData.password}
 						onChange={onInputChange}
 						fullWidth
+						component={Paper}
 					/>
 
 					{/* Submit */}
@@ -145,7 +147,6 @@ const Login = () => {
 										rounded
 										style={imgStyles}
 										loading="lazy"
-
 									/>
 								</Col>
 							</Row>

@@ -213,14 +213,14 @@ export const yearWithWords = (year) => {
 };
 
 export async function bookmarkInternship(internshipID, studentData) {
+
 	// if you find such student id then remove it else add it
 	if (studentData.bookmarks.find((id) => id === internshipID)) {
 		studentData = {
 			...studentData,
 
-			bookmarks: studentData.bookmarks.splice(
-				studentData.bookmarks.indexOf(internshipID),
-				0
+			bookmarks: studentData.bookmarks.filter(
+				(bookmark) => bookmark !== internshipID
 			),
 		};
 	} else {

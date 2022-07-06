@@ -11,7 +11,11 @@ import InternshipCard from "./InternshipCard";
 import { getAllInternships } from "../../services/InternshipService";
 import InternshipFilter from "../filter/InternshipFilter";
 import Loader from "../loader/Loader";
-import { getLocalStorageData } from "../../services/AuthService";
+import {
+	getLocalStorageData,
+	setLocalStorageData,
+} from "../../services/AuthService";
+import { getAllCompanies } from "../../services/CompanyService";
 
 const Internships = () => {
 	const [internships, setInternships] = useState([]);
@@ -23,6 +27,12 @@ const Internships = () => {
 
 	useEffect(() => {
 		let offers = getLocalStorageData("internships");
+
+		if (!getLocalStorageData("companies")) {
+			getAllCompanies().then((companiesData) => {
+				setLocalStorageData("companies", companiesData);
+			});
+		}
 
 		if (options.length !== 0) {
 			// Filter offers
@@ -40,7 +50,6 @@ const Internships = () => {
 			});
 		}
 
-		console.log(offers)
 		offers?.length === 0 ? setNoFound(true) : setNoFound(false);
 
 		if (!offers) {
