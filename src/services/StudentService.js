@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { getLocalStorageData } from "./AuthService";
 import { getAllCompanies, saveCompany } from "./CompanyService";
+import { getAllInternships } from "./InternshipService";
 
 const studentsCollectionRef = collection(db, "students");
 
@@ -213,7 +214,6 @@ export const yearWithWords = (year) => {
 };
 
 export async function bookmarkInternship(internshipID, studentData) {
-
 	// if you find such student id then remove it else add it
 	if (studentData.bookmarks.find((id) => id === internshipID)) {
 		studentData = {
@@ -236,4 +236,35 @@ export async function bookmarkInternship(internshipID, studentData) {
 	console.log("UPDATE Student - bookmarkInternship() function");
 
 	return await updateDoc(studentDoc, studentData);
+}
+
+export async function postComment(commentData, internshipID, studentData) {
+	console.log("POST Comment - student");
+
+	const commentObject = {
+		commentText: commentData,
+		authorID: studentData.id,
+		date: new Date().toDateString(),
+	};
+
+	// const internships = getLocalStorageData("internships");
+	// if (!internships) internships = await getAllInternships();
+
+	const internships = await getAllInternships();
+
+	const internship = internships.find(
+		(internship) => internship.id === internshipID
+	);
+	if (!internship) throw new Error("There was an error getting internship!");
+
+	const updatedInternship = {
+		...internship,
+		comments: [...internship?.comments, commentObject],
+	};
+
+	console.log(updatedInternship)
+
+	// const internshipDoc = doc(db, "internships", internshipID);
+
+	// return await updateDoc(internshipDoc, updatedOffer);
 }

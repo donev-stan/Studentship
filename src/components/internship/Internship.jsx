@@ -54,6 +54,8 @@ import updateImg from "../../images/Internship/update.png";
 import salaryImg from "../../images/Internship/salary.png";
 import Loader from "../loader/Loader";
 import { getAllCompanies } from "../../services/CompanyService";
+import CommentAdd from "../comment/CommentAdd";
+import Comment from "../comment/Comment";
 
 const Internship = () => {
 	const { id } = useParams();
@@ -404,7 +406,7 @@ const Internship = () => {
 									</Row>
 
 									<Row>
-										<Col>
+										<Col className="mt-2">
 											<p>
 												{" "}
 												<img
@@ -418,6 +420,14 @@ const Internship = () => {
 												{offer.lastUpdate}
 											</p>
 										</Col>
+									</Row>
+
+									<Row className="mt-4">
+										<CommentAdd internshipID={id} />
+									</Row>
+
+									<Row>
+										<Comment />
 									</Row>
 								</>
 							) : (
