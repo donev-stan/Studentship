@@ -425,10 +425,6 @@ const Internship = () => {
 									<Row className="mt-4">
 										<CommentAdd internshipID={id} />
 									</Row>
-
-									<Row>
-										<Comment />
-									</Row>
 								</>
 							) : (
 								<Loader />
