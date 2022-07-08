@@ -247,24 +247,32 @@ export async function postComment(commentData, internshipID, studentData) {
 		date: new Date().toDateString(),
 	};
 
-	// const internships = getLocalStorageData("internships");
-	// if (!internships) internships = await getAllInternships();
+	console.log(commentObject);
 
-	const internships = await getAllInternships();
+	const internships = getLocalStorageData("internships");
+	if (!internships) internships = await getAllInternships();
 
-	const internship = internships.find(
+	console.log(internships);
+
+	// const internships = await getAllInternships();
+
+	let internship = internships.find(
 		(internship) => internship.id === internshipID
 	);
 	if (!internship) throw new Error("There was an error getting internship!");
 
-	const updatedInternship = {
+	console.log(internship);
+
+	internship = {
 		...internship,
-		comments: [...internship?.comments, commentObject],
+		comments: internship.comments
+			? internship.comments.push(commentObject)
+			: [commentObject],
 	};
 
-	console.log(updatedInternship)
+	console.log(internship);
 
 	// const internshipDoc = doc(db, "internships", internshipID);
 
-	// return await updateDoc(internshipDoc, updatedOffer);
+	// return await updateDoc(internshipDoc, internship);
 }
