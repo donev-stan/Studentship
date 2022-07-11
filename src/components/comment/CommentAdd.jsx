@@ -32,7 +32,6 @@ const CommentAdd = ({ internshipID }) => {
 	}
 
 	function commentSubmit() {
-        console.log("submit comment");
 		if (!getLoggedUser()) setRedirect(true);
 
 		if (comment.trim() !== "") {

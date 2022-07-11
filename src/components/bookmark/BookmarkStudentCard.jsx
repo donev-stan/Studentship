@@ -5,6 +5,7 @@ import Loader from "../loader/Loader";
 import StudentCard from "../student/StudentCard";
 
 const BookmarkStudentCard = ({ studentID }) => {
+	// student е променлива, която се променя само от useState-hoock
 	const [student, setStudent] = useState({});
 
 	useEffect(() => {

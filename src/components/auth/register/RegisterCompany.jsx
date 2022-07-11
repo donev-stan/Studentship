@@ -46,30 +46,42 @@ const defaultCompanyData = {
 };
 
 const RegisterCompany = () => {
+
+	// React Hook (useState) за запазване на информация
 	const [companyData, setCompanyData] = useState(defaultCompanyData);
 	const [redirect, setRedirect] = useState(false);
 	const [error, setError] = useState(false);
 
+	// Активната стъпка от stepper-a
 	const [activeStep, setActiveStep] = useState(0);
 
 	const navigate = useNavigate();
 
+	// функция за преминаване на следваща стъпка от stepper
 	const handleNext = () => {
+		// ако стъпката е 2 (тоест последната) тогава ще submit-нем данните от form-а
+		// ако ли не ще преминем на следваща стъпка
 		activeStep === 2
 			? onFormSubmit()
 			: setActiveStep((prevActiveStep) => prevActiveStep + 1);
 	};
 
+	// функция за преминаване на предишна стъпка от stepper
 	const handleBack = () => {
+		// ако стъпката е 0 (тоест първа) и потребителя натисне cancel ще го пратим на предишната посетена от него страница
+		// в противен случай ще натисне back и ще се върне на предишната стъпка
 		activeStep === 0
 			? navigate(-1)
 			: setActiveStep((prevActiveStep) => prevActiveStep - 1);
 	};
 
+	// При зареждане на компонента ще се провери дали има logg-нат потребител и ако да, ще се пренасочи
 	useEffect(() => {
 		if (getLoggedUser()) setRedirect(true);
 	}, []);
 
+
+	// При промяна в полетата за попълване на данни се извиква тази функция и запазва въведените данни в променлива
 	const onInputChange = (event) => {
 		// event.persist();
 
@@ -81,11 +93,14 @@ const RegisterCompany = () => {
 		}));
 	};
 
+	// Функция която ще се извика при submit на form и тя от своя страна ще извика функция за регистрация 
+	// при случай че няма проблем ще се влезе автоматично в системата с новорегистрираната информация и ще се пренасочи потребителя
+	// при случай че има грешка - няма да се регистрира и ще се изпише грешка на екрана
 	const onFormSubmit = (event) => {
 		// event.preventDefault();
 
 		setError(false);
-
+//извикваме функцията registerCompany, ако тя се изпълни отиваме в  първото .then
 		registerCompany(companyData)
 			.then((_) => {
 				login(companyData)

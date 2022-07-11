@@ -26,6 +26,7 @@ const Bookmarks = () => {
 			<Container className="my-4 text-center">
 				<Row>
 					<Col>
+					{/* ako user.type === "company" е вярно тогава ще се изпълни всичко след && */}
 						{user.type === "company" && (
 							<>
 								<h2>Saved Students</h2>
@@ -40,6 +41,7 @@ const Bookmarks = () => {
 											/>
 										))
 									) : (
+										// typography компонент от material UI, който се използва за текст
 										<Typography variant="h5">
 											{" "}
 											No saved students{" "}

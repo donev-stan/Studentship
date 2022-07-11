@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Header from "../../header/Header";
+
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -15,7 +16,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
@@ -259,3 +259,6 @@ const imgStyles = {
 	width: "80px",
 	height: "80px",
 };
+
+// Най - горе се импортват библиотеки, и функции от други файлове
+// След това следва компонента, който представлява arrow функция, в нея се съдържа логиката и поведението на компонента и връща в(return) html i javascript
