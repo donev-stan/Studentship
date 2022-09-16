@@ -1,5 +1,9 @@
 # React Project - Studentship
 
+Students can search for internship opportunities and companies offring them.
+Creating a Student Account would allow you to bookmark an Internship or a Compnay and also apply.
+Creating a Compnay Account would allow you to bookmark a Student and contact them.
+
 ## Front Page
 ![image](https://user-images.githubusercontent.com/77002111/190658242-98d5b9f4-3dd7-48f6-88a4-62f465e6db88.png)
 
