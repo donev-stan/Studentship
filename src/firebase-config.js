@@ -1,30 +1,27 @@
-// Importing functions I need from the SDKs I need
+import { getFirestore } from "@firebase/firestore";
+
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore} from "firebase/firestore";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Firebase configuration
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-	apiKey: "AIzaSyAsVrdMLuDYGrw32bXuzdv4FjigMRKeLtk",
-	authDomain: "studentship-fe7e8.firebaseapp.com",
-	projectId: "studentship-fe7e8",
-	storageBucket: "studentship-fe7e8.appspot.com",
-	messagingSenderId: "863269497156",
-	appId: "1:863269497156:web:b8d458238380f4b2080f11",
-	measurementId: "G-WCHBXRXQXN",
+  apiKey: "AIzaSyCF8SPHyXPVgvFh6ZbadhxHTFJTzf8AJos",
+  authDomain: "studentship-react-558ce.firebaseapp.com",
+  projectId: "studentship-react-558ce",
+  storageBucket: "studentship-react-558ce.appspot.com",
+  messagingSenderId: "139990529419",
+  appId: "1:139990529419:web:fead40e511ab256f15eb8e",
+  measurementId: "G-QE0S4EPHWS",
 };
-
-// const firebaseConfig = {
-// 	apiKey: process.env.FIREBASE_API_KEY,
-// 	authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-// 	projectId: process.env.FIREBASE_PROJECT_ID,
-// 	storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-// 	messagingSenderId: process.env.FIREBASE_SENDER_ID,
-// 	appId: process.env.FIREBASE_APP_ID,
-// 	measurementId: process.env.FIREBASE_MEASIREMENT_ID,
-// };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
-// Connect to Firebase
-export const db = getFirestore(app);
+const db = getFirestore(app);
+
+export { db };
