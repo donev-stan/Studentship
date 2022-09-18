@@ -11,10 +11,7 @@ import InternshipCard from "./InternshipCard";
 import { getAllInternships } from "../../services/InternshipService";
 import InternshipFilter from "../filter/InternshipFilter";
 import Loader from "../loader/Loader";
-import {
-	getLocalStorageData,
-	setLocalStorageData,
-} from "../../services/AuthService";
+import { getLocalStorageData, setLocalStorageData } from "../../services/AuthService";
 import { getAllCompanies } from "../../services/CompanyService";
 
 const Internships = () => {
@@ -39,9 +36,7 @@ const Internships = () => {
 		}
 
 		if (cities.length !== 0) {
-			offers = offers.filter((offer) =>
-				cities.includes(offer.officeLocation)
-			);
+			offers = offers.filter((offer) => cities.includes(offer.officeLocation));
 		}
 
 		if (stack.length !== 0) {
@@ -66,28 +61,21 @@ const Internships = () => {
 	return (
 		<>
 			<Header />
-			<InternshipFilter
-				setOptions={setOptions}
-				setStack={setStack}
-				setCities={setCities}
-			/>
+			<InternshipFilter setOptions={setOptions} setStack={setStack} setCities={setCities} />
 			<Container className="my-4">
 				<Row className="text-center">
 					{!noFound ? (
 						internships.length !== 0 ? (
 							internships.map((offer, index) => (
-								<Col lg={6}>
-									<InternshipCard key={index} offer={offer} />
+								<Col lg={6} key={index}>
+									<InternshipCard key={index + 1} offer={offer} />
 								</Col>
 							))
 						) : (
 							<Loader />
 						)
 					) : (
-						<Typography variant="h5">
-							{" "}
-							No Internships Matched Your Search Criteria!{" "}
-						</Typography>
+						<Typography variant="h5"> No Internships Matched Your Search Criteria! </Typography>
 					)}
 				</Row>
 			</Container>

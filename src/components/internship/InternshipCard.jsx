@@ -20,15 +20,11 @@ const InternshipCard = ({ offer, noZoom }) => {
 						as={Link}
 						to={`/internships/${offer.id}`}
 					>
-						<Card.Header className="black">
-							{offer.officeLocation}
-						</Card.Header>
+						<Card.Header className="black">{offer.officeLocation}</Card.Header>
 						<Card.Body>
 							<Card.Title>{offer.title}</Card.Title>
 							<Card.Text className="mt-3 black">
-								{offer?.technologies?.map((tech) =>
-									returnStackWithIcons(tech)
-								)}
+								{offer?.technologies?.map((tech) => returnStackWithIcons(tech))}
 							</Card.Text>
 						</Card.Body>
 						<Card.Footer className="text-muted">
@@ -46,20 +42,16 @@ const InternshipCard = ({ offer, noZoom }) => {
 							as={Link}
 							to={`/internships/${offer.id}`}
 						>
-							<Card.Header className="black">
-								{offer.officeLocation}
-							</Card.Header>
+							<Card.Header className="black">{offer.officeLocation}</Card.Header>
 							<Card.Body>
 								<Card.Title>{offer.title}</Card.Title>
 								<Card.Text className="mt-3 black">
-									{offer?.technologies?.map((tech) =>
-										returnStackWithIcons(tech)
-									)}
+									{offer?.technologies?.map((tech) => returnStackWithIcons(tech))}
 								</Card.Text>
 							</Card.Body>
 							<Card.Footer className="text-muted">
 								{/* {returnReadableDate(offer.lastUpdate)} */}
-								{offer.lastUpdate.toString()}
+								{offer?.lastUpdate?.toString()}
 							</Card.Footer>
 						</Card>
 					</Zoom>
