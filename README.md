@@ -7,6 +7,9 @@ Creating a Compnay Account would allow you to bookmark a Student and contact the
 ## Front Page
 ![image](https://user-images.githubusercontent.com/77002111/190658242-98d5b9f4-3dd7-48f6-88a4-62f465e6db88.png)
 
+## Internships
+![image](https://user-images.githubusercontent.com/77002111/190924508-353c07a5-acb9-47b4-8c43-1e26694b5d17.png)
+
 ## Login Page
 ![image](https://user-images.githubusercontent.com/77002111/190658568-dcc90b07-86b5-43c2-8262-f8501553e472.png)
 
