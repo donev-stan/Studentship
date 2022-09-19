@@ -10,23 +10,37 @@ Creating a Compnay Account would allow you to bookmark a Student and contact the
 ## Internships
 ![image](https://user-images.githubusercontent.com/77002111/190962535-bdccc820-ed5e-49fa-8af6-48d9634d33d4.png)
 
+## Internship Offer Page
+![image](https://user-images.githubusercontent.com/77002111/190963400-e483689e-f714-4637-84d0-b81f81384a29.png)
+
+## Student Bookmarks (bookmarked internships)
+![image](https://user-images.githubusercontent.com/77002111/190963534-fe684865-f4f6-4188-9b9a-6944ef973066.png)
+
 ## Companies
 ![image](https://user-images.githubusercontent.com/77002111/190962618-4a104fd7-0ee2-4141-9937-99b038043ae1.png)
 
-### Company Profile (view 1) *fix needed
+## Company Profile (view 1) *fix needed
 ![image](https://user-images.githubusercontent.com/77002111/190962823-1773f234-44d0-441d-b115-53b1025db1d0.png)
 
-### Company Profile (view 2) *fix needed
+## Company Profile (view 2) *fix needed
 ![image](https://user-images.githubusercontent.com/77002111/190962893-dcae3afc-512c-4522-9215-b4ee749dd56c.png)
 
-### Company Profile (view 3) *fix needed
+## Company Profile (view 3) *fix needed
 
+## Company Internships Offered
+![image](https://user-images.githubusercontent.com/77002111/190964442-9f58ba07-213e-478d-a49b-20a2bdc07ca2.png)
+
+## Company Bookmarks (bookmarked students)
+![image](https://user-images.githubusercontent.com/77002111/190963785-8a1f800b-7a38-44cd-8ce8-4db6c5343fde.png)
 
 ## Students
 ![image](https://user-images.githubusercontent.com/77002111/190962662-27a8a5ee-94e8-44e6-b1ba-3dc11230bd87.png)
 
 ### Student Profile
 ![image](https://user-images.githubusercontent.com/77002111/190962738-5aa7175e-2d5c-4495-91ce-a71d15011d71.png)
+
+## Student profile through the eyes of a company profile
+![image](https://user-images.githubusercontent.com/77002111/190963978-162d4275-ef0d-4179-84de-0ef63008608c.png)
 
 ## Login Page
 ![image](https://user-images.githubusercontent.com/77002111/190658568-dcc90b07-86b5-43c2-8262-f8501553e472.png)
