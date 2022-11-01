@@ -19,13 +19,13 @@ Creating a Compnay Account would allow you to bookmark a Student and contact the
 ## Companies
 ![image](https://user-images.githubusercontent.com/77002111/190962618-4a104fd7-0ee2-4141-9937-99b038043ae1.png)
 
-## Company Profile (view 1) *fix needed
+## Company Profile (view 1)
 ![image](https://user-images.githubusercontent.com/77002111/190962823-1773f234-44d0-441d-b115-53b1025db1d0.png)
 
-## Company Profile (view 2) *fix needed
+## Company Profile (view 2)
 ![image](https://user-images.githubusercontent.com/77002111/190962893-dcae3afc-512c-4522-9215-b4ee749dd56c.png)
 
-## Company Profile (view 3) *fix needed
+## Company Profile (view 3)
 ![image](https://user-images.githubusercontent.com/77002111/190964868-3b171d44-7a5d-4bce-b08f-2601a6b30441.png)
 
 ## Company Internships Offered
